@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition template="template/lnf-template.xhtml">
+        <ui:define name="body">
+            <p:linkButton value="Quay lại trang danh sách" outcome="pmn_listproduct"/>
+            <hr/>
+            <div class="create" style="margin-left: 300px;">
+                <h3>THÊM SẢN PHẨM MỚI</h3>
+                <h:form method="post" enctype="multipart/form-data">
+                    <table cellspacing="10px">
+                        <tr style="display:none;">
+                            <td><p:outputLabel value="Mã: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.maSanPham}"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Tên sản phẩm: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.tenSanPham}" id="tensp"
+                                             placeholder="Nhập tên sản phẩm..."/></td>
+                            <td><h:message for="tensp" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Mô tả sản phẩm: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.moTaSanPham}" id="mota"
+                                             placeholder="Nhập mô tả sản phẩm..."/></td>
+                            <td><h:message for="mota" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Xuất xứ: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.xuatXu}" id="xuatxu"
+                                             placeholder="Nhập xuất xứ..."/></td>
+                            <td><h:message for="xuatxu" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Đơn giá: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.donGia}" id="dongia"
+                                             placeholder="Nhập đơn giá..."/></td>
+                            <td><h:message for="dongia" style="color: red"/></td>
+                        </tr>
+                        <tr style="display: none">
+                            <td><p:outputLabel value="Số lượng: "/></td>
+                            <td><p:inputText disabled="true" value="#{sanPhamBean.sanPham.soLuongCoSan}"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Danh mục: "/></td>
+                            <td><p:selectOneMenu id="danhmuc">
+                                <f:selectItem itemLabel="Chọn danh mục..."/>
+                                <f:selectItems value="#{sanPhamBean.danhMucs}" var="dm" itemLabel="#{dm.tenDanhmuc}"
+                                               itemValue="#{dm.maDanhMuc}"/>
+                            </p:selectOneMenu></td>
+                            <td><h:message for="danhmuc" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Hình ảnh: "/></td>
+                            <td><p:fileUpload value="#{sanPhamBean.sanPham.hinhAnh}" mode="simple"/>
+                            </td>
+                        </tr>
+                        <tr style="display: none">
+                            <td><p:outputLabel value="Trạng thái sản phẩm:"/></td>
+                            <td><p:selectOneMenu value="#{sanPhamBean.sanPham.trangThai}">
+                                <f:selectItem itemLabel="ĐANG BÁN" itemValue="ĐANG BÁN"/>
+                                <f:selectItem itemLabel="NGỪNG KINH DOANH" itemValue="NGỪNG KINH DOANH"/>
+                            </p:selectOneMenu></td>
+                        </tr>
+                    </table>
+                    <p:commandButton value="Xác nhận" action="#{sanPhamBean.add_SP}" style="margin-left: 153px;">
+                        <f:param name="id" value="#{dm.maDanhMuc}"/>
+                    </p:commandButton>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

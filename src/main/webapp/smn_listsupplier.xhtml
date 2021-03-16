@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition template="template/lnf-template.xhtml">
+        <ui:define name="body">
+            <div class="card">
+                <h:form>
+                    <h3 align="center">DANH SÁCH CÁC NHÀ CUNG CẤP</h3>
+                    <hr/>
+                    <div>
+                        <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
+                        <p:commandButton value="Tìm kiếm"/>
+                    </div>
+                    <hr/>
+                    <p:dataTable var="ncc" value="#{nhaCungCapBean.nhaCungCaps}">
+                        <p:column style="width: 5%; text-align: center" headerText="Mã">
+                            <h:outputText value="#{ncc.maNhaCungCap}"/>
+                        </p:column>
+                        <p:column style="width: 25%" headerText="Tên nhà cung cấp">
+                            <h:outputText value="#{ncc.tenNhaCungCap}"/>
+                        </p:column>
+                        <p:column style="width: 33%" headerText="Địa chỉ">
+                            <h:outputText value="#{ncc.diaChi_NCC}"/>
+                        </p:column>
+                        <p:column style="width: 9%" headerText="Số điện thoại">
+                            <h:outputText value="#{ncc.soDienThoai_NCC}"/>
+                        </p:column>
+                        <p:column style="width: 15%" headerText="Email">
+                            <h:outputText value="#{ncc.email_NCC}"/>
+                        </p:column>
+                        <p:column style="width: 15%" headerText="">
+                            <p:commandButton value="Xóa" action="#{nhaCungCapBean.delete_NCC(ncc)}"/>
+                            <p:commandButton value="Chỉnh sửa" action="#{nhaCungCapBean.nextPageUdate}"
+                                             actionListener="#{nhaCungCapBean.init_update(ncc.maNhaCungCap)}"
+                                             process="@this">
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <hr/>
+                    <p:commandButton resetValues="true" value="Thêm nhà cung cấp mới"
+                                     action="#{nhaCungCapBean.nextPageCreate}"/>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</h:body>
+</html>
