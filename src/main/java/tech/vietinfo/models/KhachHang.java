@@ -12,8 +12,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class KhachHang implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +39,7 @@ public class KhachHang implements Serializable {
     @Column(name = "email_KH")
     private String email_KH;
 
-    @Column(name="gioiTinh")
+    @Column(name = "gioiTinh")
     private String gioiTinh;
 
     @Column(name = "matKhau")

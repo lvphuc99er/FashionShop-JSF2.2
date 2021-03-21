@@ -30,6 +30,8 @@ public class KhachHangBean implements Serializable {
 
     private KhachHang khachHang;
 
+    private KhachHang selectedKhachHang;
+
     public List<KhachHang> getKhachHangs() {
         khachHangList = khachHangService.getKhachHangs();
         return khachHangList;
@@ -44,4 +46,5 @@ public class KhachHangBean implements Serializable {
         khachHangService.add_KH(khachHang);
         return "home?faces-redirect=true";
     }
+
 }

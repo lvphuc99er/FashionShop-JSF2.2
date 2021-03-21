@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,12 +28,16 @@ public class DanhMuc implements Serializable, Comparable<DanhMuc> {
     @Column(name = "tenDanhMuc")
     private String tenDanhmuc;
 
-    @OneToMany(mappedBy = "danhMuc", fetch = FetchType.LAZY)
-    private List<SanPham> sanPhamList;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "danhMuc", fetch = FetchType.LAZY)
+    private List<SanPham> sanPhamList = new ArrayList<SanPham>();
 
     @Override
     public int compareTo(@NotNull DanhMuc o) {
         return tenDanhmuc.compareTo(o.tenDanhmuc);
+    }
+
+    public DanhMuc(int maDanhMuc) {
+        this.maDanhMuc = maDanhMuc;
     }
 
     @Override

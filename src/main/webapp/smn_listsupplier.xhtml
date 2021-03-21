@@ -13,7 +13,7 @@
         <ui:define name="body">
             <div class="card">
                 <h:form>
-                    <h3 align="center">DANH SÁCH CÁC NHÀ CUNG CẤP</h3>
+                    <h2 align="center">DANH SÁCH CÁC NHÀ CUNG CẤP</h2>
                     <hr/>
                     <div>
                         <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
@@ -37,8 +37,10 @@
                             <h:outputText value="#{ncc.email_NCC}"/>
                         </p:column>
                         <p:column style="width: 15%" headerText="">
-                            <p:commandButton value="Xóa" action="#{nhaCungCapBean.delete_NCC(ncc)}"/>
-                            <p:commandButton value="Chỉnh sửa" action="#{nhaCungCapBean.nextPageUdate}"
+                            <p:commandButton value="Xóa" styleClass="ui-button-raised ui-button-danger"
+                                             action="#{nhaCungCapBean.delete_NCC(ncc)}"/>
+                            <p:commandButton style="margin-left: 5px" value="Chỉnh sửa"
+                                             action="#{nhaCungCapBean.nextPageUdate}"
                                              actionListener="#{nhaCungCapBean.init_update(ncc.maNhaCungCap)}"
                                              process="@this">
                             </p:commandButton>

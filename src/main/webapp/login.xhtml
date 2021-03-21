@@ -18,18 +18,18 @@
                     <table cellspacing="10px">
                         <tr>
                             <td><p:outputLabel value="Tên tài khoản: "/></td>
-                            <td><p:inputText id="tenTaiKhoan" placeholder="Nhập số điện thoại..."/></td>
+                            <td><p:inputText id="tenTaiKhoan" value="#{login.username}" placeholder="Nhập số điện thoại..."/></td>
                             <td><h:message for="tenTaiKhoan" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Mật khẩu: "/></td>
-                            <td><p:inputText id="matKhau" placeholder="Nhập mật khẩu..."/></td>
+                            <td><p:inputText id="matKhau" value="#{login.password}" placeholder="Nhập mật khẩu..."/></td>
                             <td><h:message for="matKhau" style="color: red"/></td>
                         </tr>
                     </table>
                     <p:selectBooleanCheckbox id="ghiNhoMatKhau" value="true" itemLabel="Ghi nhớ mật khẩu"
                                              style="margin-left: 11px;"/><br/>
-                    <p:commandButton id="buttonDangNhap" value="Đăng nhập" action="home?faces-redirect=true"
+                    <p:commandButton id="buttonDangNhap" value="Đăng nhập" action="#{login.validateLogin}"
                                      style="margin-left: 135px;"/><br/><br/>
                     <p:link value="Quên mật khẩu?" style="font-size: 18px"/>
                     <p:outputLabel value="&ensp;hoặc chưa có tài khoản&ensp;" style="font-size: 15px"/>

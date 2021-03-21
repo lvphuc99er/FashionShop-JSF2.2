@@ -13,7 +13,8 @@
         <ui:define name="body">
             <div class="card">
                 <h:form>
-                    <h3 align="center">DANH SÁCH KHÁCH HÀNG CỦA WEBSITE</h3>
+                    <h2 align="center">DANH SÁCH KHÁCH HÀNG CỦA WEBSITE</h2>
+                    <hr/>
                     <p:dataTable var="kh" value="#{khachHangBean.khachHangs}">
                         <p:column style="width: 5%; text-align: center" headerText="Mã">
                             <h:outputText value="#{kh.maKhachHang}"/>
@@ -24,7 +25,7 @@
                         <p:column style="width: 8%" headerText="Ngày sinh">
                             <h:outputText value="#{kh.ngaySinh}"/>
                         </p:column>
-                        <p:column style="width: 5%" headerText="Giới tính">
+                        <p:column style="width: 5%;text-align: center" headerText="Giới tính">
                             <h:outputText value="#{kh.gioiTinh}"/>
                         </p:column>
                         <p:column style="width: 20%" headerText="Địa chỉ">
@@ -36,14 +37,67 @@
                         <p:column style="width: 17%" headerText="Email">
                             <h:outputText value="#{kh.email_KH}"/>
                         </p:column>
-                        <p:column style="width: 11%" headerText="Trạng thái">
+                        <p:column style="width: 11%; text-align: center" headerText="Trạng thái">
                             <h:outputText value="#{kh.trangThai}"/>
                         </p:column>
-                        <p:column style="width: 16%" headerText="">
-                            <p:commandButton value="Xóa"/>
-                            <p:commandButton value="Chỉnh sửa"/>
+                        <p:column style="width: 16%; text-align: center" headerText="" exportable="false">
+                            <p:commandButton value="Lưu"/>
+                            <p:commandButton value="Chỉnh sửa" style="margin-left: 5px"
+                                             oncomplete="PF('dlg_ver').show();" process="@this">
+                                <f:setPropertyActionListener value="#{kh}"
+                                                             target="#{khachHangBean.selectedKhachHang}"/>
+                            </p:commandButton>
+                            <p:dialog header="Thông tin khách hàng" showEffect="fade" modal="true"
+                                      widgetVar="dlg_ver" responsive="true">
+                                <p:outputPanel id="manage-product-content" class="ui-fluid">
+                                    <p:outputPanel rendered="#{not empty khachHangBean.selectedKhachHang}">
+                                        <div class="p-field">
+                                            <p:outputLabel value="Tên khách hàng" for="name"/>
+                                            <p:outputLabel id="name" required="true"
+                                                           value="#{khachHangBean.selectedKhachHang.tenKhachHang}"/>
+                                        </div>
+                                    </p:outputPanel>
+                                </p:outputPanel>
+                            </p:dialog>
+
+                            <!--                            <p:dialog header="Thông tin khách hàng" modal="true" widgetVar="dlg_ver">-->
+                            <!--                                <p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8"-->
+                            <!--                                             style="width: 600px; text-align: left">-->
+
+                            <!--                                    <p:outputLabel value="Mã khách hàng:"/>-->
+                            <!--                                    <p:outputLabel value="#{khachHangBean.khachHang.maKhachHang}"/>-->
+
+                            <!--                                    <p:outputLabel value="Tên khách hàng:"/>-->
+                            <!--                                    <p:outputLabel value="#{kh.tenKhachHang}"/>-->
+
+                            <!--                                    <p:outputLabel value="Giới tính:"/>-->
+                            <!--                                    <p:outputLabel value="#{kh.gioiTinh}"/>-->
+
+                            <!--                                    <p:outputLabel value="Ngày sinh:"/>-->
+                            <!--                                    <p:outputLabel value="#{kh.ngaySinh}"/>-->
+
+                            <!--                                    <p:outputLabel value="Số điện thoại:"/>-->
+                            <!--                                    <p:outputLabel value="#{kh.soDienThoai_KH}"/>-->
+
+                            <!--                                    <p:outputLabel value="Địa chỉ:"/>-->
+                            <!--                                    <p:outputLabel value="#{kh.diaChi_KH}"/>-->
+
+                            <!--                                    <p:outputLabel value="Email:"/>-->
+                            <!--                                    <p:outputLabel value="#{kh.email_KH}"/>-->
+
+                            <!--                                    <p:outputLabel value="Trạng thái:"/>-->
+                            <!--                                    <p:selectOneMenu unselectable="true" value="#{kh.trangThai}">-->
+                            <!--                                        <f:selectItem itemLabel="CHO PHÉP" itemValue="CHO PHÉP"/>-->
+                            <!--                                        <f:selectItem itemLabel="KHÓA" itemValue="KHÓA"/>-->
+                            <!--                                    </p:selectOneMenu>-->
+
+                            <!--                                </p:panelGrid>-->
+                            <!--                                <p:commandButton value="Lưu"/>-->
+                            <!--                                <p:commandButton value="Thoát" styleClass="ui-button-raised ui-button-danger"-->
+                            <!--                                                 style="margin-left: 5px" oncomplete="PF('dlg_ver').hide();"/>-->
+                            <!--                            </p:dialog>-->
                         </p:column>
-                    </p:dataTable><hr/>
+                    </p:dataTable>
                 </h:form>
             </div>
         </ui:define>

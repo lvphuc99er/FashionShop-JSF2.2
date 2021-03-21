@@ -18,37 +18,42 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
-            <p:linkButton value="Quay lại trang danh sách" outcome="smn_listsupplier"/>
+            <p:linkButton value="Quay lại trang danh sách" outcome="smn_listsupplier"/><hr/>
+            <h2 align="center">CHỈNH SỬA NHÀ CUNG CẤP</h2><hr/>
             <div class="create" style="margin-left: 300px;">
-                <h3>CHỈNH SỬA NHÀ CUNG CẤP</h3>
                 <h:form>
                     <table cellspacing="10px">
                         <tr>
                             <td><p:outputLabel value="Mã nhà cung cấp: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.maNhaCungCap}" disabled="true"/></td>
+                            <td><p:inputText  value="#{nhaCungCapBean.nhaCungCap.maNhaCungCap}"
+                                              style="width: 800px;" disabled="true"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Tên nhà cung cấp: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}" id="tenncc"/></td>
+                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}"
+                                             style="width: 800px;" id="tenncc"/></td>
                             <td><h:message for="tenncc" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Địa chỉ: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.diaChi_NCC}" id="diachincc"/></td>
+                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.diaChi_NCC}"
+                                             style="width: 800px;" id="diachincc"/></td>
                             <td><h:message for="diachincc" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Số điện thoại: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.soDienThoai_NCC}" id="sdtncc"/></td>
+                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.soDienThoai_NCC}"
+                                             style="width: 800px;" id="sdtncc"/></td>
                             <td><h:message for="sdtncc" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Email: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.email_NCC}" id="emailncc"/></td>
+                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.email_NCC}"
+                                             style="width: 800px;" id="emailncc"/></td>
                             <td><h:message for="emailncc" style="color: red"/></td>
                         </tr>
                     </table>
-                    <p:commandButton value="Lưu" action="#{nhaCungCapBean.update_NCC}" style="margin-left: 165px;"/>
+                    <p:commandButton value="Lưu" action="#{nhaCungCapBean.update_NCC}" style="margin-left: 168px;"/>
                 </h:form>
             </div>
         </ui:define>
