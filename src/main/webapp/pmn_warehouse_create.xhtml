@@ -11,7 +11,83 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
-            <h3 align="center">day la trang lap phieu nhap kho</h3>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
+            <h1 align="center">NHẬP SẢN PHẨM</h1>
+            <hr/>
+            <h:form>
+                <table cellspacing="10px">
+                    <tr style="display: none">
+                        <td><p:outputLabel value="Mã phiếu nhập:"/></td>
+                        <td><p:inputText value="#{quanLyNhapKhoBean.phieuNhap.maPhieuNhap}"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Ngày nhập - Lập phiếu:"/></td>
+                        <td><p:inputText type="date" value="#{quanLyNhapKhoBean.phieuNhap.ngayLapPhieu}"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Nhà cung cấp:"/></td>
+                        <td>
+                            <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.ma_ncc}">
+                                <f:selectItem itemLabel="Chọn nhà cung cấp..."/>
+                                <f:selectItems value="#{nhaCungCapBean.nhaCungCaps}" var="ncc"
+                                               itemLabel="#{ncc.tenNhaCungCap}" itemValue="#{ncc.maNhaCungCap}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="Sản phẩm:"/>
+                        </td>
+                        <td>
+                            <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.ma_sp}">
+                                <f:selectItem itemLabel="Chọn sản phẩm..."/>
+                                <f:selectItems value="#{sanPhamBean.sanPhams}" var="sp"
+                                               itemValue="#{sp.maSanPham}"
+                                               itemLabel="#{sp.tenSanPham}"/>
+                            </p:selectOneMenu>
+                        </td>
+                        <td><p:outputLabel value="Số lượng: "/>
+                            <p:spinner style="width: 75px" min="0" value="#{quanLyNhapKhoBean.sl}"/>
+                        </td>
+                        <td><p:commandButton value="Thêm" ajax="false" action="#{quanLyNhapKhoBean.getItems}">
+                        </p:commandButton></td>
+                    </tr>
+                </table>
+                <p:outputLabel style="text-align: center" value="DANH SÁCH SẢN PHẨM CHỌN NHẬP"/>
+                <p:dataTable var="it" value="#{quanLyNhapKhoBean.itemList}">
+                    <p:column style="width: 10%; text-align: center" headerText="Mã sản phẩm">
+                        <h:outputText value="#{it.sanPham.maSanPham}"/>
+                    </p:column>
+                    <p:column style="width: 30%" headerText="Tên sản phẩm">
+                        <h:outputText value="#{it.sanPham.tenSanPham}"/>
+                    </p:column>
+                    <p:column style="width: 10%;" headerText="Xuất xứ">
+                        <h:outputText value="#{it.sanPham.xuatXu}"/>
+                    </p:column>
+                    <p:column style="width: 15%" headerText="Đơn giá">
+                        <h:outputText value="#{it.sanPham.donGia}"/>
+                    </p:column>
+                    <p:column style="width: 10%" headerText="Số lượng nhập">
+                        <h:outputText value="#{it.quantity}"/>
+                    </p:column>
+                    <p:column style="width: 10%" headerText="Thành tiền">
+                        <h:outputText value="#{it.sanPham.donGia * it.quantity}"/>
+                    </p:column>
+                    <p:column style="width: 10%">
+                        <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger"
+                                         action="pmn_warehouse_create?faces-redirect=true"
+                                         actionListener="#{quanLyNhapKhoBean.delete(it.sanPham)}"/>
+                    </p:column>
+                </p:dataTable>
+                <hr/>
+                <p:outputLabel style="margin-left: 70%; font-size: 20px" value="Tổng tiền nhập: "/>
+                <p:inputText style="font-size: 25px; width: 250px;" disabled="true"
+                             value="#{quanLyNhapKhoBean.total()}"/> VNĐ
+                <hr/>
+                <p:commandButton value="Đồng ý nhập" action="#{quanLyNhapKhoBean.addPhieuNhap}"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

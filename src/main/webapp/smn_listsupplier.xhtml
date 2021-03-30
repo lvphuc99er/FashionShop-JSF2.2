@@ -11,6 +11,9 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
             <div class="card">
                 <h:form>
                     <h2 align="center">DANH SÁCH CÁC NHÀ CUNG CẤP</h2>
@@ -38,10 +41,13 @@
                         </p:column>
                         <p:column style="width: 15%" headerText="">
                             <p:commandButton value="Xóa" styleClass="ui-button-raised ui-button-danger"
-                                             action="#{nhaCungCapBean.delete_NCC(ncc)}"/>
+                                             onclick="PF('dlg2').show()">
+                                <f:setPropertyActionListener value="#{ncc}"
+                                                             target="#{nhaCungCapBean.selectedNhaCungCap}"/>
+                            </p:commandButton>
                             <p:commandButton style="margin-left: 5px" value="Chỉnh sửa"
                                              action="#{nhaCungCapBean.nextPageUdate}"
-                                             actionListener="#{nhaCungCapBean.init_update(ncc.maNhaCungCap)}"
+                                             actionListener="#{nhaCungCapBean.initUpdate(ncc.maNhaCungCap)}"
                                              process="@this">
                             </p:commandButton>
                         </p:column>
@@ -49,6 +55,17 @@
                     <hr/>
                     <p:commandButton resetValues="true" value="Thêm nhà cung cấp mới"
                                      action="#{nhaCungCapBean.nextPageCreate}"/>
+
+                    <!--dialog-->
+                    <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
+                              modal="true">
+                        <p class="p-m-0">Chắc chắn xóa nhà cung cấp ?</p>
+                        <f:facet name="footer">
+                            <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                             action="#{nhaCungCapBean.deleteNhaCungCap(nhaCungCapBean.selectedNhaCungCap)}"/>
+                            <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
+                        </f:facet>
+                    </p:dialog>
                 </h:form>
             </div>
         </ui:define>

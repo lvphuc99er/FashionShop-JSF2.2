@@ -11,7 +11,30 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
-            <h3 align="center">This is accessories page !</h3>
+            <h:form>
+                <h1 align="center">Phụ kiện thời trang</h1>
+                <hr/>
+                <p:dataView var="sp" value="#{sanPhamBean.getSanPhamsByDanhMuc(3)}" layout="grid" rows="6"
+                            gridIcon="pi pi-th-large" paginator="true" >
+                    <p:dataViewGridItem>
+                        <p:panel header="#{sp.maSanPham}" style="text-align:center">
+                            <p:panelGrid columns="2" style="width:100%;">
+                                <f:facet name="header">
+                                    <p:graphicImage value="images/#{sp.hinhAnh}"
+                                                    style="width: 300px; height: 300px"/><br/>
+                                    <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                                </f:facet>
+                                <p:commandButton value="Xem chi tiết" action="#{sanPhamBean.nextPageDetail}"
+                                                 actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}"
+                                                 process="@this" style="width: 180px"/>
+                                <p:commandButton value="Thêm vào giỏ hàng" action="#{cartBean.nextPageCart}"
+                                                 actionListener="#{cartBean.addToCart(sp)}" process="@this"
+                                                 styleClass="ui-button-success"/>
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:dataViewGridItem>
+                </p:dataView>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

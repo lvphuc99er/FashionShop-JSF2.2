@@ -11,7 +11,7 @@
     <h:form id="form">
         <p:growl id="message">
             <p:menubar>
-                <p:menuitem value="Trang chủ" outcome="home"/>
+                <p:menuitem value="Trang chủ" outcome="dashboard"/>
                 <p:submenu label="Sản phẩm">
                     <p:menuitem value="Thời trang nam" outcome="p_manfashion"/>
                     <p:menuitem value="Thời trang nữ" outcome="p_womanfashion"/>
@@ -20,12 +20,28 @@
                 <p:menuitem value="Liên hệ" outcome="about"/>
                 <f:facet name="options">
                     <p:inputText placeholder="Tìm kiếm..."/>
-                    <p:commandButton style="width: 110px;font-size: 15px;" value="Giỏ hàng" action="shoppingcart"/>
-                    <p:outputLabel value="Tài khoản: USER" style="margin-left: 5px; margin-right: 5px"/>
-                    <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất" action="#{login.logout}"/>
+                    <p:commandButton style="width: 110px;font-size: 15px; margin-left: 5px" value="Giỏ hàng"
+                                     action="shoppingcart"/>
+                    <p:outputLabel value="Tài khoản: " style="margin-left: 5px;"/>
+                    <p:outputLabel value="#{login.khachHang.tenKhachHang}" style="margin-right: 5px;" disabled="true"/>
+                    <p:menuButton icon="pi pi-user" styleClass="rounded-button ui-button-info"
+                                  style="margin-right: 5px;">
+                        <p:menuitem value="Hồ sơ cá nhân" outcome="u_information"/>
+                        <p:menuitem value="Đơn hàng" outcome="u_listorder"/>
+                    </p:menuButton>
+                    <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất" oncomplete="PF('dlg1').show()"/>
                 </f:facet>
             </p:menubar>
         </p:growl>
+
+        <!--dialog-->
+        <p:dialog header="Đăng xuất !" widgetVar="dlg1" minHeight="40" width="300" showEffect="fade" modal="true">
+            <p class="p-m-0">Nhấn "Xác nhận" để đăng xuất !</p>
+            <f:facet name="footer">
+                <p:commandButton value="Xác nhận" action="#{login.logout}"/>
+                <p:commandButton value="Quay lại" onclick="PF('dlg1').hide()"/>
+            </f:facet>
+        </p:dialog>
     </h:form>
 </ui:composition>
 </html>

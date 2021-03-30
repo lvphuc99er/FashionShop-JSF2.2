@@ -2,33 +2,41 @@ tech/vietinfo/services/NhaCungCapService.java
  tech.vietinfo.services.NhaCungCapService
 tech/vietinfo/beans/SanPhamBean.java
  tech.vietinfo.beans.SanPhamBean
-tech/vietinfo/services/DanhMucService.java
- tech.vietinfo.services.DanhMucService
-tech/vietinfo/models/PhieuNhap.java
- tech.vietinfo.models.PhieuNhap
 tech/vietinfo/utils/Login.java
  tech.vietinfo.utils.Login
-tech/vietinfo/utils/SessionUtil.java
- tech.vietinfo.utils.SessionUtil
-tech/vietinfo/services/SanPhamService.java
- tech.vietinfo.services.SanPhamService
+tech/vietinfo/models/PhieuNhap.java
+ tech.vietinfo.models.PhieuNhap
+tech/vietinfo/entities/Item.java
+ tech.vietinfo.entities.Item
+tech/vietinfo/services/KhachHangService.java
+ tech.vietinfo.services.KhachHangService
+tech/vietinfo/models/ChiTietDonHang.java
+ tech.vietinfo.models.ChiTietDonHang
+tech/vietinfo/models/DonHang.java
+ tech.vietinfo.models.DonHang
 tech/vietinfo/beans/NhaCungCapBean.java
  tech.vietinfo.beans.NhaCungCapBean
 tech/vietinfo/models/ChiTietPhieuNhap.java
  tech.vietinfo.models.ChiTietPhieuNhap
 tech/vietinfo/models/DanhMuc.java
  tech.vietinfo.models.DanhMuc
+tech/vietinfo/beans/QuanLyNhapKhoBean.java
+ tech.vietinfo.beans.QuanLyNhapKhoBean
 tech/vietinfo/models/NhaCungCap.java
  tech.vietinfo.models.NhaCungCap
-tech/vietinfo/models/SanPham.java
- tech.vietinfo.models.SanPham
-tech/vietinfo/services/KhachHangService.java
- tech.vietinfo.services.KhachHangService
-tech/vietinfo/models/ChiTietDonHang.java
- tech.vietinfo.models.ChiTietDonHang
+tech/vietinfo/beans/CartBean.java
+ tech.vietinfo.beans.CartBean
 tech/vietinfo/models/KhachHang.java
  tech.vietinfo.models.KhachHang
+tech/vietinfo/services/SanPhamService.java
+ tech.vietinfo.services.SanPhamService
+tech/vietinfo/services/QuanLyNhapKhoService.java
+ tech.vietinfo.services.QuanLyNhapKhoService
+tech/vietinfo/utils/SessionUtil.java
+ tech.vietinfo.utils.SessionUtil
+tech/vietinfo/models/SanPham.java
+ tech.vietinfo.models.SanPham
+tech/vietinfo/services/DanhMucService.java
+ tech.vietinfo.services.DanhMucService
 tech/vietinfo/beans/KhachHangBean.java
  tech.vietinfo.beans.KhachHangBean
-tech/vietinfo/models/DonHang.java
- tech.vietinfo.models.DonHang

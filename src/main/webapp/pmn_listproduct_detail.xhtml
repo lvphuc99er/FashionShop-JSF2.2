@@ -6,8 +6,48 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view>
-    <p:linkButton value="Quay lại trang danh sách" outcome="pmn_listproduct"/>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+<f:metadata>
+    <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
+    <f:viewParam name="tsp" value="#{sanPhamBean.sanPham.tenSanPham}"/>
+    <f:viewParam name="ha" value="#{sanPhamBean.sanPham.hinhAnh}"/>
+    <f:viewParam name="tt" value="#{sanPhamBean.sanPham.trangThai}"/>
+    <f:viewParam name="dm" value="#{sanPhamBean.iddm}"/>
+    <f:viewParam name="sl" value="#{sanPhamBean.sanPham.soLuongCoSan}"/>
+    <f:viewParam name="xx" value="#{sanPhamBean.sanPham.xuatXu}"/>
+    <f:viewParam name="em" value="#{sanPhamBean.sanPham.moTaSanPham}"/>
+    <f:viewParam name="dg" value="#{sanPhamBean.sanPham.donGia}"/>
+</f:metadata>
+<h:head>
+
+</h:head>
+<h:body>
+    <ui:composition template="template/lnf-template.xhtml">
+        <ui:define name="body">
+            <h2 align="center">CHI TIẾT SẢN PHẨM</h2>
+            <hr/>
+            <h:form>
+                <p:panelGrid columns="3" style="margin-left: 50px">
+                    <p:column>
+                        <p:graphicImage value="images/#{sanPhamBean.sanPham.hinhAnh}"
+                                        style="width: 350px; height: 350px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel style="font-size: 30px" value="MÃ SẢN PHẨM: "/>
+                        <p:outputLabel style="font-size: 45px" value="#{sanPhamBean.sanPham.maSanPham}"/><br/><br/>
+                        <b><p:outputLabel style="font-size: 45px"
+                                          value="#{sanPhamBean.sanPham.tenSanPham}"/></b><br/><br/>
+                        <b><p:outputLabel style="font-size: 60px" value="#{sanPhamBean.sanPham.donGia}"/></b><br/><br/>
+
+                        <p:commandButton style="font-size: 20px" value="Thêm vào giỏ hàng"
+                                         action="#{cartBean.nextPageCart}" styleClass="ui-button-success"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="Mô tả: "/>
+                        <p:outputLabel value="#{sanPhamBean.sanPham.moTaSanPham}"/>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

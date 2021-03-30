@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class ChiTietPhieuNhap implements Serializable {
 

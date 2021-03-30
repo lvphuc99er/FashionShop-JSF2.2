@@ -21,6 +21,7 @@ public class DonHang implements Serializable {
 
     @Id
     @Column(name = "maDonHang")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int maDonDang;
 
     @ManyToOne(fetch = FetchType.EAGER)

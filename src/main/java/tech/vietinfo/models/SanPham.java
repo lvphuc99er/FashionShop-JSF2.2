@@ -64,7 +64,7 @@ public class SanPham implements Serializable {
                 ", soLuongCoSan=" + soLuongCoSan +
                 ", hinhAnh='" + hinhAnh + '\'' +
                 ", trangThai='" + trangThai + '\'' +
-                ", danhMuc=" + danhMuc.getTenDanhmuc() +
+                ", danhMuc=" + danhMuc +
                 '}';
     }
 }

@@ -17,6 +17,9 @@ ext {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
 dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     compileOnly('javax:javaee-api:8.0.1')
@@ -32,10 +35,10 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.18"
     implementation group: 'org.primefaces', name: 'primefaces', version: '10.0.0'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
-    implementation group: 'org.webjars', name: 'bootstrap', version: '5.0.0-beta2'
     implementation group: 'org.omnifaces', name: 'omnifaces', version: '3.10.1'
-
+    implementation group: 'org.webjars', name: 'font-awesome', version: '5.15.2'
     implementation group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
 }
 

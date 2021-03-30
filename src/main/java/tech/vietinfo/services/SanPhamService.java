@@ -1,7 +1,5 @@
 package tech.vietinfo.services;
 
-import tech.vietinfo.models.DanhMuc;
-import tech.vietinfo.models.NhaCungCap;
 import tech.vietinfo.models.SanPham;
 
 import javax.inject.Named;
@@ -25,19 +23,25 @@ public class SanPhamService implements Serializable {
         return query.getResultList();
     }
 
-    public void delete_SP(SanPham sanPham) {
+    public List<SanPham> getSanPhamsByDanhMuc(int ma){
+        String hql = "select sp from SanPham sp where sp.danhMuc.maDanhMuc = "+ma;
+        Query query = entityManager.createQuery(hql);
+        return query.getResultList();
+    }
+
+    public void deleteSanPham(SanPham sanPham) {
         entityManager.getTransaction().begin();
         entityManager.remove(sanPham);
         entityManager.getTransaction().commit();
     }
 
-    public void update_SP(SanPham sanPham) {
+    public void updateSanPham(SanPham sanPham) {
         entityManager.getTransaction().begin();
         entityManager.merge(sanPham);
         entityManager.getTransaction().commit();
     }
 
-    public void add_SP(SanPham sanPham) {
+    public void addSanPham(SanPham sanPham) {
         entityManager.getTransaction().begin();
         entityManager.persist(sanPham);
         entityManager.getTransaction().commit();

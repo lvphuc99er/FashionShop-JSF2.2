@@ -18,6 +18,9 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
             <p:linkButton value="Quay lại trang danh sách" outcome="smn_listsupplier"/><hr/>
             <h2 align="center">CHỈNH SỬA NHÀ CUNG CẤP</h2><hr/>
             <div class="create" style="margin-left: 300px;">
@@ -53,7 +56,8 @@
                             <td><h:message for="emailncc" style="color: red"/></td>
                         </tr>
                     </table>
-                    <p:commandButton value="Lưu" action="#{nhaCungCapBean.update_NCC}" style="margin-left: 168px;"/>
+                    <p:commandButton value="Lưu" action="#{nhaCungCapBean.updateNhaCungCap}" style="margin-left: 152px;"/>
+                    <hr/>
                 </h:form>
             </div>
         </ui:define>

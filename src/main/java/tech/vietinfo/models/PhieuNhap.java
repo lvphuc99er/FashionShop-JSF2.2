@@ -12,17 +12,18 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class PhieuNhap implements Serializable {
 
     @Id
     @Column(name = "maPhieuNhap")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int maPhieuNhap;
 
     @Column(name = "ngayLapPhieu")
-    private Date ngayLapPhieu;
+    private String ngayLapPhieu;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "maNhaCungCap",referencedColumnName = "maNhaCungCap")

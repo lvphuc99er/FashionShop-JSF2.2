@@ -11,23 +11,29 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
-            <div class="register" style="margin-left: 300px;">
-                <h1>ĐĂNG KÝ</h1>
+            <div class="register">
+                <h1 align="center">ĐĂNG KÝ THÀNH VIÊN</h1>
+                <hr/>
                 <h:form method="post">
                     <table cellspacing="10px">
                         <tr>
                             <td><p:outputLabel value="Số điện thoại: "/></td>
-                            <td><p:inputText id="soDienThoai" value="#{khachHangBean.khachHang.soDienThoai_KH}" placeholder="Nhập số điện thoại..."/></td>
+                            <td><p:inputText id="soDienThoai" value="#{khachHangBean.khachHang.soDienThoai_KH}"
+                                             placeholder="Nhập số điện thoại..."/></td>
                             <td><h:message for="soDienThoai" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Tên hiển thị: "/></td>
-                            <td><p:inputText id="tenHienThi" value="#{khachHangBean.khachHang.tenKhachHang}" placeholder="Nhập tên hiển thị..."/></td>
+                            <td><p:inputText id="tenHienThi" value="#{khachHangBean.khachHang.tenKhachHang}"
+                                             placeholder="Nhập tên hiển thị..."/></td>
                             <td><h:message for="tenHienThi" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Ngày sinh: "/></td>
-                            <td><p:inputText type="date" value="#{khachHangBean.khachHang.ngaySinh}" id="ngaySinh" placeholder="Chọn ngày sinh..."/></td>
+                            <td>
+                                <p:inputText type="date" value="#{khachHangBean.khachHang.ngaySinh}" id="ngaySinh"
+                                             placeholder="Chọn ngày sinh..."/>
+                            </td>
                             <td><h:message for="ngaySinh" style="color: red"/></td>
                         </tr>
                         <tr>
@@ -41,17 +47,20 @@
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Email: "/></td>
-                            <td><p:inputText id="email" value="#{khachHangBean.khachHang.email_KH}" placeholder="Nhập email..."/></td>
+                            <td><p:inputText id="email" value="#{khachHangBean.khachHang.email_KH}"
+                                             placeholder="Nhập email..."/></td>
                             <td><h:message for="email" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Địa chỉ: "/></td>
-                            <td><p:inputText id="diaChi" value="#{khachHangBean.khachHang.diaChi_KH}" placeholder="Nhập địa chỉ liên hệ..."/></td>
+                            <td><p:inputText id="diaChi" value="#{khachHangBean.khachHang.diaChi_KH}"
+                                             placeholder="Nhập địa chỉ liên hệ..."/></td>
                             <td><h:message for="diaChi" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Mật khẩu: "/></td>
-                            <td><p:inputText id="matKhau" value="#{khachHangBean.khachHang.matKhau}" placeholder="Nhập mật khẩu..."/></td>
+                            <td><p:inputText id="matKhau" value="#{khachHangBean.khachHang.matKhau}"
+                                             placeholder="Nhập mật khẩu..."/></td>
                             <td><h:message for="matKhau" style="color: red"/></td>
                         </tr>
                         <tr style="display: none">
@@ -64,9 +73,22 @@
                             </td>
                         </tr>
                     </table>
-                    <p:selectBooleanCheckbox id="chapNhanDieuKhoan" value="true" itemLabel="Đồng ý với các" style="margin-left: 11px;"/>
-                    <p:commandLink value="điều khoản thỏa thuận" style="margin-left: -8px;"/><br/>
-                    <p:commandButton value="Đăng ký" style="margin-left: 135px;" action="#{khachHangBean.add_KH}"/><br/><br/>
+                    <p:selectBooleanCheckbox id="chapNhanDieuKhoan" value="true" itemLabel="Đồng ý với các"
+                                             style="margin-left: 11px; margin-bottom: 8px"/>
+                    <p:commandLink value="điều khoản thỏa thuận" style="margin-left: -8px"/><br/>
+                    <p:commandButton value="Đăng ký" style="margin-left: 122px;" action="#{khachHangBean.addKhachHang}"
+                                     oncomplete="PF('dlg2').show()"/>
+
+                    <!--dialog-->
+                    <p:dialog header="Thông báo" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
+                              modal="true">
+                        <p class="p-m-0">Đăng ký thành công !</p>
+                        <f:facet name="footer">
+                            <p:commandButton value="Chuyển đến trang đăng nhập" action="login?faces-redirect=true"/>
+                        </f:facet>
+                    </p:dialog>
+
+                    <hr/>
                 </h:form>
             </div>
         </ui:define>

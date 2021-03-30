@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
-            <p:linkButton value="Quay lại trang danh sách" outcome="pmn_listproduct"/><hr/>
-            <h2>THÊM SẢN PHẨM MỚI</h2><hr/>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
+            <p:linkButton value="Quay lại trang danh sách" outcome="pmn_listproduct"/>
+            <hr/>
+            <h2 align="center">THÊM SẢN PHẨM MỚI</h2>
+            <hr/>
             <div class="create" style="margin-left: 300px;">
                 <h:form method="post" enctype="multipart/form-data">
+                    <p:growl id="messages" showDetail="true"/>
                     <table cellspacing="10px">
                         <tr style="display:none;">
                             <td><p:outputLabel value="Mã: "/></td>
@@ -23,25 +24,25 @@
                         <tr>
                             <td><p:outputLabel value="Tên sản phẩm: "/></td>
                             <td><p:inputText value="#{sanPhamBean.sanPham.tenSanPham}" id="tensp"
-                                             style="width: 800px"  placeholder="Nhập tên sản phẩm..."/></td>
+                                             style="width: 800px" placeholder="Nhập tên sản phẩm..."/></td>
                             <td><h:message for="tensp" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Mô tả sản phẩm: "/></td>
                             <td><p:inputTextarea value="#{sanPhamBean.sanPham.moTaSanPham}" id="mota"
-                                                 style="width: 800px"  placeholder="Nhập mô tả sản phẩm..."/></td>
+                                                 style="width: 800px" placeholder="Nhập mô tả sản phẩm..."/></td>
                             <td><h:message for="mota" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Xuất xứ: "/></td>
                             <td><p:inputText value="#{sanPhamBean.sanPham.xuatXu}" id="xuatxu"
-                                             style="width: 800px"  placeholder="Nhập xuất xứ..."/></td>
+                                             style="width: 800px" placeholder="Nhập xuất xứ..."/></td>
                             <td><h:message for="xuatxu" style="color: red"/></td>
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Đơn giá: "/></td>
                             <td><p:inputText type="a" value="#{sanPhamBean.sanPham.donGia}" id="dongia"
-                                             style="width: 800px"  placeholder="Nhập đơn giá..."/></td>
+                                             style="width: 800px" placeholder="Nhập đơn giá..."/></td>
                             <td><h:message for="dongia" style="color: red"/></td>
                         </tr>
                         <tr style="display: none">
@@ -60,7 +61,9 @@
                         </tr>
                         <tr>
                             <td><p:outputLabel value="Hình ảnh: "/></td>
-                            <td><p:fileUpload value="#{sanPhamBean.sanPham.hinhAnh}" mode="simple" skinSimple="true"/>
+                            <td>
+                                <p:fileUpload value="#{sanPhamBean.resume}" allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                              mode="simple" skinSimple="true"/>
                             </td>
                         </tr>
                         <tr style="display: none">
@@ -70,7 +73,9 @@
                             </p:selectOneMenu></td>
                         </tr>
                     </table>
-                    <p:commandButton value="Xác nhận" action="#{sanPhamBean.add_SP}" style="margin-left: 153px;">
+                    <p:commandButton ajax="false" value="Xác nhận" action="#{sanPhamBean.addSanPham}"
+                                     actionListener="#{sanPhamBean.uploadResume}" process="@this"
+                                     style="margin-left: 141px;">
                     </p:commandButton>
                 </h:form>
             </div>

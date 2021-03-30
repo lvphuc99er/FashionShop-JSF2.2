@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:param name="ten" value="#{login.khachHang.tenKhachHang}"/>
+    <f:param name="sdt" value="#{login.khachHang.soDienThoai_KH}"/>
+    <f:param name="e" value="#{login.khachHang.email_KH}"/>
+    <f:param name="gt" value="#{login.khachHang.gioiTinh}"/>
+    <f:param name="ns" value="#{login.khachHang.ngaySinh}"/>
+    <f:param name="mk" value="#{login.khachHang.matKhau}"/>
+    <f:param name="dc" value="#{login.khachHang.diaChi_KH}"/>
+</f:metadata>
+<h:head>
+</h:head>
+<h:body>
+    <ui:composition template="template/lnf-template.xhtml">
+        <ui:define name="body">
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
+            <h3 align="center">HỒ SƠ CÁ NHÂN</h3>
+            <hr/>
+            <div style="margin-left: 300px;">
+                <h:form id="hoso">
+                    <table cellspacing="10px">
+                        <tr>
+                            <td><p:outputLabel value="Họ tên:"/></td>
+                            <td><p:inputText value="#{login.khachHang.tenKhachHang}" style="width: 250px"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Số điện thoại:"/></td>
+                            <td><p:inputText value="#{login.khachHang.soDienThoai_KH}" style="width: 250px"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Email:"/></td>
+                            <td><p:inputText value="#{login.khachHang.email_KH}" style="width: 250px"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Giới tính:"/></td>
+                            <td>
+                                <p:selectOneRadio unselectable="true" value="#{login.khachHang.gioiTinh}">
+                                    <f:selectItem itemLabel="Nam" itemValue="Nam"/>
+                                    <f:selectItem itemLabel="Nữ" itemValue="Nữ"/>
+                                </p:selectOneRadio>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Ngày sinh:"/></td>
+                            <td><p:inputText type="date" value="#{login.khachHang.ngaySinh}"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Mật khẩu:"/></td>
+                            <td><p:password value="#{login.khachHang.matKhau}" toggleMask="true" redisplay="true"
+                                            style="width: 250px"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Địa chỉ:"/></td>
+                            <td><p:inputText value="#{login.khachHang.diaChi_KH}" style="width: 500px"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <p:commandButton value="Lưu" action="#{login.update_user}" update="hoso"
+                                                 style="margin-right: 5px"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

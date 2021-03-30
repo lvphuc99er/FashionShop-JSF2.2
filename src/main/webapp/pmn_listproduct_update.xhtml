@@ -6,12 +6,93 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+    <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
+    <f:viewParam name="tsp" value="#{sanPhamBean.sanPham.tenSanPham}"/>
+    <f:viewParam name="ha" value="#{sanPhamBean.sanPham.hinhAnh}"/>
+    <f:viewParam name="tt" value="#{sanPhamBean.sanPham.trangThai}"/>
+    <f:viewParam name="dm" value="#{sanPhamBean.iddm}"/>
+    <f:viewParam name="sl" value="#{sanPhamBean.sanPham.soLuongCoSan}"/>
+    <f:viewParam name="xx" value="#{sanPhamBean.sanPham.xuatXu}"/>
+    <f:viewParam name="em" value="#{sanPhamBean.sanPham.moTaSanPham}"/>
+    <f:viewParam name="dg" value="#{sanPhamBean.sanPham.donGia}"/>
+</f:metadata>
 <h:head>
 </h:head>
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
-            <h3 align="center">update product</h3>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
+            <p:linkButton value="Quay lại trang danh sách" outcome="pmn_listproduct"/>
+            <hr/>
+            <h2 align="center">CHỈNH SỬA SẢN PHẨM</h2>
+            <hr/>
+            <div class="update" style="margin-left: 300px;">
+                <h:form method="post" enctype="multipart/form-data">
+                    <table cellspacing="10px">
+                        <tr>
+                            <td><p:outputLabel value="Mã: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.maSanPham}" disabled="true"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Tên sản phẩm: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.tenSanPham}" id="tensp"
+                                             style="width: 800px" placeholder="Nhập tên sản phẩm..."/></td>
+                            <td><h:message for="tensp" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Mô tả sản phẩm: "/></td>
+                            <td><p:inputTextarea value="#{sanPhamBean.sanPham.moTaSanPham}" id="mota"
+                                                 style="width: 800px" placeholder="Nhập mô tả sản phẩm..."/></td>
+                            <td><h:message for="mota" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Xuất xứ: "/></td>
+                            <td><p:inputText value="#{sanPhamBean.sanPham.xuatXu}" id="xuatxu"
+                                             style="width: 800px" placeholder="Nhập xuất xứ..."/></td>
+                            <td><h:message for="xuatxu" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Đơn giá: "/></td>
+                            <td><p:inputText type="a" value="#{sanPhamBean.sanPham.donGia}" id="dongia"
+                                             style="width: 800px" placeholder="Nhập đơn giá..."/></td>
+                            <td><h:message for="dongia" style="color: red"/></td>
+                        </tr>
+                        <tr style="display: none">
+                            <td><p:outputLabel value="Số lượng: "/></td>
+                            <td><p:inputText disabled="true" value="#{sanPhamBean.sanPham.soLuongCoSan}"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Danh mục: "/></td>
+                            <td><p:selectOneMenu id="danhmuc" value="#{sanPhamBean.iddm}">
+                                <f:selectItem itemLabel="Chọn danh mục..."/>
+                                <f:selectItems value="#{sanPhamBean.danhMucs}" var="dm"
+                                               itemValue="#{dm.maDanhMuc}"
+                                               itemLabel="#{dm.tenDanhmuc}"/>
+                            </p:selectOneMenu></td>
+                            <td><h:message for="danhmuc" style="color: red"/></td>
+                        </tr>
+                        <tr>
+                            <td><p:outputLabel value="Hình ảnh: "/></td>
+                            <td><p:fileUpload value="#{sanPhamBean.resume}" allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                              mode="simple" skinSimple="true"/>
+                            </td>
+                        </tr>
+                        <tr style="display: none">
+                            <td><p:outputLabel value="Trạng thái sản phẩm:"/></td>
+                            <td><p:selectOneMenu value="#{sanPhamBean.sanPham.trangThai}">
+                                <f:selectItem itemLabel="ĐANG BÁN" itemValue="ĐANG BÁN"/>
+                            </p:selectOneMenu></td>
+                        </tr>
+                    </table>
+                    <p:commandButton value="Lưu" ajax="false" action="#{sanPhamBean.updateSanPham}"
+                                     style="margin-left: 142px;"
+                                     actionListener="#{sanPhamBean.uploadResume}" process="@this">
+                    </p:commandButton>
+                </h:form>
+            </div>
         </ui:define>
     </ui:composition>
 </h:body>

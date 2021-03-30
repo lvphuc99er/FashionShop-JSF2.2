@@ -25,19 +25,19 @@ public class NhaCungCapService implements Serializable {
         return query.getResultList();
     }
 
-    public void delete_NCC(NhaCungCap nhaCungCap) {
+    public void deleteNhaCungCap(NhaCungCap nhaCungCap) {
         entityManager.getTransaction().begin();
         entityManager.remove(nhaCungCap);
         entityManager.getTransaction().commit();
     }
 
-    public void update_NCC(NhaCungCap nhaCungCap) {
+    public void updateNhaCungCap(NhaCungCap nhaCungCap) {
         entityManager.getTransaction().begin();
         entityManager.merge(nhaCungCap);
         entityManager.getTransaction().commit();
     }
 
-    public void add_NCC(NhaCungCap nhaCungCap) {
+    public void addNhaCungCap(NhaCungCap nhaCungCap) {
         entityManager.getTransaction().begin();
         entityManager.persist(nhaCungCap);
         entityManager.getTransaction().commit();

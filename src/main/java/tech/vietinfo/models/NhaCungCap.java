@@ -10,7 +10,6 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @EqualsAndHashCode
 public class NhaCungCap {

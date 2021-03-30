@@ -2,6 +2,7 @@ package tech.vietinfo.services;
 
 import tech.vietinfo.models.KhachHang;
 import tech.vietinfo.models.NhaCungCap;
+import tech.vietinfo.models.SanPham;
 
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -21,9 +22,25 @@ public class KhachHangService implements Serializable {
         return query.getResultList();
     }
 
-    public void add_KH(KhachHang khachHang) {
+    public void addKhachHang(KhachHang khachHang) {
         entityManager.getTransaction().begin();
         entityManager.persist(khachHang);
         entityManager.getTransaction().commit();
+    }
+
+    public void updateKhachHang(KhachHang khachHang) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(khachHang);
+        entityManager.getTransaction().commit();
+    }
+
+    public KhachHang find(int id){
+        return entityManager.find(KhachHang.class,id);
+    }
+
+    public List<KhachHang> getSanPhamsBySDT(String sdt){
+        String hql = "select kh from KhachHang kh where kh.soDienThoai_KH = '"+sdt+"'";
+        Query query = entityManager.createQuery(hql);
+        return query.getResultList();
     }
 }

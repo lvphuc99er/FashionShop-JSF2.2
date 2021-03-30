@@ -3,9 +3,7 @@ package tech.vietinfo.beans;
 import lombok.Getter;
 import lombok.Setter;
 import tech.vietinfo.models.KhachHang;
-import tech.vietinfo.models.NhaCungCap;
 import tech.vietinfo.services.KhachHangService;
-import tech.vietinfo.services.NhaCungCapService;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -29,22 +27,35 @@ public class KhachHangBean implements Serializable {
     private List<KhachHang> khachHangList = new ArrayList<>();
 
     private KhachHang khachHang;
-
     private KhachHang selectedKhachHang;
+
+    @PostConstruct
+    public void init() {
+        khachHang = new KhachHang();
+    }
 
     public List<KhachHang> getKhachHangs() {
         khachHangList = khachHangService.getKhachHangs();
         return khachHangList;
     }
 
-    @PostConstruct
-    public void init(){
-        khachHang = new KhachHang();
+    public String addKhachHang() {
+        khachHangService.addKhachHang(khachHang);
+        return "";
     }
 
-    public String add_KH(){
-        khachHangService.add_KH(khachHang);
-        return "home?faces-redirect=true";
+    public String lockKhachHang(KhachHang kh, String st) {
+        selectedKhachHang = khachHangService.find(kh.getMaKhachHang());
+        selectedKhachHang.setTrangThai(st);
+        khachHangService.updateKhachHang(selectedKhachHang);
+        return "umn_listuser?faces-redirect=true";
     }
 
+    public int checkTrangThai(KhachHang kh){
+        if(kh.getTrangThai().equals("KHÓA")){
+            return 0;
+        }
+        return 1;
+    }
+//    private String strKhoa = "LƯỢNG";
 }

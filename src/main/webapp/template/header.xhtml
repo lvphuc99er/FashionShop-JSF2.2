@@ -11,17 +11,16 @@
     <h:form id="form">
         <p:growl id="message">
             <p:menubar>
-                <p:menuitem value="Trang chủ" outcome="home"/>
+                <p:menuitem value="Trang chủ" outcome="dashboard"/>
                 <p:submenu label="Sản phẩm">
                     <p:menuitem value="Thời trang nam" outcome="p_manfashion"/>
                     <p:menuitem value="Thời trang nữ" outcome="p_womanfashion"/>
                     <p:menuitem value="Phụ kiện" outcome="p_accessories"/>
                 </p:submenu>
-
                 <p:menuitem value="Liên hệ" outcome="about"/>
                 <f:facet name="options">
                     <p:inputText placeholder="Tìm kiếm..."/>
-                    <p:commandButton style="width: 110px;font-size: 15px;" value="Giỏ hàng"
+                    <p:commandButton style="width: 110px;font-size: 15px; margin-left: 5px" value="Giỏ hàng"
                                      action="shoppingcart?faces-redirect=true"/>
                     <p:commandButton style="width: 110px;font-size: 15px;margin-left: 5px; margin-right: 5px"
                                      value="Đăng nhập" action="login?faces-redirect=true"/>

@@ -6,8 +6,6 @@ import tech.vietinfo.models.NhaCungCap;
 import tech.vietinfo.services.NhaCungCapService;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,35 +27,34 @@ public class NhaCungCapBean implements Serializable {
     private List<NhaCungCap> nhaCungCapList = new ArrayList<>();
 
     private NhaCungCap nhaCungCap;
-
-    public List<NhaCungCap> getNhaCungCaps() {
-        nhaCungCapList = nhaCungCapService.getNhaCungCaps();
-        return nhaCungCapList;
-    }
+    private NhaCungCap selectedNhaCungCap;
 
     @PostConstruct
     public void init() {
         nhaCungCap = new NhaCungCap();
     }
 
-    public void init_update(int id) {
+    public void initUpdate(int id) {
         nhaCungCap = nhaCungCapService.find(id);
     }
 
-
-
-    public String add_NCC() {
-        nhaCungCapService.add_NCC(nhaCungCap);
-        return "smn_listsupplier";
+    public List<NhaCungCap> getNhaCungCaps() {
+        nhaCungCapList = nhaCungCapService.getNhaCungCaps();
+        return nhaCungCapList;
     }
 
-    public String delete_NCC(NhaCungCap ncc) {
-        nhaCungCapService.delete_NCC(ncc);
+    public String addNhaCungCap() {
+        nhaCungCapService.addNhaCungCap(nhaCungCap);
         return "smn_listsupplier?faces-redirect=true";
     }
 
-    public String update_NCC() {
-        nhaCungCapService.update_NCC(nhaCungCap);
+    public String deleteNhaCungCap(NhaCungCap ncc) {
+        nhaCungCapService.deleteNhaCungCap(ncc);
+        return "smn_listsupplier?faces-redirect=true";
+    }
+
+    public String updateNhaCungCap() {
+        nhaCungCapService.updateNhaCungCap(nhaCungCap);
         return "smn_listsupplier?faces-redirect=true";
     }
 

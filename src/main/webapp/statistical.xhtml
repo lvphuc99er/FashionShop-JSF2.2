@@ -11,6 +11,9 @@
 <h:body>
     <ui:composition template="template/lnf-template.xhtml">
         <ui:define name="body">
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            </f:metadata>
             <h3 align="center">day la trang thong ke</h3>
         </ui:define>
     </ui:composition>
