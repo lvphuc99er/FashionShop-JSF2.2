@@ -3,6 +3,7 @@ package tech.vietinfo.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -10,9 +11,9 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-public class NhaCungCap {
+public class NhaCungCap implements Serializable {
 
     @Id
     @Column(name = "maNhaCungCap")
@@ -22,16 +23,26 @@ public class NhaCungCap {
     @Column(name = "tenNhaCungCap")
     private String tenNhaCungCap;
 
-    @Column(name = "soDienThoai_NCC")
-    private String soDienThoai_NCC;
+    @Column(name = "soDienThoai")
+    private String soDienThoai;
 
-    @Column(name = "email_NCC")
-    private String email_NCC;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "diaChi_NCC")
-    private String diaChi_NCC;
+    @Column(name = "diaChi")
+    private String diaChi;
 
     @OneToMany(mappedBy = "nhaCungCap", fetch = FetchType.LAZY)
     private List<PhieuNhap> phieuNhapList;
 
+    @Override
+    public String toString() {
+        return "NhaCungCap{" +
+                "maNhaCungCap=" + maNhaCungCap +
+                ", tenNhaCungCap='" + tenNhaCungCap + '\'' +
+                ", soDienThoai='" + soDienThoai + '\'' +
+                ", email='" + email + '\'' +
+                ", diaChi='" + diaChi + '\'' +
+                '}';
+    }
 }

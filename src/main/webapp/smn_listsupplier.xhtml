@@ -1,75 +1,101 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <f:metadata>
-                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            </f:metadata>
-            <div class="card">
-                <h:form>
-                    <h2 align="center">DANH SÁCH CÁC NHÀ CUNG CẤP</h2>
-                    <hr/>
-                    <div>
-                        <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
-                        <p:commandButton value="Tìm kiếm"/>
-                    </div>
-                    <hr/>
-                    <p:dataTable var="ncc" value="#{nhaCungCapBean.nhaCungCaps}">
-                        <p:column style="width: 5%; text-align: center" headerText="Mã">
-                            <h:outputText value="#{ncc.maNhaCungCap}"/>
-                        </p:column>
-                        <p:column style="width: 25%" headerText="Tên nhà cung cấp">
-                            <h:outputText value="#{ncc.tenNhaCungCap}"/>
-                        </p:column>
-                        <p:column style="width: 33%" headerText="Địa chỉ">
-                            <h:outputText value="#{ncc.diaChi_NCC}"/>
-                        </p:column>
-                        <p:column style="width: 9%" headerText="Số điện thoại">
-                            <h:outputText value="#{ncc.soDienThoai_NCC}"/>
-                        </p:column>
-                        <p:column style="width: 15%" headerText="Email">
-                            <h:outputText value="#{ncc.email_NCC}"/>
-                        </p:column>
-                        <p:column style="width: 15%" headerText="">
-                            <p:commandButton value="Xóa" styleClass="ui-button-raised ui-button-danger"
-                                             onclick="PF('dlg2').show()">
-                                <f:setPropertyActionListener value="#{ncc}"
-                                                             target="#{nhaCungCapBean.selectedNhaCungCap}"/>
-                            </p:commandButton>
-                            <p:commandButton style="margin-left: 5px" value="Chỉnh sửa"
-                                             action="#{nhaCungCapBean.nextPageUdate}"
-                                             actionListener="#{nhaCungCapBean.initUpdate(ncc.maNhaCungCap)}"
-                                             process="@this">
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                    <hr/>
-                    <p:commandButton resetValues="true" value="Thêm nhà cung cấp mới"
-                                     action="#{nhaCungCapBean.nextPageCreate}"/>
-
-                    <!--dialog-->
-                    <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
-                              modal="true">
-                        <p class="p-m-0">Chắc chắn xóa nhà cung cấp ?</p>
-                        <f:facet name="footer">
-                            <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                             action="#{nhaCungCapBean.deleteNhaCungCap(nhaCungCapBean.selectedNhaCungCap)}"/>
-                            <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
-                        </f:facet>
-                    </p:dialog>
-                </h:form>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <div class="card">
+            <h2 align="center">DANH SÁCH CÁC NHÀ CUNG CẤP</h2>
+            <hr/>
+            <div>
+                <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
+                <p:commandButton value="Tìm kiếm"/>
             </div>
-        </ui:define>
-    </ui:composition>
+            <hr/>
+            <p:dataTable var="ncc" value="#{nhaCungCapBean.nhaCungCaps}">
+                <p:column style="width: 5%; text-align: center" headerText="Mã">
+                    <h:outputText value="#{ncc.maNhaCungCap}"/>
+                </p:column>
+                <p:column style="width: 25%" headerText="Tên nhà cung cấp">
+                    <h:outputText value="#{ncc.tenNhaCungCap}"/>
+                </p:column>
+                <p:column style="width: 33%" headerText="Địa chỉ">
+                    <h:outputText value="#{ncc.diaChi}"/>
+                </p:column>
+                <p:column style="width: 9%" headerText="Số điện thoại">
+                    <h:outputText value="#{ncc.soDienThoai}"/>
+                </p:column>
+                <p:column style="width: 15%" headerText="Email">
+                    <h:outputText value="#{ncc.email}"/>
+                </p:column>
+                <p:column style="width: 15%" headerText="" exportable="false">
+                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger"
+                                     oncomplete="PF('dlg2').show()">
+                        <f:setPropertyActionListener value="#{ncc}"
+                                                     target="#{nhaCungCapBean.nhaCungCap}"/>
+                    </p:commandButton>
+                    <p:commandButton icon="pi pi-pencil" style="margin-left: 5px" update=":info"
+                                     oncomplete="PF('detailNCC').show()">
+                        <f:setPropertyActionListener value="#{ncc}"
+                                                     target="#{nhaCungCapBean.nhaCungCap}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <hr/>
+            <p:commandButton value="Thêm nhà cung cấp mới" action="#{nhaCungCapBean.nextPageCreate}"/>
 
-</h:body>
-</html>
+            <!--dialog chi tiết nhà cung cấp-->
+            <p:dialog header="Chi tiết nhà cung cấp" showEffect="fade" modal="true"
+                      widgetVar="detailNCC" hideEffect="fade" resizable="false" width="600px">
+                <h:form id="info">
+                    <p:outputPanel id="supplier-details" class="ui-fluid">
+                        <div class="p-field">
+                            <p:outputLabel for="mancc">Mã nhà cung cấp:</p:outputLabel>
+                            <p:inputText id="mancc" disabled="true"
+                                         value="#{nhaCungCapBean.nhaCungCap.maNhaCungCap}"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="tenncc">Tên nhà cung cấp:</p:outputLabel>
+                            <p:inputText id="tenncc" value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="dc">Địa chỉ:</p:outputLabel>
+                            <p:inputText id="dc" value="#{nhaCungCapBean.nhaCungCap.diaChi}"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="sdt">Số điện thoại:</p:outputLabel>
+                            <p:inputText id="sdt" value="#{nhaCungCapBean.nhaCungCap.soDienThoai}"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="em" style="">Email:</p:outputLabel>
+                            <p:inputText id="em" value="#{nhaCungCapBean.nhaCungCap.email}"/>
+                        </div>
+                        <br/>
+                        <div class="p-field">
+                            <p:commandButton value="Lưu" action="#{nhaCungCapBean.updateNhaCungCap}" update=":info"/>
+                            <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('detailNCC').hide()"
+                                             class="ui-button-danger" style="margin-top: 5px"/>
+                        </div>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+            <!--dialog xác nhận xóa nhà cung cấp-->
+            <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
+                      modal="true">
+                <p class="p-m-0">Chắc chắn xóa nhà cung cấp ?</p>
+                <f:facet name="footer">
+                    <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                     action="#{nhaCungCapBean.deleteNhaCungCap}"/>
+                    <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
+                </f:facet>
+            </p:dialog>
+        </div>
+    </ui:define>
+</ui:composition>
+
+

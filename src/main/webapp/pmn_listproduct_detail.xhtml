@@ -1,53 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<f:metadata>
-    <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
-    <f:viewParam name="tsp" value="#{sanPhamBean.sanPham.tenSanPham}"/>
-    <f:viewParam name="ha" value="#{sanPhamBean.sanPham.hinhAnh}"/>
-    <f:viewParam name="tt" value="#{sanPhamBean.sanPham.trangThai}"/>
-    <f:viewParam name="dm" value="#{sanPhamBean.iddm}"/>
-    <f:viewParam name="sl" value="#{sanPhamBean.sanPham.soLuongCoSan}"/>
-    <f:viewParam name="xx" value="#{sanPhamBean.sanPham.xuatXu}"/>
-    <f:viewParam name="em" value="#{sanPhamBean.sanPham.moTaSanPham}"/>
-    <f:viewParam name="dg" value="#{sanPhamBean.sanPham.donGia}"/>
-</f:metadata>
-<h:head>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
+        <f:viewParam name="tsp" value="#{sanPhamBean.sanPham.tenSanPham}"/>
+        <f:viewParam name="ha" value="#{sanPhamBean.sanPham.hinhAnh}"/>
+        <f:viewParam name="tt" value="#{sanPhamBean.sanPham.trangThai}"/>
+        <f:viewParam name="dm" value="#{sanPhamBean.iddm}"/>
+        <f:viewParam name="sl" value="#{sanPhamBean.sanPham.soLuongCoSan}"/>
+        <f:viewParam name="xx" value="#{sanPhamBean.sanPham.xuatXu}"/>
+        <f:viewParam name="em" value="#{sanPhamBean.sanPham.moTaSanPham}"/>
+        <f:viewParam name="dg" value="#{sanPhamBean.sanPham.donGia}"/>
+        <f:param value="#{login.khachHang.maKhachHang}"/>
+    </f:metadata>
+    <ui:define name="body">
+        <h2 align="center">CHI TIẾT SẢN PHẨM</h2>
+        <hr/>
+        <h:form>
+            <p:panelGrid columns="3" style="margin-left: 50px">
+                <p:column>
+                    <p:graphicImage value="images/#{sanPhamBean.sanPham.hinhAnh}"
+                                    style="width: 350px; height: 350px;"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel style="font-size: 30px" value="MÃ SẢN PHẨM: "/>
+                    <p:outputLabel style="font-size: 45px" value="#{sanPhamBean.sanPham.maSanPham}"/><br/><br/>
+                    <b><p:outputLabel style="font-size: 45px"
+                                      value="#{sanPhamBean.sanPham.tenSanPham}"/></b><br/><br/>
+                    <b><p:outputLabel style="font-size: 60px" value="#{sanPhamBean.sanPham.donGia}"/></b><br/><br/>
+                    <p:commandButton value="Thêm vào giỏ hàng" styleClass="ui-button-success"
+                                     action="#{cartBean.addSanPhamVaoGioHang(sanPhamBean.sanPham.maSanPham,login.khachHang.maKhachHang)}"
+                                     rendered="#{sanPhamBean.sanPham.soLuongCoSan > 0 and sanPhamBean.sanPham.trangThai eq 'ĐANG BÁN'}"/>
+                    <p:commandButton value="Ngừng kinh doanh" disabled="true" styleClass="ui-button-secondary"
+                                     rendered="#{sanPhamBean.sanPham.trangThai eq 'NGỪNG KINH DOANH' or sanPhamBean.sanPham.soLuongCoSan == 0}"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="Mô tả: "/>
+                    <p:outputLabel value="#{sanPhamBean.sanPham.moTaSanPham}"/>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>
 
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <h2 align="center">CHI TIẾT SẢN PHẨM</h2>
-            <hr/>
-            <h:form>
-                <p:panelGrid columns="3" style="margin-left: 50px">
-                    <p:column>
-                        <p:graphicImage value="images/#{sanPhamBean.sanPham.hinhAnh}"
-                                        style="width: 350px; height: 350px;"/>
-                    </p:column>
-                    <p:column>
-                        <p:outputLabel style="font-size: 30px" value="MÃ SẢN PHẨM: "/>
-                        <p:outputLabel style="font-size: 45px" value="#{sanPhamBean.sanPham.maSanPham}"/><br/><br/>
-                        <b><p:outputLabel style="font-size: 45px"
-                                          value="#{sanPhamBean.sanPham.tenSanPham}"/></b><br/><br/>
-                        <b><p:outputLabel style="font-size: 60px" value="#{sanPhamBean.sanPham.donGia}"/></b><br/><br/>
-
-                        <p:commandButton style="font-size: 20px" value="Thêm vào giỏ hàng"
-                                         action="#{cartBean.nextPageCart}" styleClass="ui-button-success"/>
-                    </p:column>
-                    <p:column>
-                        <p:outputLabel value="Mô tả: "/>
-                        <p:outputLabel value="#{sanPhamBean.sanPham.moTaSanPham}"/>
-                    </p:column>
-                </p:panelGrid>
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>

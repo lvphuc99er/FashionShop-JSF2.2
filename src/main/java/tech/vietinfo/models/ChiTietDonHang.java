@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @NoArgsConstructor
-@EqualsAndHashCode
+@AllArgsConstructor
 public class ChiTietDonHang implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,15 +25,12 @@ public class ChiTietDonHang implements Serializable {
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "maSanPham", referencedColumnName = "maSanPham")
-    private SanPham sanPham_DH;
+    private SanPham sanPham;
 
     @Column(name = "soLuong")
     private int soLuong;
 
-    @Column(name = "donGia")
-    private double donGia;
-
-    @Column(name = "thanhTien_SP")
-    private double thanhTien_SP;
+    @Column(name = "thanhTien")
+    private double thanhTien;
 
 }

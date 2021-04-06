@@ -1,21 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <f:metadata>
-                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            </f:metadata>
-            <h3 align="center">day la danh sach moi don hang cua khach hang</h3>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            <f:param value="#{login.khachHang}"/>
+        </f:metadata>
+        <h3 align="center">QUẢN LÝ ĐƠN HÀNG CỦA KHÁCH HÀNG</h3>
+        <hr/>
+        <div>
+            <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
+            <p:commandButton value="Tìm kiếm"/>
+        </div>
+        <hr/>
+        <h1>ĐƠN HÀNG</h1>
+        <p:dataTable var="dh" value="#{cartBean.donHangs}" style="margin-left: 20px; margin-right: 20px">
+            <p:column style="width: 10%; text-align: center" headerText="Mã đơn hàng">
+                <p:outputLabel value="#{dh.maDonDang}"/>
+            </p:column>
+            <p:column style="width: 15%" headerText="Khách hàng đặt">
+                <p:outputLabel value="#{dh.khachHang.tenKhachHang}"/>
+            </p:column>
+            <p:column style="width: 25%" headerText="Ngày đặt">
+                <p:outputLabel value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy')}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Ngày nhận">
+                <p:outputLabel value="#{of:formatDate(cartBean.ngayDatHang.plusDays(3), 'dd/MM/yyyy')}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Tổng tiền">
+                <p:outputLabel value="#{dh.thanhTien}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Trạng thái">
+                <p:outputLabel value="#{dh.trangThai}"/>
+            </p:column>
+            <p:column style="width: 15%" headerText="">
+                <p:commandButton icon="pi pi-search" styleClass="rounded-button ui-button-success"
+                                 style="margin-right: 5px" update="manage-order-content"
+                                 oncomplete="PF('details').show()">
+                    <f:setPropertyActionListener value="#{dh}" target="#{cartBean.donHang}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+
+        <!--dialog chi tiết đơn hàng-->
+        <p:dialog header="Chi tiết đơn hàng" modal="true" widgetVar="details" resizable="false">
+            <p:outputPanel id="manage-order-content" class="ui-fluid">
+                <table cellpadding="2px">
+                    <tr>
+                        <td><p:outputLabel value="Mã đơn hàng:"/></td>
+                        <td>
+                            <p:inputText disabled="true" value="#{cartBean.donHang.maDonDang}" style="width: 220px"/>
+                        </td>
+                        <td><p:outputLabel value="Khách hàng:"/></td>
+                        <td>
+                            <p:inputText disabled="true" style="width: 220px"
+                                         value="#{cartBean.donHang.khachHang.tenKhachHang}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Ngày đặt hàng:"/></td>
+                        <td>
+                            <p:inputText disabled="true" style="width: 220px"
+                                         value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy')}"/>
+                        </td>
+                        <td><p:outputLabel value="Ngày nhận dự kiến:"/></td>
+                        <td>
+                            <p:inputText disabled="true" style="width: 220px"
+                                         value="#{of:formatDate(cartBean.ngayDatHang.plusDays(3), 'dd/MM/yyyy')}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Địa chỉ nhận hàng:"/></td>
+                        <td colspan="3">
+                            <p:inputText disabled="true" style="width: 590px"
+                                         value="#{cartBean.donHang.diaChiNguoiNhan}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Đơn vị vận chuyển:"/></td>
+                        <td>
+                            <p:inputText disabled="true" value="#{cartBean.donHang.donViVanChuyen}"
+                                         style="width: 220px"/>
+                        </td>
+                        <td><p:outputLabel value="Phương thức:"/></td>
+                        <td>
+                            <p:inputText value="#{cartBean.donHang.phuongThucThanhToan}"
+                                         disabled="true" style="width: 220px"/>
+                        </td>
+                    </tr>
+                </table>
+                <hr/>
+                <div class="p-field" style="margin-left: 5px; margin-right: 5px">
+                    <p:outputLabel>Danh sách sản phẩm đặt:</p:outputLabel>
+                    <p:dataTable var="ctsp" style="width: 800px;" scrollable="true" scrollHeight="200"
+                                 value="#{cartBean.getChiTietDonHangs(cartBean.donHang.maDonDang)}">
+                        <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
+                            <p:outputLabel value="#{ctsp.sanPham.maSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 30%" headerText="Tên sản phẩm">
+                            <p:outputLabel value="#{ctsp.sanPham.tenSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Xuất xứ">
+                            <p:outputLabel value="#{ctsp.sanPham.xuatXu}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Đơn giá">
+                            <p:outputLabel value="#{ctsp.sanPham.donGia}"/>
+                        </p:column>
+                        <p:column style="width: 15%; text-align: center" headerText="Số lượng mua">
+                            <p:outputLabel value="#{ctsp.soLuong}"/>
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Thành tiền">
+                            <p:outputLabel value="#{ctsp.thanhTien}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <hr/>
+                <div class="p-field">
+                    <p:outputLabel for="sum" style="">Tổng tiền đơn hàng:</p:outputLabel>
+                    <p:inputText id="sum" disabled="true" style="font-size: 20px; width: 150px"
+                                 value="#{cartBean.donHang.thanhTien}"/>VNĐ
+                </div>
+                <br/>
+                <div class="p-field">
+                    <p:commandButton value="Xác nhận giao đơn hàng" action="#{cartBean.dangGiaoHang(cartBean.donHang)}"
+                                     rendered="#{cartBean.donHang.trangThai eq 'Chờ xác nhận'}"/>
+                    <p:commandButton value="Xác nhận hoàn tất" action="#{cartBean.daGiaoHang(cartBean.donHang)}"
+                                     rendered="#{cartBean.donHang.trangThai eq 'Đang giao hàng'}"/>
+                </div>
+            </p:outputPanel>
+            <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('details').hide()"
+                             styleClass="ui-button-danger" style="float: right"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

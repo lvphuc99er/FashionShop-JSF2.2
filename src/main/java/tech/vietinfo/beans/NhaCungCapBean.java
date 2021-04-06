@@ -2,10 +2,12 @@ package tech.vietinfo.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import tech.vietinfo.models.NhaCungCap;
 import tech.vietinfo.services.NhaCungCapService;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,15 +29,10 @@ public class NhaCungCapBean implements Serializable {
     private List<NhaCungCap> nhaCungCapList = new ArrayList<>();
 
     private NhaCungCap nhaCungCap;
-    private NhaCungCap selectedNhaCungCap;
 
     @PostConstruct
-    public void init() {
+    public void init(){
         nhaCungCap = new NhaCungCap();
-    }
-
-    public void initUpdate(int id) {
-        nhaCungCap = nhaCungCapService.find(id);
     }
 
     public List<NhaCungCap> getNhaCungCaps() {
@@ -48,18 +45,14 @@ public class NhaCungCapBean implements Serializable {
         return "smn_listsupplier?faces-redirect=true";
     }
 
-    public String deleteNhaCungCap(NhaCungCap ncc) {
-        nhaCungCapService.deleteNhaCungCap(ncc);
+    public String deleteNhaCungCap() {
+        nhaCungCapService.deleteNhaCungCap(nhaCungCap);
         return "smn_listsupplier?faces-redirect=true";
     }
 
     public String updateNhaCungCap() {
         nhaCungCapService.updateNhaCungCap(nhaCungCap);
         return "smn_listsupplier?faces-redirect=true";
-    }
-
-    public String nextPageUdate() {
-        return "smn_listsupplier_update?faces-redirect=true&includeViewParams=true";
     }
 
     public String nextPageCreate() {

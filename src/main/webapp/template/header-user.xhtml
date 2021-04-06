@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<ui:composition>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
     <h:graphicImage width="100%" value="images/ban.png"/>
     <h:form id="form">
         <p:growl id="message">
@@ -21,7 +17,7 @@
                 <f:facet name="options">
                     <p:inputText placeholder="Tìm kiếm..."/>
                     <p:commandButton style="width: 110px;font-size: 15px; margin-left: 5px" value="Giỏ hàng"
-                                     action="shoppingcart"/>
+                                     action="shoppingcart?faces-redirect=true"/>
                     <p:outputLabel value="Tài khoản: " style="margin-left: 5px;"/>
                     <p:outputLabel value="#{login.khachHang.tenKhachHang}" style="margin-right: 5px;" disabled="true"/>
                     <p:menuButton icon="pi pi-user" styleClass="rounded-button ui-button-info"
@@ -29,7 +25,8 @@
                         <p:menuitem value="Hồ sơ cá nhân" outcome="u_information"/>
                         <p:menuitem value="Đơn hàng" outcome="u_listorder"/>
                     </p:menuButton>
-                    <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất" oncomplete="PF('dlg1').show()"/>
+                    <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
+                                     oncomplete="PF('dlg1').show()"/>
                 </f:facet>
             </p:menubar>
         </p:growl>
@@ -38,10 +35,10 @@
         <p:dialog header="Đăng xuất !" widgetVar="dlg1" minHeight="40" width="300" showEffect="fade" modal="true">
             <p class="p-m-0">Nhấn "Xác nhận" để đăng xuất !</p>
             <f:facet name="footer">
-                <p:commandButton value="Xác nhận" action="#{login.logout}"/>
+                <p:commandButton value="Xác nhận" action="#{login.logout}" styleClass="ui-button-warning"/>
                 <p:commandButton value="Quay lại" onclick="PF('dlg1').hide()"/>
             </f:facet>
         </p:dialog>
     </h:form>
 </ui:composition>
-</html>
+

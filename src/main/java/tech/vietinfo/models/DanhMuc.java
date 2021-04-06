@@ -36,10 +36,6 @@ public class DanhMuc implements Serializable, Comparable<DanhMuc> {
         return tenDanhmuc.compareTo(o.tenDanhmuc);
     }
 
-    public DanhMuc(int maDanhMuc) {
-        this.maDanhMuc = maDanhMuc;
-    }
-
     @Override
     public String toString() {
         return "DanhMuc{" +

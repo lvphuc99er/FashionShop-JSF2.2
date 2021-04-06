@@ -1,39 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <h:form>
-                <p:dataView var="sp" value="#{sanPhamBean.sanPhams}" layout="grid" rows="6"
-                            gridIcon="pi pi-th-large" paginator="true">
-                    <p:dataViewGridItem>
-                        <p:panel header="#{sp.tenSanPham}" style="text-align:center">
-                            <p:panelGrid columns="2" style="width:100%;">
-                                <f:facet name="header">
-                                    <p:graphicImage value="images/#{sp.hinhAnh}"
-                                                    style="width: 300px; height: 300px"/><br/>
-                                    <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
-                                </f:facet>
-                                <p:commandButton value="Xem chi tiết" action="#{sanPhamBean.nextPageDetail}"
-                                                 actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}"
-                                                 process="@this" style="width: 180px"/>
-                                <p:commandButton value="Thêm vào giỏ hàng" action="#{cartBean.nextPageCart}"
-                                                 actionListener="#{cartBean.addToCart(sp)}" process="@this"
-                                                 styleClass="ui-button-success"/>
-                            </p:panelGrid>
-                        </p:panel>
-                    </p:dataViewGridItem>
-                </p:dataView>
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:param value="#{login.khachHang.maKhachHang}"/>
+        </f:metadata>
+        <h:form>
+            <p:dataView var="sp" value="#{sanPhamBean.sanPhams}" layout="grid" rows="6"
+                        gridIcon="pi pi-th-large" paginator="true">
+                <p:dataViewGridItem>
+                    <p:panel header="#{sp.tenSanPham}" style="text-align:center">
+                        <p:panelGrid columns="2" style="width:100%;">
+                            <f:facet name="header">
+                                <p:graphicImage value="images/#{sp.hinhAnh}"
+                                                style="width: 300px; height: 300px"/><br/>
+                                <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                            </f:facet>
+                            <p:commandButton value="Xem chi tiết" action="#{sanPhamBean.nextPageDetail}"
+                                             actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}"
+                                             process="@this" style="width: 180px"/>
+                            <p:commandButton value="Thêm vào giỏ hàng" styleClass="ui-button-success"
+                                             action="#{cartBean.addSanPhamVaoGioHang(sp.maSanPham,login.khachHang.maKhachHang)}"
+                                             rendered="#{sp.soLuongCoSan > 0 and sp.trangThai eq 'ĐANG BÁN'}"/>
+                            <p:commandButton value="Ngừng kinh doanh" disabled="true" styleClass="ui-button-secondary"
+                                             rendered="#{sp.trangThai eq 'NGỪNG KINH DOANH' or sp.soLuongCoSan == 0}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:dataViewGridItem>
+            </p:dataView>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

@@ -1,141 +1,127 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
-<h:head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <f:metadata>
-                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            </f:metadata>
-            <h2 align="center">DANH SÁCH KHÁCH HÀNG CỦA WEBSITE</h2>
-            <hr/>
-            <div>
-                <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
-                <p:commandButton value="Tìm kiếm"/>
-            </div>
-            <hr/>
-            <p:dataTable var="kh" value="#{khachHangBean.khachHangs}">
-                <p:column style="width: 5%; text-align: center" headerText="Mã">
-                    <h:outputText value="#{kh.maKhachHang}"/>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <h2 align="center">DANH SÁCH KHÁCH HÀNG CỦA WEBSITE</h2>
+        <hr/>
+        <div>
+            <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
+            <p:commandButton value="Tìm kiếm"/>
+        </div>
+        <hr/>
+        <h:form id="formInfor">
+            <p:dataTable var="kh" value="#{khachHangBean.khachHangs}" autoUpdate="true">
+                <p:column style="width: 4%; text-align: center" headerText="Mã">
+                    <p:outputLabel value="#{kh.maKhachHang}"/>
                 </p:column>
                 <p:column style="width: 15%" headerText="Tên khách hàng">
-                    <h:outputText value="#{kh.tenKhachHang}"/>
+                    <p:outputLabel value="#{kh.tenKhachHang}"/>
                 </p:column>
                 <p:column style="width: 8%" headerText="Ngày sinh">
-                    <h:outputText value="#{kh.ngaySinh}"/>
+                    <p:outputLabel value="#{kh.ngaySinh}"/>
                 </p:column>
-                <p:column style="width: 5%;text-align: center" headerText="Giới tính">
-                    <h:outputText value="#{kh.gioiTinh}"/>
+                <p:column style="width: 8%;text-align: center" headerText="Giới tính">
+                    <p:outputLabel value="#{kh.gioiTinh}"/>
                 </p:column>
                 <p:column style="width: 20%" headerText="Địa chỉ">
-                    <h:outputText value="#{kh.diaChi_KH}"/>
+                    <p:outputLabel value="#{kh.diaChi}"/>
                 </p:column>
-                <p:column style="width: 9%" headerText="Số điện thoại">
-                    <h:outputText value="#{kh.soDienThoai_KH}"/>
+                <p:column style="width: 10%" headerText="Số điện thoại">
+                    <p:outputLabel value="#{kh.soDienThoai}"/>
                 </p:column>
                 <p:column style="width: 17%" headerText="Email">
-                    <h:outputText value="#{kh.email_KH}"/>
+                    <p:outputLabel value="#{kh.email}"/>
                 </p:column>
-                <p:column style="width: 11%; text-align: center" headerText="Trạng thái">
-                    <h:outputText value="#{kh.trangThai}"/>
+                <p:column style="width: 8%; text-align: center" headerText="Trạng thái">
+                    <p:outputLabel value="#{kh.trangThai}"/>
                 </p:column>
-                <p:column style="width: 16%; text-align: center" headerText="">
-                    <p:commandButton value="Xem chi tiết" style="margin-left: 5px" update="manage-user-content"
-                                     oncomplete="PF('details').show()">
+                <p:column style="width: 10%; text-align: center" headerText="">
+                    <p:commandButton icon="pi pi-search" style="margin-left: 5px" update="manage-user-content"
+                                     oncomplete="PF('details').show()" styleClass="ui-button-success">
                         <f:setPropertyActionListener value="#{kh}" target="#{khachHangBean.selectedKhachHang}"/>
                     </p:commandButton>
-
                 </p:column>
             </p:dataTable>
+        </h:form>
 
-            <!--dialog xem chi tiết khách hàng-->
-            <p:dialog header="Chi tiết khách hàng" showEffect="fade" modal="true"
-                      widgetVar="details" hideEffect="fade" resizable="false">
-                <p:outputPanel id="manage-user-content" class="ui-fluid">
-                    <p:outputPanel rendered="#{not empty khachHangBean.selectedKhachHang}">
-                        <div class="p-field">
-                            <p:outputLabel for="makh">Mã khách hàng:</p:outputLabel>
-                            <p:inputText id="makh" disabled="true"
-                                         value="#{khachHangBean.selectedKhachHang.maKhachHang}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="ten">Tên khách hàng:</p:outputLabel>
-                            <p:inputText type="ten" id="ten" disabled="true"
-                                         value="#{khachHangBean.selectedKhachHang.tenKhachHang}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="ns">Ngày sinh:</p:outputLabel>
-                            <p:inputText id="ns" disabled="true"
-                                         value="#{khachHangBean.selectedKhachHang.ngaySinh}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="gt">Giới tính:</p:outputLabel>
-                            <p:inputText id="gt" disabled="true"
-                                         value="#{khachHangBean.selectedKhachHang.gioiTinh}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="sdt">Số điện thoại:</p:outputLabel>
-                            <p:inputText id="sdt" disabled="true"
-                                         value="#{khachHangBean.selectedKhachHang.soDienThoai_KH}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="dc">Địa chỉ:</p:outputLabel>
-                            <p:inputText id="dc" disabled="true" value="#{khachHangBean.selectedKhachHang.diaChi_KH}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="em">Email:</p:outputLabel>
-                            <p:inputText id="em" disabled="true" value="#{khachHangBean.selectedKhachHang.email_KH}"/>
-                        </div>
-                    </p:outputPanel>
-                </p:outputPanel>
-                <f:facet name="footer">
-                    <p:commandButton value="Đóng" onclick="PF('details').hide()"
-                                     class="ui-button-danger" style="margin-right: 10px"/>
-                    <c:set var="check" scope="session"
-                           value="${khachHangBean.checkTrangThai(khachHangBean.selectedKhachHang)}"/>
-                    <c:if test="${check==1}">
-                        <p:commandButton value="Khóa tài khoản" oncomplete="PF('pmKhoa').show()"
-                                         class="ui-button-danger"/>
-                    </c:if>
-                    <c:if test="${check==0}">
-                        <p:commandButton value="Mở tài khoản" oncomplete="PF('pmMo').show()"
-                                         class="ui-button-success"/>
-                    </c:if>
-                </f:facet>
-            </p:dialog>
+        <!--dialog xem chi tiết khách hàng-->
+        <p:dialog header="Chi tiết khách hàng" showEffect="fade" modal="true"
+                  widgetVar="details" hideEffect="fade" resizable="false" width="600">
+            <p:outputPanel id="manage-user-content" class="ui-fluid">
+                <div class="p-field">
+                    <p:outputLabel for="makh">Mã khách hàng:</p:outputLabel>
+                    <p:inputText id="makh" disabled="true" value="#{khachHangBean.selectedKhachHang.maKhachHang}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="ten">Tên khách hàng:</p:outputLabel>
+                    <p:inputText id="ten" disabled="true" value="#{khachHangBean.selectedKhachHang.tenKhachHang}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="ns">Ngày sinh:</p:outputLabel>
+                    <p:inputText id="ns" disabled="true"
+                                 value="#{khachHangBean.selectedKhachHang.ngaySinh}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="gt">Giới tính:</p:outputLabel>
+                    <p:inputText id="gt" disabled="true" value="#{khachHangBean.selectedKhachHang.gioiTinh}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="sdt">Số điện thoại:</p:outputLabel>
+                    <p:inputText id="sdt" disabled="true" value="#{khachHangBean.selectedKhachHang.soDienThoai}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="dc">Địa chỉ:</p:outputLabel>
+                    <p:inputText id="dc" disabled="true" value="#{khachHangBean.selectedKhachHang.diaChi}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="em">Email:</p:outputLabel>
+                    <p:inputText id="em" disabled="true" value="#{khachHangBean.selectedKhachHang.email}"/>
+                </div>
+                <br/>
+                <div class="p-field">
+                    <p:commandButton value="Khóa tài khoản" oncomplete="PF('pmKhoa').show()" class="ui-button-danger"
+                                     rendered="#{khachHangBean.selectedKhachHang.trangThai eq 'CHO PHÉP'}"
+                                     style="margin-bottom: 5px"/>
+                    <p:commandButton value="Mở tài khoản" oncomplete="PF('pmMo').show()" class="ui-button-success"
+                                     rendered="#{khachHangBean.selectedKhachHang.trangThai eq 'KHÓA'}"/>
+                </div>
+            </p:outputPanel>
+            <f:facet name="footer">
+                <p:commandButton value="Đóng" onclick="PF('details').hide()" class="ui-button-danger"
+                                 style="margin-right: 10px"/>
+            </f:facet>
+        </p:dialog>
 
-            <!--dialog khóa tài khoản-->
-            <p:dialog header="Xác nhận" widgetVar="pmKhoa" minHeight="40" width="300" showEffect="fade"
-                      modal="true">
-                <p class="p-m-0">Chắc chắn khóa tài khách hàng ? Khách hàng sẽ được thông báo tài khoản
-                    đã bị khóa và không thể đăng nhập.</p>
-                <f:facet name="footer">
-                    <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                     action="#{khachHangBean.lockKhachHang(khachHangBean.selectedKhachHang,'KHÓA')}"/>
-                    <p:commandButton value="Bỏ qua" onclick="PF('pm').hide()"/>
-                </f:facet>
-            </p:dialog>
+        <!--dialog khóa tài khoản-->
+        <p:dialog header="Xác nhận" widgetVar="pmKhoa" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn khóa tài khách hàng ? Khách hàng sẽ được thông báo tài khoản
+                đã bị khóa và không thể đăng nhập.</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 action="#{khachHangBean.lockKhachHang(khachHangBean.selectedKhachHang,'KHÓA')}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('pmKhoa').hide()"/>
+            </f:facet>
+        </p:dialog>
 
-            <!--dialog mở tài khoản-->
-            <p:dialog header="Xác nhận" widgetVar="pmMo" minHeight="40" width="300" showEffect="fade"
-                      modal="true">
-                <p class="p-m-0">Chắc chắn mở khóa tài khách hàng ? Khách hàng sẽ được có thể
-                    đăng nhập lại bằng tài khoản này.</p>
-                <f:facet name="footer">
-                    <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                     action="#{khachHangBean.lockKhachHang(khachHangBean.selectedKhachHang,'CHO PHÉP')}"/>
-                    <p:commandButton value="Bỏ qua" onclick="PF('pmMo').hide()"/>
-                </f:facet>
-            </p:dialog>
+        <!--dialog mở tài khoản-->
+        <p:dialog header="Xác nhận" widgetVar="pmMo" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn mở khóa tài khách hàng ? Khách hàng sẽ được có thể
+                đăng nhập lại bằng tài khoản này.</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 action="#{khachHangBean.lockKhachHang(khachHangBean.selectedKhachHang,'CHO PHÉP')}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('pmMo').hide()"/>
+            </f:facet>
+        </p:dialog>
 
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+    </ui:define>
+</ui:composition>

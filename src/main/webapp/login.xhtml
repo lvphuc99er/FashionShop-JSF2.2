@@ -1,42 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <div class="login" style="margin-left: 300px;">
-                <h1>ĐĂNG NHẬP</h1>
-                <h:form method="post">
-                    <table cellspacing="10px">
-                        <tr>
-                            <td><p:outputLabel value="Tên tài khoản: "/></td>
-                            <td><p:inputText id="tenTaiKhoan" value="#{login.username}" placeholder="Nhập số điện thoại..."/></td>
-                            <td><h:message for="tenTaiKhoan" style="color: red"/></td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Mật khẩu: "/></td>
-                            <td><p:inputText id="matKhau" value="#{login.password}" placeholder="Nhập mật khẩu..."/></td>
-                            <td><h:message for="matKhau" style="color: red"/></td>
-                        </tr>
-                    </table>
-                    <p:selectBooleanCheckbox id="ghiNhoMatKhau" value="true" itemLabel="Ghi nhớ mật khẩu"
-                                             style="margin-left: 11px;"/><br/>
-                    <p:commandButton id="buttonDangNhap" value="Đăng nhập" action="#{login.validateLogin}"
-                                     style="margin-left: 122px;"/><br/><br/>
-                    <p:link value="Quên mật khẩu?" style="font-size: 18px"/>
-                    <p:outputLabel value="&ensp;hoặc chưa có tài khoản&ensp;" style="font-size: 15px"/>
-                    <p:link value="Nhấn vào đây để đăng ký" outcome="register" style="font-size: 18px"/>
-                </h:form>
-            </div>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <div class="login" style="margin-left: 300px;">
+            <h1>ĐĂNG NHẬP</h1>
+            <h:form method="post">
+                <table cellspacing="10px">
+                    <tr>
+                        <td><p:outputLabel value="Tên tài khoản: "/></td>
+                        <td><p:inputText id="tenTaiKhoan" value="#{login.username}"
+                                         placeholder="Nhập số điện thoại..."/></td>
+                        <td><h:message for="tenTaiKhoan" style="color: red"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Mật khẩu: "/></td>
+                        <td><p:password id="matKhau" value="#{login.password}" placeholder="Nhập mật khẩu..."
+                                        toggleMask="true" redisplay="true" style="width: 196px"/></td>
+                        <td><h:message for="matKhau" style="color: red"/></td>
+                    </tr>
+                </table>
+                <p:selectBooleanCheckbox id="ghiNhoMatKhau" value="true" itemLabel="Ghi nhớ mật khẩu"
+                                         style="margin-left: 11px;"/><br/>
+                <p:commandButton id="buttonDangNhap" value="Đăng nhập" action="#{login.validateLogin}"
+                                 style="margin-left: 122px;"/><br/><br/>
+
+                <p:link value="Quên mật khẩu?" style="font-size: 18px"/>
+                <p:outputLabel value="  hoặc chưa có tài khoản  " style="font-size: 15px"/>
+                <p:link value="Nhấn vào đây để đăng ký" outcome="register" style="font-size: 18px"/>
+            </h:form>
+
+            <!--dialog thông báo tài khoản đã bị khóa-->
+        </div>
+    </ui:define>
+</ui:composition>
+

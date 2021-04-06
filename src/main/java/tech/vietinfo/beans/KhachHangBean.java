@@ -2,7 +2,9 @@ package tech.vietinfo.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import tech.vietinfo.models.GioHang;
 import tech.vietinfo.models.KhachHang;
+import tech.vietinfo.services.GioHangService;
 import tech.vietinfo.services.KhachHangService;
 
 import javax.annotation.PostConstruct;
@@ -25,13 +27,17 @@ public class KhachHangBean implements Serializable {
     private KhachHangService khachHangService;
 
     private List<KhachHang> khachHangList = new ArrayList<>();
-
     private KhachHang khachHang;
     private KhachHang selectedKhachHang;
+
+    @Inject
+    private GioHangService gioHangService;
+    private GioHang gioHang;
 
     @PostConstruct
     public void init() {
         khachHang = new KhachHang();
+        gioHang = new GioHang();
     }
 
     public List<KhachHang> getKhachHangs() {
@@ -41,6 +47,8 @@ public class KhachHangBean implements Serializable {
 
     public String addKhachHang() {
         khachHangService.addKhachHang(khachHang);
+        gioHang.setKhachHang(khachHang);
+        gioHangService.addGioHang(gioHang);
         return "";
     }
 
@@ -50,12 +58,4 @@ public class KhachHangBean implements Serializable {
         khachHangService.updateKhachHang(selectedKhachHang);
         return "umn_listuser?faces-redirect=true";
     }
-
-    public int checkTrangThai(KhachHang kh){
-        if(kh.getTrangThai().equals("KHÓA")){
-            return 0;
-        }
-        return 1;
-    }
-//    private String strKhoa = "LƯỢNG";
 }

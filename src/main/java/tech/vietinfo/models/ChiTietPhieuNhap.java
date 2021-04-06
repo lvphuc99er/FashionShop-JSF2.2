@@ -13,7 +13,6 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class ChiTietPhieuNhap implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +30,6 @@ public class ChiTietPhieuNhap implements Serializable {
     @Column(name = "soLuongNhap")
     private int soLuongNhap;
 
-    @Column(name = "thanhTien_SP")
-    private double thanhTien_SP;
+    @Column(name = "thanhTien")
+    private double thanhTien;
 }

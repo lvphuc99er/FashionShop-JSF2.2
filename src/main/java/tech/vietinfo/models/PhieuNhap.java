@@ -29,8 +29,8 @@ public class PhieuNhap implements Serializable {
     @JoinColumn(name = "maNhaCungCap",referencedColumnName = "maNhaCungCap")
     private NhaCungCap nhaCungCap;
 
-    @Column(name = "thanhTien_PN")
-    private double thanhTien_PN;
+    @Column(name = "thanhTien")
+    private double thanhTien;
 
     @OneToMany(mappedBy = "phieuNhap", fetch = FetchType.LAZY)
     private List<ChiTietPhieuNhap> chiTietPhieuNhapList;

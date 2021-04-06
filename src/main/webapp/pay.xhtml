@@ -1,46 +1,132 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <p:linkButton value="Quay lại giỏ hàng" outcome="shoppingcart"/>
-            <hr/>
-            <h3 align="center">TIẾN HÀNH THANH TOÁN ĐƠN HÀNG</h3>
-            <hr/>
-            <div class="create" style="margin-left: 300px;">
-                <h:form method="post">
-                    <table cellspacing="10px">
-                        <tr>
-                            <td><p:outputLabel value="Tên khách hàng: "/></td>
-                            <td><p:inputText value="Nguyễn Văn A"/></td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Ngày lập: "/></td>
-                            <td><p:inputText value="25-03-2021"/></td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Danh sách sản phẩm: "/></td>
-                            <td><p:outputLabel value="Chi tiết các sản phẩm"/> </td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Thành tiền: "/></td>
-                            <td>
-                                <p:inputText value="1000000"/>
-                                <p:outputLabel value="VNĐ"/>
-                            </td>
-                        </tr>
-                    </table>
-                </h:form>
-            </div>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <p:commandButton value="Quay lại giỏ hàng" action="shoppingcart?faces-redirect=true"/>
+        <hr/>
+        <h3 align="center">TIẾN HÀNH THANH TOÁN ĐƠN HÀNG</h3>
+        <hr/>
+        <div class="create" style="margin-left: 50px; margin-right: 50px">
+            <h:form>
+                <div class="card">
+                    <p:growl id="diachi" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                    <p:fieldset legend="Người nhận">
+                        <table cellpadding="10px">
+                            <tr>
+                                <td><p:outputLabel value="Địa chỉ nhận hàng: "/></td>
+                                <td>
+                                    <p:inputText value="#{cartBean.donHang.tenNguoiNhan}"
+                                                 placeholder="Người nhận..."/>
+                                    <p:inputText value="#{cartBean.donHang.sdtNguoiNhan}"
+                                                 placeholder="Số điện thoại..."/>
+                                    <p:inputText value="#{cartBean.donHang.diaChiNguoiNhan}" style="width: 600px"
+                                                 placeholder="Địa chỉ nhận hàng..."/>
+                                    <p:commandButton value="Thay đổi" styleClass="ui-button-flat"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p:outputLabel value="Ngày đặt hàng:"/></td>
+                                <td>
+                                    <p:inputText disabled="true"
+                                                 value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy')}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:fieldset>
+                </div>
+                <br/>
+
+                <div class="card">
+                    <p:growl id="thanhtoan" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                    <p:fieldset legend="Thanh toán">
+                        <table cellpadding="10px">
+                            <tr>
+                                <td><p:outputLabel value="Phương thức thanh toán:"/></td>
+                                <td>
+                                    <p:selectOneRadio value="#{cartBean.donHang.phuongThucThanhToan}">
+                                        <f:selectItem itemLabel="Thanh toán khi nhận hàng"
+                                                      itemValue="Thanh toán khi nhận hàng"/>
+                                        <f:selectItem itemLabel="Thẻ tín dụng/ghi nợ" itemValue="Thẻ tín dụng/ghi nợ"/>
+                                    </p:selectOneRadio>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p:outputLabel value="Đơn vị vận chuyển:"/></td>
+                                <td>
+                                    <p:outputLabel value="Nhân viên LIVE LOUNGE"/>
+                                    <i style="color: dimgray">(Thời gian giao hàng từ 2 - 3 ngày)</i>
+                                </td>
+                                <td>
+                                    <p:commandButton value="Chọn đơn vị vận chuyển" styleClass="ui-button-flat"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p:outputLabel value="Nhận hàng dự kiến trước: "/></td>
+                                <td><p:inputText disabled="true"
+                                                 value="#{of:formatDate(cartBean.ngayDatHang.plusDays(3), 'dd/MM/yyyy')}">
+
+                                </p:inputText></td>
+                            </tr>
+                        </table>
+                    </p:fieldset>
+                </div>
+                <br/>
+                <div class="card">
+                    <p:growl id="sanpham" showDetail="true" skipDetailIfEqualsSummary="true"/>
+                    <p:fieldset legend="Sản phẩm">
+                        <p:dataTable var="sp" value="#{cartBean.getChiTietGioHangs(login.khachHang.maKhachHang)}">
+                            <p:column style="width: 11%" headerText="Hình ảnh">
+                                <p:graphicImage value="images/#{sp.sanPham.hinhAnh}"
+                                                style="width: 100px; height: 100px"/>
+                            </p:column>
+                            <p:column style="width: 21%" headerText="Tên sản phẩm">
+                                <h:outputText value="#{sp.sanPham.tenSanPham}"/>
+                            </p:column>
+                            <p:column style="width: 9%; text-align: center" headerText="Số lượng mua">
+                                <h:outputText value="#{sp.soLuong}"/>
+                            </p:column>
+                            <p:column style="width: 9%" headerText="Đơn giá">
+                                <h:outputText value="#{sp.sanPham.donGia}"/>
+                            </p:column>
+                            <p:column style="width: 9%" headerText="Thành tiền">
+                                <h:outputText value="#{sp.sanPham.donGia * sp.soLuong}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:fieldset>
+                </div>
+                <br/>
+
+                <table style="margin-left: 72%" cellpadding="10px">
+                    <tr>
+                        <td><p:outputLabel value="Tổng tiền hàng: "/></td>
+                        <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{cartBean.totalSanPham()}"/>
+                        </td>
+                        <td><p:outputLabel value="VNĐ"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Phí vận chuyển: "/></td>
+                        <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{cartBean.SHIPCOST}"/></td>
+                        <td><p:outputLabel value="VNĐ"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Tổng thanh toán: "/></td>
+                        <td><b><p:outputLabel disabled="true" value="#{cartBean.totalDonHang()}"
+                                              style="font-size: 28px; color: orangered;"/></b></td>
+                        <td><p:outputLabel value="VNĐ"/></td>
+                    </tr>
+                </table>
+                <p:commandButton styleClass="ui-button-warning" style="margin-left: 73%; width: 200px"
+                                 value="Đặt hàng" action="#{cartBean.addDonHang(login.khachHang)}"/>
+            </h:form>
+        </div>
+
+    </ui:define>
+</ui:composition>
+

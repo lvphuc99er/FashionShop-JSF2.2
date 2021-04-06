@@ -1,54 +1,49 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <f:metadata>
-                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            </f:metadata>
-            <p:linkButton value="Quay lại trang danh sách" outcome="smn_listsupplier"/><hr/>
-            <h2 align="center">THÊM NHÀ CUNG CẤP MỚI</h2><hr/>
-            <div class="create" style="margin-left: 300px;">
-                <h:form method="post">
-                    <table cellspacing="10px">
-                        <tr>
-                            <td><p:outputLabel value="Tên nhà cung cấp: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}" style="width: 800px;"
-                                             id="tenncc" placeholder="Nhập tên nhà cung cấp..."/></td>
-                            <td><h:message for="tenncc" style="color: red"/></td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Địa chỉ: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.diaChi_NCC}" style="width: 800px;"
-                                             id="diachincc" placeholder="Nhập địa chỉ..."/></td>
-                            <td><h:message for="diachincc" style="color: red"/></td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Số điện thoại: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.soDienThoai_NCC}" style="width: 800px;"
-                                             id="sdtncc" placeholder="Nhập số điện thoại..."/></td>
-                            <td><h:message for="sdtncc" style="color: red"/></td>
-                        </tr>
-                        <tr>
-                            <td><p:outputLabel value="Email: "/></td>
-                            <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.email_NCC}" style="width: 800px;"
-                                             id="emailncc" placeholder="Nhập email..."/></td>
-                            <td><h:message for="emailncc" style="color: red"/></td>
-                        </tr>
-                    </table>
-                    <p:commandButton value="Xác nhận" action="#{nhaCungCapBean.addNhaCungCap}"
-                                     style="margin-left: 153px;"/>
-                </h:form>
-            </div>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <p:linkButton value="Quay lại trang danh sách" outcome="smn_listsupplier"/>
+        <hr/>
+        <h2 align="center">THÊM NHÀ CUNG CẤP MỚI</h2>
+        <hr/>
+        <div class="create" style="margin-left: 300px;">
+            <h:form method="post">
+                <table cellspacing="10px">
+                    <tr>
+                        <td><p:outputLabel value="Tên nhà cung cấp: "/></td>
+                        <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}" style="width: 800px;"
+                                         id="tenncc" placeholder="Nhập tên nhà cung cấp..."/></td>
+                        <td><h:message for="tenncc" style="color: red"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Địa chỉ: "/></td>
+                        <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.diaChi}" style="width: 800px;"
+                                         id="diachincc" placeholder="Nhập địa chỉ..."/></td>
+                        <td><h:message for="diachincc" style="color: red"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Số điện thoại: "/></td>
+                        <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.soDienThoai}" style="width: 800px;"
+                                         id="sdtncc" placeholder="Nhập số điện thoại..."/></td>
+                        <td><h:message for="sdtncc" style="color: red"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Email: "/></td>
+                        <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.email}" style="width: 800px;"
+                                         id="emailncc" placeholder="Nhập email..."/></td>
+                        <td><h:message for="emailncc" style="color: red"/></td>
+                    </tr>
+                </table>
+                <p:commandButton value="Xác nhận" action="#{nhaCungCapBean.addNhaCungCap}"
+                                 style="margin-left: 153px;"/>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+

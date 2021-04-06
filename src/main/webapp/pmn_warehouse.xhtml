@@ -1,110 +1,101 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <f:metadata>
-                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            </f:metadata>
-            <h3 align="center">QUẢN LÝ NHẬP KHO</h3>
-            <hr/>
-            <div>
-                <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
-                <p:commandButton value="Tìm kiếm"/>
-            </div>
-            <hr/>
-            <h1>PHIẾU NHẬP HÀNG</h1>
-            <p:commandButton value="Tạo phiếu nhập" action="#{quanLyNhapKhoBean.nextPageCreate}"/>
-            <p:dataTable var="pn" value="#{quanLyNhapKhoBean.phieuNhaps}" style="margin-left: 90px; margin-right: 90px">
-                <p:column style="width: 10%; text-align: center" headerText="Mã phiếu nhập">
-                    <h:outputText value="#{pn.maPhieuNhap}"/>
-                </p:column>
-                <p:column style="width: 15%" headerText="Ngày lập phiếu">
-                    <h:outputText value="#{pn.ngayLapPhieu}"/>
-                </p:column>
-                <p:column style="width: 25%" headerText="Nhà cung cấp">
-                    <h:outputText value="#{pn.nhaCungCap.tenNhaCungCap}"/>
-                </p:column>
-                <p:column style="width: 15%;text-align: center" headerText="Tổng tiền (VNĐ)">
-                    <h:outputText value="#{pn.thanhTien_PN}"/>
-                </p:column>
-                <p:column style="width: 15%" headerText="">
-                    <p:commandButton icon="pi pi-search" styleClass="rounded-button ui-button-success"
-                                     style="margin-right: 5px" update="manage-warehouse-content"
-                                     oncomplete="PF('details').show()" >
-                        <f:setPropertyActionListener value="#{pn}"
-                                                     target="#{quanLyNhapKhoBean.selectedPhieuNhap}"/>
-                    </p:commandButton>
-                    <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger"
-                                     action="#{quanLyNhapKhoBean.deletePhieuNhap(pn)}"/>
-                </p:column>
-            </p:dataTable>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <h3 align="center">QUẢN LÝ NHẬP KHO</h3>
+        <hr/>
+        <div>
+            <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
+            <p:commandButton value="Tìm kiếm"/>
+        </div>
+        <hr/>
+        <h1>PHIẾU NHẬP HÀNG</h1>
+        <p:commandButton value="Tạo phiếu nhập" action="#{quanLyNhapKhoBean.nextPageCreate}"/>
+        <p:dataTable var="pn" value="#{quanLyNhapKhoBean.phieuNhaps}" style="margin-left: 90px; margin-right: 90px">
+            <p:column style="width: 10%; text-align: center" headerText="Mã phiếu nhập">
+                <p:outputLabel value="#{pn.maPhieuNhap}"/>
+            </p:column>
+            <p:column style="width: 15%" headerText="Ngày lập phiếu">
+                <p:outputLabel value="#{pn.ngayLapPhieu}"/>
+            </p:column>
+            <p:column style="width: 25%" headerText="Nhà cung cấp">
+                <p:outputLabel value="#{pn.nhaCungCap.tenNhaCungCap}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Tổng tiền (VNĐ)">
+                <p:outputLabel value="#{pn.thanhTien}"/>
+            </p:column>
+            <p:column style="width: 15%" headerText="">
+                <p:commandButton icon="pi pi-search" styleClass="rounded-button ui-button-success"
+                                 style="margin-right: 5px" update="manage-warehouse-content"
+                                 oncomplete="PF('details').show()">
+                    <f:setPropertyActionListener value="#{pn}" target="#{quanLyNhapKhoBean.selectedPhieuNhap}"/>
+                </p:commandButton>
+                <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger"
+                                 action="#{quanLyNhapKhoBean.deletePhieuNhap(pn)}"/>
+            </p:column>
+        </p:dataTable>
 
-            <!--dialog chi tiết phiếu nhập-->
-            <p:dialog header="Chi tiết phiếu nhập" showEffect="fade" modal="true"
-                      widgetVar="details" hideEffect="fade" resizable="false">
-                <p:outputPanel id="manage-warehouse-content" class="ui-fluid">
-                    <p:outputPanel rendered="#{not empty quanLyNhapKhoBean.selectedPhieuNhap}">
-                        <div class="p-field">
-                            <p:outputLabel for="mapn">Mã phiếu nhập:</p:outputLabel>
-                            <p:inputText id="mapn" disabled="true"
-                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.maPhieuNhap}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="day">Ngày nhập - Lập phiếu:</p:outputLabel>
-                            <p:inputText type="date" id="day" disabled="true"
-                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.ngayLapPhieu}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="ncc">Nhà cung cấp:</p:outputLabel>
-                            <p:inputText id="ncc" disabled="true"
-                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.nhaCungCap.tenNhaCungCap}"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel>Danh sách sản phẩm nhập:</p:outputLabel>
-                            <p:dataTable var="ctsp" style="width: 800px"
-                                         value="#{quanLyNhapKhoBean.getChiTietPhieuNhaps(quanLyNhapKhoBean.selectedPhieuNhap.maPhieuNhap)}">
-                                <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
-                                    <p:outputLabel value="#{ctsp.sanPham.maSanPham}"/>
-                                </p:column>
-                                <p:column style="width: 30%" headerText="Tên sản phẩm">
-                                    <p:outputLabel value="#{ctsp.sanPham.tenSanPham}"/>
-                                </p:column>
-                                <p:column style="width: 10%" headerText="Xuất xứ">
-                                    <p:outputLabel value="#{ctsp.sanPham.xuatXu}"/>
-                                </p:column>
-                                <p:column style="width: 10%" headerText="Đơn giá">
-                                    <p:outputLabel value="#{ctsp.sanPham.donGia}"/>
-                                </p:column>
-                                <p:column style="width: 15%; text-align: center" headerText="Số lượng nhập">
-                                    <p:outputLabel value="#{ctsp.soLuongNhap}"/>
-                                </p:column>
-                                <p:column style="width: 20%" headerText="Thành tiền">
-                                    <p:outputLabel value="#{ctsp.thanhTien_SP}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="sum" style="">Tổng tiền nhập:</p:outputLabel>
-                            <p:inputText id="sum" disabled="true" style="font-size: 20px; width: 150px"
-                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.thanhTien_PN}"/>VNĐ
-                        </div>
-                    </p:outputPanel>
-                </p:outputPanel>
-                <f:facet name="footer">
-                    <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('details').hide()"
-                                     class="ui-button-danger"/>
-                </f:facet>
-            </p:dialog>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+        <!--dialog chi tiết phiếu nhập-->
+        <p:dialog header="Chi tiết phiếu nhập" showEffect="fade" modal="true"
+                  widgetVar="details" hideEffect="fade" resizable="false">
+            <p:outputPanel id="manage-warehouse-content" class="ui-fluid">
+                <table cellpadding="5px">
+                    <tr>
+                        <td><p:outputLabel for="mapn" value="Mã phiếu nhập"/> </td>
+                        <td><p:inputText id="mapn" disabled="true" style="width: 300px"
+                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.maPhieuNhap}"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="day" value="Ngày nhập - Lập phiếu:"/></td>
+                        <td><p:inputText type="date" id="day" disabled="true" style="width: 300px"
+                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.ngayLapPhieu}"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel for="ncc" value="Nhà cung cấp:"/></td>
+                        <td><p:inputText id="ncc" disabled="true" style="width: 300px"
+                                         value="#{quanLyNhapKhoBean.selectedPhieuNhap.nhaCungCap.tenNhaCungCap}"/></td>
+                    </tr>
+                </table>
+                <div class="p-field">
+                    <p:outputLabel>Danh sách sản phẩm nhập:</p:outputLabel>
+                    <p:dataTable var="ctsp" style="width: 800px" scrollable="true" scrollHeight="240"
+                                 value="#{quanLyNhapKhoBean.getChiTietPhieuNhaps(quanLyNhapKhoBean.selectedPhieuNhap.maPhieuNhap)}">
+                        <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
+                            <p:outputLabel value="#{ctsp.sanPham.maSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 30%" headerText="Tên sản phẩm">
+                            <p:outputLabel value="#{ctsp.sanPham.tenSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Xuất xứ">
+                            <p:outputLabel value="#{ctsp.sanPham.xuatXu}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Đơn giá">
+                            <p:outputLabel value="#{ctsp.sanPham.donGia}"/>
+                        </p:column>
+                        <p:column style="width: 15%; text-align: center" headerText="Số lượng nhập">
+                            <p:outputLabel value="#{ctsp.soLuongNhap}"/>
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Thành tiền">
+                            <p:outputLabel value="#{ctsp.thanhTien}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel value="Tổng tiền nhập: "/>
+                    <p:inputText disabled="true" style="font-size: 20px; width: 150px"
+                                 value="#{quanLyNhapKhoBean.selectedPhieuNhap.thanhTien}"/>VNĐ
+                </div>
+            </p:outputPanel>
+            <f:facet name="footer">
+                <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('details').hide()"
+                                 class="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

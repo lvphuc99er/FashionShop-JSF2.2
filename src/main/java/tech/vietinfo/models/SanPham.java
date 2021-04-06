@@ -50,8 +50,11 @@ public class SanPham implements Serializable {
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
     private List<ChiTietPhieuNhap> chiTietPhieuNhap;
 
-    @OneToMany(mappedBy = "sanPham_DH", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
     private List<ChiTietDonHang> chiTietDonHangList;
+
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    private List<ChiTietGioHang> chiTietGioHangList;
 
     @Override
     public String toString() {

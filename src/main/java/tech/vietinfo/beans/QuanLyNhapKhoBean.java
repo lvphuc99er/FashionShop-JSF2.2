@@ -44,8 +44,8 @@ public class QuanLyNhapKhoBean implements Serializable {
     private ChiTietPhieuNhap chiTietPhieuNhap;
 
     private int sl;
-    private int ma_sp;
-    private int ma_ncc;
+    private int maSP;
+    private int maNCC;
     private SanPham selectedSanPham;
     private NhaCungCap selectedNhaCungCap;
 
@@ -69,9 +69,9 @@ public class QuanLyNhapKhoBean implements Serializable {
 
     //    thêm mới phiếu nhập - chi tiết sản phẩm, cập nhật số lượng sau khi nhập của sản phẩm
     public String addPhieuNhap() {
-        selectedNhaCungCap = nhaCungCapService.find(ma_ncc);
+        selectedNhaCungCap = nhaCungCapService.find(maNCC);
         phieuNhap.setNhaCungCap(selectedNhaCungCap);
-        phieuNhap.setThanhTien_PN(total());
+        phieuNhap.setThanhTien(total());
         quanLyNhapKhoService.addPhieuNhap(phieuNhap);
 
         for (Item it : itemList) {
@@ -79,7 +79,7 @@ public class QuanLyNhapKhoBean implements Serializable {
             ct.setSanPham(it.getSanPham());
             ct.setSoLuongNhap(it.getQuantity());
             ct.setPhieuNhap(phieuNhap);
-            ct.setThanhTien_SP(it.getQuantity() * it.getSanPham().getDonGia());
+            ct.setThanhTien(it.getQuantity() * it.getSanPham().getDonGia());
             quanLyNhapKhoService.addChiTietPhieuNhap(ct);
 
             selectedSanPham = sanPhamService.find(it.getSanPham().getMaSanPham());
@@ -91,7 +91,7 @@ public class QuanLyNhapKhoBean implements Serializable {
     }
 
     public List<Item> getItems() {
-        selectedSanPham = sanPhamService.find(ma_sp);
+        selectedSanPham = sanPhamService.find(maSP);
         int i = exists(selectedSanPham);
         if (i == -1) {
             item = new Item(selectedSanPham, sl);

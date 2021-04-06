@@ -1,89 +1,74 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</h:head>
-<h:body>
-    <ui:composition template="template/lnf-template.xhtml">
-        <ui:define name="body">
-            <f:metadata>
-                <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            </f:metadata>
-            <div class="card">
-                <h:form>
-                    <h2 align="center">DANH SÁCH CÁC SẢN PHẨM</h2>
-                    <hr/>
-                    <div>
-                        <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
-                        <p:commandButton value="Tìm kiếm"/>
-                    </div>
-                    <hr/>
-                    <p:dataTable var="sp" value="#{sanPhamBean.sanPhams}">
-                        <p:column style="width: 5%; text-align: center" headerText="Mã">
-                            <h:outputText value="#{sp.maSanPham}"/>
-                        </p:column>
-                        <p:column style="width: 11%" headerText="Hình ảnh">
-                            <p:graphicImage value="images/#{sp.hinhAnh}" style="width: 75px; height: 75px"/>
-                        </p:column>
-                        <p:column style="width: 21%" headerText="Tên sản phẩm">
-                            <h:outputText value="#{sp.tenSanPham}"/>
-                        </p:column>
-                        <p:column style="width: 9%" headerText="Đơn giá">
-                            <h:outputText value="#{sp.donGia}"/>
-                        </p:column>
-                        <p:column style="width: 8%; text-align: center" headerText="Số lượng">
-                            <h:outputText value="#{sp.soLuongCoSan}"/>
-                        </p:column>
-                        <p:column style="width: 9%" headerText="Danh mục">
-                            <h:outputText value="#{sp.danhMuc.tenDanhmuc}"/>
-                        </p:column>
-                        <p:column style="width: 15%; text-align: center" headerText="Tình trạng">
-                            <h:outputText value="#{sp.trangThai}"/>
-                        </p:column>
-                        <p:column style="width: 18%; text-align: center" headerText="">
-                            <div>
-                                <p:commandButton value="Xem chi tiết" style="width: 185px; margin-bottom: 5px"
-                                                 action="#{sanPhamBean.nextPageDetail}"
-                                                 actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}"
-                                                 process="@this"/>
-                            </div>
-                            <div>
-                                <p:commandButton style="width: 60px" value="Xóa" onclick="PF('dlg2').show()"
-                                                 styleClass="ui-button-raised ui-button-danger">
-                                    <f:setPropertyActionListener value="#{sp}"
-                                                                 target="#{sanPhamBean.selectedSanPham}"/>
-                                </p:commandButton>
-                                <p:commandButton style="width: 120px; margin-left: 5px" value="Chỉnh sửa"
-                                                 action="#{sanPhamBean.nextPageUdate}"
-                                                 actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}"
-                                                 process="@this">
-                                </p:commandButton>
-                            </div>
-                        </p:column>
-                    </p:dataTable>
-                    <hr/>
-                    <p:commandButton resetValues="true" value="Thêm sản phẩm mới"
-                                     action="#{sanPhamBean.nextPageCreate}"/>
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <div class="card">
+            <h:form>
+                <h2 align="center">DANH SÁCH CÁC SẢN PHẨM</h2>
+                <hr/>
+                <div>
+                    <p:inputText id="key" placeholder="Nhập tìm kiếm"/>
+                    <p:commandButton value="Tìm kiếm"/>
+                </div>
+                <hr/>
+                <p:dataTable var="sp" value="#{sanPhamBean.sanPhams}">
+                    <p:column style="width: 5%; text-align: center" headerText="Mã">
+                        <h:outputText value="#{sp.maSanPham}"/>
+                    </p:column>
+                    <p:column style="width: 11%" headerText="Hình ảnh">
+                        <p:graphicImage value="images/#{sp.hinhAnh}" style="width: 75px; height: 75px"/>
+                    </p:column>
+                    <p:column style="width: 21%" headerText="Tên sản phẩm">
+                        <h:outputText value="#{sp.tenSanPham}"/>
+                    </p:column>
+                    <p:column style="width: 9%" headerText="Đơn giá">
+                        <h:outputText value="#{sp.donGia}"/>
+                    </p:column>
+                    <p:column style="width: 8%; text-align: center" headerText="Số lượng">
+                        <h:outputText value="#{sp.soLuongCoSan}"/>
+                    </p:column>
+                    <p:column style="width: 9%" headerText="Danh mục">
+                        <h:outputText value="#{sp.danhMuc.tenDanhmuc}"/>
+                    </p:column>
+                    <p:column style="width: 15%; text-align: center" headerText="Tình trạng">
+                        <h:outputText value="#{sp.trangThai}"/>
+                    </p:column>
+                    <p:column style="width: 18%; text-align: center" headerText="">
+                        <p:commandButton action="#{sanPhamBean.nextPageDetail}" icon="pi pi-search"
+                                         actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}"
+                                         process="@this" styleClass="ui-button-success"/>
+                        <p:commandButton icon="pi pi-pencil" action="#{sanPhamBean.nextPageUdate}"
+                                         actionListener="#{sanPhamBean.initDetail(sp.maSanPham)}" process="@this"
+                                         style="margin-left: 5px; margin-right: 5px">
+                        </p:commandButton>
+                        <p:commandButton icon="pi pi-trash" onclick="PF('dlg2').show()" styleClass="ui-button-danger">
+                            <f:setPropertyActionListener value="#{sp}" target="#{sanPhamBean.selectedSanPham}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                <hr/>
+                <p:commandButton resetValues="true" value="Thêm sản phẩm mới"
+                                 action="#{sanPhamBean.nextPageCreate}"/>
 
-                    <!--dialog xóa sản phẩm-->
-                    <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
-                              modal="true">
-                        <p class="p-m-0">Chắc chắn xóa sản phẩm ?</p>
-                        <f:facet name="footer">
-                            <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                             action="#{sanPhamBean.deleteSanPham(sanPhamBean.selectedSanPham)}"/>
-                            <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
-                        </f:facet>
-                    </p:dialog>
-                </h:form>
-            </div>
-        </ui:define>
-    </ui:composition>
+                <!--dialog xóa sản phẩm-->
+                <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
+                          modal="true">
+                    <p class="p-m-0">Chắc chắn xóa sản phẩm ?</p>
+                    <f:facet name="footer">
+                        <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                         action="#{sanPhamBean.deleteSanPham(sanPhamBean.selectedSanPham)}"/>
+                        <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
+                    </f:facet>
+                </p:dialog>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
 
-</h:body>
-</html>
+

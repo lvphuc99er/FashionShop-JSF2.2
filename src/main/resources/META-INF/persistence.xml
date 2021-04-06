@@ -13,6 +13,8 @@
         <class>tech.vietinfo.models.NhaCungCap</class>
         <class>tech.vietinfo.models.PhieuNhap</class>
         <class>tech.vietinfo.models.KhachHang</class>
+        <class>tech.vietinfo.models.GioHang</class>
+        <class>tech.vietinfo.models.ChiTietGioHang</class>
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/fashionshop_v4"/>

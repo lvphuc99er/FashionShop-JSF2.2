@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -43,8 +44,11 @@ public class Login implements Serializable {
     private KhachHang khachHang;
 
     HttpSession session = SessionUtil.getSession();
+    private String message;
 
-    //    check da dang nhap chua
+    /*
+     * kiểm tra xem đã đăng nhập hay chưa
+     */
     public void grantPermission() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         session = (HttpSession) facesContext.getExternalContext().getSession(true);
@@ -59,14 +63,16 @@ public class Login implements Serializable {
         }
     }
 
-    //    dang xuat
     public String logout() {
         session = SessionUtil.getSession();
         session.invalidate();
         return "dashboard?faces-redirect=true";
     }
 
-    //    check role
+    /*
+     * kiểm tra vai trò đăng nhập
+     * @return 1 là admin, 2 là user
+     */
     public int checkRole() {
         Object userLoggedIn = session.getAttribute("name");
         if (userLoggedIn == "admin") {
@@ -78,7 +84,10 @@ public class Login implements Serializable {
         return 0;
     }
 
-    //    check dang nhap
+    /*
+     * kiểm tra đăng nhập
+     * @return trả về đang chủ nếu đăng nhập đúng
+     */
     public String validateLogin() {
         if (username.equals(ADMIN) && password.equals(PASS)) {
             session.setAttribute("name", "admin");
@@ -86,21 +95,25 @@ public class Login implements Serializable {
         } else {
             khachHangs = khachHangService.getKhachHangs();
             for (KhachHang kh : khachHangs) {
-                if (username.equals(kh.getSoDienThoai_KH()) && password.equals(kh.getMatKhau())) {
-                    session.setAttribute("name", "user");
-                    return "dashboard?faces-redirect=true&includeViewParams=true";
+                if (username.equals(kh.getSoDienThoai()) && password.equals(kh.getMatKhau())) {
+                    if (kh.getTrangThai().equals("KHÓA")) {
+                        return "login";
+                    } else {
+                        session.setAttribute("name", "user");
+                        return "dashboard?faces-redirect=true&includeViewParams=true";
+                    }
                 }
             }
         }
         return "login";
     }
 
-    public KhachHang getKhachHang(){
+    public KhachHang getKhachHang() {
         khachHang = khachHangService.getSanPhamsBySDT(username).get(0);
         return khachHang;
     }
 
-    public String update_user(){
+    public String updateKhachHang() {
         khachHangService.updateKhachHang(khachHang);
         return "u_information?faces-redirect=true";
     }

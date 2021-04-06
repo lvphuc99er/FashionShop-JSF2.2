@@ -11,10 +11,9 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "gioHang")
 public class KhachHang implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,14 +29,14 @@ public class KhachHang implements Serializable {
     @Column(name = "ngaySinh")
     private String ngaySinh;
 
-    @Column(name = "diaChi_KH")
-    private String diaChi_KH;
+    @Column(name = "diaChi")
+    private String diaChi;
 
-    @Column(name = "soDienThoai_KH")
-    private String soDienThoai_KH;
+    @Column(name = "soDienThoai")
+    private String soDienThoai;
 
-    @Column(name = "email_KH")
-    private String email_KH;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "gioiTinh")
     private String gioiTinh;
@@ -51,4 +50,21 @@ public class KhachHang implements Serializable {
     @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
     private List<DonHang> donHangList;
 
+    @OneToOne(mappedBy = "khachHang")
+    private GioHang gioHang;
+
+    @Override
+    public String toString() {
+        return "KhachHang{" +
+                "maKhachHang=" + maKhachHang +
+                ", tenKhachHang='" + tenKhachHang + '\'' +
+                ", ngaySinh='" + ngaySinh + '\'' +
+                ", diaChi='" + diaChi + '\'' +
+                ", soDienThoai='" + soDienThoai + '\'' +
+                ", email='" + email + '\'' +
+                ", gioiTinh='" + gioiTinh + '\'' +
+                ", matKhau='" + matKhau + '\'' +
+                ", trangThai='" + trangThai + '\'' +
+                '}';
+    }
 }
