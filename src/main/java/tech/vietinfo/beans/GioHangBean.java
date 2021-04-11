@@ -2,6 +2,7 @@ package tech.vietinfo.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import tech.vietinfo.entities.Item;
 import tech.vietinfo.models.*;
 import tech.vietinfo.services.GioHangService;
 import tech.vietinfo.services.SanPhamService;
@@ -13,10 +14,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
-import java.time.temporal.TemporalAdjusters;
-
-import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
-import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 @Named("cartBean")
 @ViewScoped
@@ -123,14 +120,22 @@ public class GioHangBean implements Serializable {
         donHang.setTrangThai("Chờ xác nhận");
         donHang.setThanhTien(totalDonHang());
         gioHangService.addDonHang(donHang);
+
         for (ChiTietGioHang ct : chiTietGioHangList) {
-            chiTietDonHang.setDonHang(donHang);
-            chiTietDonHang.setThanhTien(ct.getThanhTien());
-            chiTietDonHang.setSanPham(ct.getSanPham());
-            chiTietDonHang.setSoLuong(ct.getSoLuong());
-            gioHangService.addChiTietDonHang(chiTietDonHang);
+            addChiTietDonHang(ct);
         }
         return "shoppingcart?faces-redirect=true";
+    }
+
+    public void addChiTietDonHang(ChiTietGioHang ct){
+        chiTietDonHang.setXuatXu(ct.getSanPham().getXuatXu());
+        chiTietDonHang.setTenSanPham(ct.getSanPham().getTenSanPham());
+        chiTietDonHang.setDonGia(ct.getSanPham().getDonGia());
+        chiTietDonHang.setSoLuong(ct.getSoLuong());
+        chiTietDonHang.setDonHang(donHang);
+        chiTietDonHang.setMaSanPham(ct.getSanPham().getMaSanPham());
+        chiTietDonHang.setThanhTien(ct.getSanPham().getDonGia() * ct.getSoLuong());
+        gioHangService.addChiTietDonHang(chiTietDonHang);
     }
 
     public List<DonHang> getDonHangs() {
@@ -138,7 +143,7 @@ public class GioHangBean implements Serializable {
         return donHangList;
     }
 
-    public List<DonHang> getDonHangsByKhachHang(int makh){
+    public List<DonHang> getDonHangsByKhachHang(int makh) {
         return gioHangService.getDonHangsByKhachHang(makh);
     }
 
@@ -147,20 +152,27 @@ public class GioHangBean implements Serializable {
         return chiTietDonHangList;
     }
 
-    public String huyDonHang(DonHang dh){
-
-        return "";
+    public String huyDonHang(DonHang dh, String huy) {
+        dh.setTrangThai(huy);
+        gioHangService.updateDonHang(dh);
+        return "u_listorder?faces-redirect=true";
     }
 
-    public String dangGiaoHang(DonHang donHang){
-        donHang.setTrangThai("Đang giao hàng");
-        gioHangService.updateDonHang(donHang);
+    public String dangGiaoHang(DonHang dh) {
+        dh.setTrangThai("Đang giao hàng");
+        gioHangService.updateDonHang(dh);
         return "listorder?faces-redirect=true";
     }
 
-    public String daGiaoHang(DonHang donHang){
+    public String daGiaoHang(DonHang donHang) {
         donHang.setTrangThai("Đã giao hàng");
         gioHangService.updateDonHang(donHang);
         return "listorder?faces-redirect=true";
+    }
+
+    public int demSoLuong(int makh) {
+        gioHang = gioHangService.getGioHangs(makh).get(0);
+        chiTietGioHangList = gioHang.getChiTietGioHangList();
+        return chiTietGioHangList.size();
     }
 }

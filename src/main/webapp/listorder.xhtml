@@ -16,7 +16,13 @@
             <p:commandButton value="Tìm kiếm"/>
         </div>
         <hr/>
-        <h1>ĐƠN HÀNG</h1>
+        <h1>
+            Đơn hàng:
+            <p:commandButton styleClass="ui-button-flat" value="Tất cả"/>
+            <p:commandButton styleClass="ui-button-flat" value="Đang giao hàng"/>
+            <p:commandButton styleClass="ui-button-flat" value="Đã giao hàng"/>
+            <p:commandButton styleClass="ui-button-flat" value="Đã hủy"/>
+        </h1>
         <p:dataTable var="dh" value="#{cartBean.donHangs}" style="margin-left: 20px; margin-right: 20px">
             <p:column style="width: 10%; text-align: center" headerText="Mã đơn hàng">
                 <p:outputLabel value="#{dh.maDonDang}"/>
@@ -27,7 +33,7 @@
             <p:column style="width: 25%" headerText="Ngày đặt">
                 <p:outputLabel value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy')}"/>
             </p:column>
-            <p:column style="width: 15%;text-align: center" headerText="Ngày nhận">
+            <p:column style="width: 15%;text-align: center" headerText="Ngày nhận dự kiến">
                 <p:outputLabel value="#{of:formatDate(cartBean.ngayDatHang.plusDays(3), 'dd/MM/yyyy')}"/>
             </p:column>
             <p:column style="width: 15%;text-align: center" headerText="Tổng tiền">
@@ -98,16 +104,16 @@
                     <p:dataTable var="ctsp" style="width: 800px;" scrollable="true" scrollHeight="200"
                                  value="#{cartBean.getChiTietDonHangs(cartBean.donHang.maDonDang)}">
                         <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
-                            <p:outputLabel value="#{ctsp.sanPham.maSanPham}"/>
+                            <p:outputLabel value="#{ctsp.maSanPham}"/>
                         </p:column>
                         <p:column style="width: 30%" headerText="Tên sản phẩm">
-                            <p:outputLabel value="#{ctsp.sanPham.tenSanPham}"/>
+                            <p:outputLabel value="#{ctsp.tenSanPham}"/>
                         </p:column>
                         <p:column style="width: 10%" headerText="Xuất xứ">
-                            <p:outputLabel value="#{ctsp.sanPham.xuatXu}"/>
+                            <p:outputLabel value="#{ctsp.xuatXu}"/>
                         </p:column>
                         <p:column style="width: 10%" headerText="Đơn giá">
-                            <p:outputLabel value="#{ctsp.sanPham.donGia}"/>
+                            <p:outputLabel value="#{ctsp.donGia}"/>
                         </p:column>
                         <p:column style="width: 15%; text-align: center" headerText="Số lượng mua">
                             <p:outputLabel value="#{ctsp.soLuong}"/>
@@ -126,9 +132,9 @@
                 <br/>
                 <div class="p-field">
                     <p:commandButton value="Xác nhận giao đơn hàng" action="#{cartBean.dangGiaoHang(cartBean.donHang)}"
-                                     rendered="#{cartBean.donHang.trangThai eq 'Chờ xác nhận'}"/>
+                                     rendered="#{cartBean.donHang.trangThai eq 'Chờ xác nhận' and not cartBean.donHang.trangThai eq 'Đã hủy'}"/>
                     <p:commandButton value="Xác nhận hoàn tất" action="#{cartBean.daGiaoHang(cartBean.donHang)}"
-                                     rendered="#{cartBean.donHang.trangThai eq 'Đang giao hàng'}"/>
+                                     rendered="#{cartBean.donHang.trangThai eq 'Đang giao hàng' and not cartBean.donHang.trangThai eq 'Đã hủy'}"/>
                 </div>
             </p:outputPanel>
             <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('details').hide()"

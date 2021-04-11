@@ -5,58 +5,35 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="body">
-        <div class="register">
-            <h1 align="center">ĐĂNG KÝ THÀNH VIÊN</h1>
-            <hr/>
-            <h:form method="post">
+        <div class="card">
+            <h:form>
                 <table cellspacing="10px">
                     <tr>
+                        <td><b><p:outputLabel value="ĐĂNG KÝ THÀNH VIÊN" style="font-size: 20px"/></b></td>
                         <td><p:outputLabel value="Số điện thoại: "/></td>
-                        <td><p:inputText id="soDienThoai" value="#{khachHangBean.khachHang.soDienThoai}"
-                                         placeholder="Nhập số điện thoại..."/></td>
-                        <td><h:message for="soDienThoai" style="color: red"/></td>
+                        <td>
+                            <p:inputText id="soDienThoai" value="#{khachHangBean.khachHang.soDienThoai}"
+                                         placeholder="Nhập số điện thoại..."/><br/>
+                        </td>
+                        <td><p:message for="soDienThoai" style="color: red"/></td>
                     </tr>
                     <tr>
+                        <td></td>
                         <td><p:outputLabel value="Tên hiển thị: "/></td>
-                        <td><p:inputText id="tenHienThi" value="#{khachHangBean.khachHang.tenKhachHang}"
-                                         placeholder="Nhập tên hiển thị..."/></td>
-                        <td><h:message for="tenHienThi" style="color: red"/></td>
-                    </tr>
-                    <tr>
-                        <td><p:outputLabel value="Ngày sinh: "/></td>
                         <td>
-                            <p:inputText type="date" value="#{khachHangBean.khachHang.ngaySinh}" id="ngaySinh"
-                                         placeholder="Chọn ngày sinh...">
-                            </p:inputText>
+                            <p:inputText id="tenHienThi" value="#{khachHangBean.khachHang.tenKhachHang}"
+                                         placeholder="Nhập tên hiển thị..."/><br/>
                         </td>
-                        <td><h:message for="ngaySinh" style="color: red"/></td>
+                        <td><p:message for="tenHienThi" style="color: red"/></td>
                     </tr>
                     <tr>
-                        <td><p:outputLabel value="Giới tính: "/></td>
-                        <td>
-                            <p:selectOneRadio unselectable="true" value="#{khachHangBean.khachHang.gioiTinh}">
-                                <f:selectItem itemLabel="Nữ" itemValue="Nữ"/>
-                                <f:selectItem itemLabel="Nam" itemValue="Nam"/>
-                            </p:selectOneRadio>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p:outputLabel value="Email: "/></td>
-                        <td><p:inputText id="email" value="#{khachHangBean.khachHang.email}"
-                                         placeholder="Nhập email..."/></td>
-                        <td><h:message for="email" style="color: red"/></td>
-                    </tr>
-                    <tr>
-                        <td><p:outputLabel value="Địa chỉ: "/></td>
-                        <td><p:inputText id="diaChi" value="#{khachHangBean.khachHang.diaChi}"
-                                         placeholder="Nhập địa chỉ liên hệ..."/></td>
-                        <td><h:message for="diaChi" style="color: red"/></td>
-                    </tr>
-                    <tr>
+                        <td></td>
                         <td><p:outputLabel value="Mật khẩu: "/></td>
-                        <td><p:password id="matKhau" value="#{khachHangBean.khachHang.matKhau}" style="width: 196px"
-                                         placeholder="Nhập mật khẩu..." toggleMask="true" redisplay="true"/></td>
-                        <td><h:message for="matKhau" style="color: red"/></td>
+                        <td>
+                            <p:password id="matKhau" value="#{khachHangBean.khachHang.matKhau}" style="width: 196px"
+                                        placeholder="Nhập mật khẩu..." toggleMask="true" redisplay="true"/><br/>
+                        </td>
+                        <td><p:message for="matKhau" style="color: red"/></td>
                     </tr>
                     <tr style="display: none">
                         <td><p:outputLabel value="Trạng thái: "/></td>
@@ -69,17 +46,54 @@
                     </tr>
                 </table>
                 <p:selectBooleanCheckbox id="chapNhanDieuKhoan" value="true" itemLabel="Đồng ý với các"
-                                         style="margin-left: 11px; margin-bottom: 8px"/>
-                <p:commandLink value="điều khoản thỏa thuận" style="margin-left: -8px"/><br/>
-                <p:commandButton value="Đăng ký" style="margin-left: 122px;" action="#{khachHangBean.addKhachHang}"
-                                 oncomplete="PF('dlg2').show()"/>
+                                         style="margin-left: 16%; margin-bottom: 8px" disabled="true"/>
+                <p:commandLink value="điều khoản thỏa thuận" onclick="PF('dlgdieukhoan').show()"
+                               style="margin-left: -8px"/><br/>
+                <p:commandButton value="Đăng ký" style="margin-left: 23%;" ajax="false"
+                                 action="#{khachHangBean.addKhachHang}"/>
 
-                <!--dialog-->
-                <p:dialog header="Thông báo" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
+                <!--dialog điều khoản-->
+                <p:dialog header="LIVE LOUNGE" widgetVar="dlgdieukhoan" height="400" width="800" showEffect="fade"
                           modal="true">
-                    <p class="p-m-0">Đăng ký thành công !</p>
+                    <b><p:outputLabel style="margin-left: 38%" value="ĐIỀU KHOẢN SỬ DỤNG"/></b>
+                    <p:scrollPanel>
+                        <p>Chào mừng quý khách hàng đến với <b>LIVE LOUNGE</b>!</p>
+                        <p>Khi quý khách hàng truy cập vào trang website của chúng tôi có nghĩa là quý khách đồng
+                            ý với các điều khoản này. Khi quý khách tiếp tục sử dụng trang web, các điều khoản có thể
+                            được phía website thay đổi mà không phải báo trước, có nghĩa là quý khách chấp nhận với
+                            những thay đổi đó.</p>
+                        <p>Quý khách hàng vui lòng kiểm tra thường xuyên để cập nhật những thay đổi của chúng tôi.</p>
+                        <p style="font-size: 20px"><b>1. Hướng dẫn sử dụng website</b></p>
+                        <p>Khi vào website của chúng tôi, khách hàng phải đảm bảo đủ 18 tuổi, hoặc truy cập dưới sự giám
+                            sát của cha mẹ hay người giám hộ hợp pháp. Khách hàng đảm bảo có đầy đủ hành vi dân sự để
+                            thực hiện các giao dịch mua bán hàng hóa theo quy định hiện hành của pháp luật Việt Nam.</p>
+                        <p>Chúng tôi sẽ cấp một tài khoản (Account) sử dụng để khách hàng có thể mua sắm trên website
+                            dựa trên thông tin khách hàng đã đăng ký.</p>
+                        <p>Quý khách hàng sẽ phải đăng ký tài khoản với thông tin xác thực về bản thân và phải cập nhật
+                            nếu có bất kỳ thay đổi nào. Mỗi người truy cập phải có trách nhiệm với mật khẩu, tài khoản
+                            và hoạt động của mình trên website. Hơn nữa, quý khách hàng phải thông báo cho chúng tôi
+                            biết khi tài khoản bị truy cập trái phép. Chúng tôi không chịu bất kỳ trách nhiệm nào, dù
+                            trực tiếp hay gián tiếp, đối với những thiệt hại hoặc mất mát gây ra do quý khách không
+                            tuân thủ quy định.</p>
+                        <p>Nghiêm cấm sử dụng bất kỳ phần nào của website này với mục đích thương mại hoặc nhân danh
+                            bất kỳ đối tác thứ ba nào nếu không được chúng tôi cho phép bằng văn bản. Nếu vi phạm bất
+                            cứ điều nào trong đây, chúng tôi sẽ hủy tài khoản của khách mà không cần báo trước.</p>
+
+                        <p style="font-size: 20px"><b>2. Ý kiến của khách hàng</b></p>
+                        <p>Tất cả nội dung trang web và ý kiến phê bình của quý khách đều là tài sản của chúng tôi.
+                            Nếu chúng tôi phát hiện bất kỳ thông tin giả mạo nào, chúng tôi sẽ khóa tài khoản của quý
+                            khách ngay lập tức hoặc áp dụng các biện pháp khác theo quy định của pháp luật Việt Nam.</p>
+
+                        <p style="font-size: 20px"><b>3. Chấp nhận đơn hàng và giá cả</b></p>
+                        <p>Chúng tôi có quyền từ chối hoặc hủy đơn hàng của quý khách sau khi đã thông báo cho quý khách.</p>
+                        <p>Chúng tôi cam kết sẽ cung cấp thông tin giá cả chính xác nhất cho người tiêu dùng. Tuy nhiên,
+                            đôi lúc vẫn có sai sót xảy ra, ví dụ như trường hợp giá sản phẩm không hiển thị chính xác
+                            trên trang web hoặc sai giá, tùy theo từng trường hợp chúng tôi sẽ liên hệ hướng dẫn hoặc
+                            thông báo hủy đơn hàng đó cho quý khách. Chúng tôi cũng có quyền từ chối hoặc hủy bỏ bất kỳ
+                            đơn hàng nào dù đơn hàng đó đã hay chưa được xác nhận hoặc đã thanh toán.</p>
+                    </p:scrollPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Chuyển đến trang đăng nhập" action="login?faces-redirect=true"/>
+                        <p:commandButton value="Đã rõ" onclick="PF('dlgdieukhoan').hide()"/>
                     </f:facet>
                 </p:dialog>
                 <hr/>

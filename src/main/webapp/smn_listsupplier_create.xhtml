@@ -12,36 +12,36 @@
         <hr/>
         <h2 align="center">THÊM NHÀ CUNG CẤP MỚI</h2>
         <hr/>
-        <div class="create" style="margin-left: 300px;">
-            <h:form method="post">
+        <div class="card" style="margin-left: 100px;">
+            <h:form>
                 <table cellspacing="10px">
                     <tr>
                         <td><p:outputLabel value="Tên nhà cung cấp: "/></td>
                         <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}" style="width: 800px;"
                                          id="tenncc" placeholder="Nhập tên nhà cung cấp..."/></td>
-                        <td><h:message for="tenncc" style="color: red"/></td>
+                        <td><p:message for="tenncc" style="color: red"/></td>
                     </tr>
                     <tr>
                         <td><p:outputLabel value="Địa chỉ: "/></td>
                         <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.diaChi}" style="width: 800px;"
                                          id="diachincc" placeholder="Nhập địa chỉ..."/></td>
-                        <td><h:message for="diachincc" style="color: red"/></td>
+                        <td><p:message for="diachincc" style="color: red"/></td>
                     </tr>
                     <tr>
                         <td><p:outputLabel value="Số điện thoại: "/></td>
                         <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.soDienThoai}" style="width: 800px;"
                                          id="sdtncc" placeholder="Nhập số điện thoại..."/></td>
-                        <td><h:message for="sdtncc" style="color: red"/></td>
+                        <td><p:message for="sdtncc" style="color: red"/></td>
                     </tr>
                     <tr>
                         <td><p:outputLabel value="Email: "/></td>
                         <td><p:inputText value="#{nhaCungCapBean.nhaCungCap.email}" style="width: 800px;"
                                          id="emailncc" placeholder="Nhập email..."/></td>
-                        <td><h:message for="emailncc" style="color: red"/></td>
+                        <td><p:message for="emailncc" style="color: red"/></td>
                     </tr>
                 </table>
                 <p:commandButton value="Xác nhận" action="#{nhaCungCapBean.addNhaCungCap}"
-                                 style="margin-left: 153px;"/>
+                                 style="margin-left: 153px;" ajax="false"/>
             </h:form>
         </div>
     </ui:define>

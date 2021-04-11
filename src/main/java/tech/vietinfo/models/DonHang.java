@@ -16,15 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class DonHang implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @Column(name = "maDonHang")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int maDonDang;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "maKhachHang")
+    @JoinColumn(name = "maKhachHang", referencedColumnName = "maKhachHang")
     private KhachHang khachHang;
 
     @Column(name = "tenNguoiNhan")
@@ -56,21 +54,5 @@ public class DonHang implements Serializable {
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHang> chiTietDonHangList;
-
-    @Override
-    public String toString() {
-        return "DonHang{" +
-                "maDonDang=" + maDonDang +
-                ", khachHang=" + khachHang +
-                ", tenNguoiNhan='" + tenNguoiNhan + '\'' +
-                ", sdtNguoiNhan='" + sdtNguoiNhan + '\'' +
-                ", diaChiNguoiNhan='" + diaChiNguoiNhan + '\'' +
-                ", ngayDatHang='" + ngayDatHang + '\'' +
-                ", ngayNhanHang='" + ngayNhanHang + '\'' +
-                ", donViVanChuyen='" + donViVanChuyen + '\'' +
-                ", phuongThucThanhToan='" + phuongThucThanhToan + '\'' +
-                ", thanhTien=" + thanhTien +
-                ", trangThai='" + trangThai + '\'' +
-                '}';
-    }
+    
 }

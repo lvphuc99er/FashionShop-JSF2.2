@@ -5,34 +5,42 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="body">
-        <div class="login" style="margin-left: 300px;">
+        <div class="card" style="margin-left: 300px;">
             <h1>ĐĂNG NHẬP</h1>
-            <h:form method="post">
+            <h:form>
+                <i><p:outputLabel value="Tên tài khoản hoặc mật khẩu không chính xác" rendered="#{login.err==1}"
+                                  style="color: #ec2b2b;"/></i>
                 <table cellspacing="10px">
                     <tr>
                         <td><p:outputLabel value="Tên tài khoản: "/></td>
-                        <td><p:inputText id="tenTaiKhoan" value="#{login.username}"
-                                         placeholder="Nhập số điện thoại..."/></td>
-                        <td><h:message for="tenTaiKhoan" style="color: red"/></td>
+                        <td>
+                            <p:inputText id="ttk" value="#{login.username}" placeholder="Số điện thoại...">
+                                <p:clientValidator/>
+                            </p:inputText>
+                            <p:message for="ttk" style="color: red" display="icon"/>
+                        </td>
                     </tr>
                     <tr>
                         <td><p:outputLabel value="Mật khẩu: "/></td>
-                        <td><p:password id="matKhau" value="#{login.password}" placeholder="Nhập mật khẩu..."
-                                        toggleMask="true" redisplay="true" style="width: 196px"/></td>
-                        <td><h:message for="matKhau" style="color: red"/></td>
+                        <td>
+                            <p:password id="mk" value="#{login.password}" placeholder="Nhập mật khẩu..."
+                                        toggleMask="true" redisplay="true" style="width: 196px">
+                                <p:clientValidator/>
+                            </p:password>
+                            <p:message for="mk" style="color: red" display="icon"/>
+                        </td>
                     </tr>
                 </table>
                 <p:selectBooleanCheckbox id="ghiNhoMatKhau" value="true" itemLabel="Ghi nhớ mật khẩu"
                                          style="margin-left: 11px;"/><br/>
-                <p:commandButton id="buttonDangNhap" value="Đăng nhập" action="#{login.validateLogin}"
-                                 style="margin-left: 122px;"/><br/><br/>
+                <p:commandButton value="Đăng nhập" action="#{login.validateLogin}" style="margin-left: 122px;"
+                                 ajax="false" validateClient="true"/><br/><br/>
 
                 <p:link value="Quên mật khẩu?" style="font-size: 18px"/>
                 <p:outputLabel value="  hoặc chưa có tài khoản  " style="font-size: 15px"/>
                 <p:link value="Nhấn vào đây để đăng ký" outcome="register" style="font-size: 18px"/>
             </h:form>
 
-            <!--dialog thông báo tài khoản đã bị khóa-->
         </div>
     </ui:define>
 </ui:composition>

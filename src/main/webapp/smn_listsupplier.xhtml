@@ -61,22 +61,27 @@
                         <div class="p-field">
                             <p:outputLabel for="tenncc">Tên nhà cung cấp:</p:outputLabel>
                             <p:inputText id="tenncc" value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}"/>
+                            <h:message for="tenncc" style="color: red"/>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="dc">Địa chỉ:</p:outputLabel>
                             <p:inputText id="dc" value="#{nhaCungCapBean.nhaCungCap.diaChi}"/>
+                            <h:message for="dc" style="color: red"/>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="sdt">Số điện thoại:</p:outputLabel>
                             <p:inputText id="sdt" value="#{nhaCungCapBean.nhaCungCap.soDienThoai}"/>
+                            <h:message for="sdt" style="color: red"/>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="em" style="">Email:</p:outputLabel>
                             <p:inputText id="em" value="#{nhaCungCapBean.nhaCungCap.email}"/>
+                            <h:message for="em" style="color: red"/>
                         </div>
                         <br/>
                         <div class="p-field">
-                            <p:commandButton value="Lưu" action="#{nhaCungCapBean.updateNhaCungCap}" update=":info"/>
+                            <p:commandButton value="Lưu" action="#{nhaCungCapBean.updateNhaCungCap}" ajax="true"
+                                             update=":info"/>
                             <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('detailNCC').hide()"
                                              class="ui-button-danger" style="margin-top: 5px"/>
                         </div>

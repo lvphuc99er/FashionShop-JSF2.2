@@ -11,11 +11,13 @@ import tech.vietinfo.services.DanhMucService;
 import tech.vietinfo.services.SanPhamService;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Named("sanPhamBean")
@@ -40,6 +42,7 @@ public class SanPhamBean implements Serializable {
     private DanhMuc danhMuc;
     private int iddm;
 
+
     private UploadedFile resume;
     private static final String FILE_PATH = "T:\\IUH\\4_Senior\\Semester 2" +
             "\\TTDN\\MyProject_Vietinfo\\Project\\WebsiteOnline\\src\\main\\webapp\\images\\";
@@ -53,18 +56,13 @@ public class SanPhamBean implements Serializable {
         sanPham = sanPhamService.find(id);
     }
 
-    public List<SanPham> getSanPhams() {
-        sanPhamList = sanPhamService.getSanPhams();
-        return sanPhamList;
-    }
-
     public List<DanhMuc> getDanhMucs() {
         danhMucList = danhMucService.getDanhMucs();
         return danhMucList;
     }
 
-    public List<SanPham> getSanPhamsByDanhMuc(int ma){
-        sanPhamList = sanPhamService.getSanPhamsByDanhMuc(ma);
+    public List<SanPham> getSanPhams() {
+        sanPhamList = sanPhamService.getSanPhams();
         return sanPhamList;
     }
 
@@ -77,30 +75,38 @@ public class SanPhamBean implements Serializable {
     }
 
     public String deleteSanPham(SanPham sp) {
-//        SanPhamBean.deleteFile(FILE_PATH);
         sanPhamService.deleteSanPham(sp);
         return "pmn_listproduct?faces-redirect=true";
     }
 
     public String updateSanPham() {
-        danhMuc = danhMucService.find(iddm);
-        sanPham.setDanhMuc(danhMuc);
-        sanPham.setHinhAnh(resume.getFileName());
-        sanPhamService.updateSanPham(sanPham);
+        sanPhamService.updateSanPham(selectedSanPham);
         return "pmn_listproduct?faces-redirect=true";
     }
 
-    public String nextPageUdate() {
-        return "pmn_listproduct_update?faces-redirect=true&includeViewParams=true";
+    public int demSoLuongSanPham(){
+        return sanPhamService.getSanPhams().size();
     }
+    public int demSoLuongThoiTrangNam(){
+        return sanPhamService.getSanPhamsByDanhMuc(1).size();
+    }
+    public int demSoLuongThoiTrangNu(){
+        return sanPhamService.getSanPhamsByDanhMuc(2).size();
+    }
+    public int demSoLuongPhuKien(){
+        return sanPhamService.getSanPhamsByDanhMuc(3).size();
+    }
+
     public String nextPageCreate() {
         return "pmn_listproduct_create?faces-redirect=true";
     }
-    public String nextPageDetail(){
-        return "pmn_listproduct_detail?faces-redirect=true&includeViewParams=true";
-    };
 
-    //    upload hinh anh vao folder images cua project
+    public String nextPageDetail() {
+        return "pmn_listproduct_detail?faces-redirect=true&includeViewParams=true";
+    }
+
+
+    //    upload hình ảnh folder images của project
     public String uploadResume() throws IOException {
 
         UploadedFile uploadedPhoto = getResume();
@@ -113,13 +119,5 @@ public class SanPhamBean implements Serializable {
             stream.close();
         }
         return "";
-    }
-
-    //    check so luong va trang thai, neu trang thai = 0 thi san pham ngung ban, so luong = 0 thi san pham het hang
-    public int checkSoLuong(){
-        return 0;
-    }
-    public int checkTrangThai(){
-        return 0;
     }
 }

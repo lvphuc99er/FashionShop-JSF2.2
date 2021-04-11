@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class SanPham implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,26 +49,14 @@ public class SanPham implements Serializable {
     private DanhMuc danhMuc;
 
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
-    private List<ChiTietPhieuNhap> chiTietPhieuNhap;
+    @ToString.Exclude
+    private List<ChiTietPhieuNhap> chiTietPhieuNhapList;
 
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<ChiTietDonHang> chiTietDonHangList;
 
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<ChiTietGioHang> chiTietGioHangList;
-
-    @Override
-    public String toString() {
-        return "SanPham{" +
-                "maSanPham=" + maSanPham +
-                ", tenSanPham='" + tenSanPham + '\'' +
-                ", moTaSanPham='" + moTaSanPham + '\'' +
-                ", xuatXu='" + xuatXu + '\'' +
-                ", donGia=" + donGia +
-                ", soLuongCoSan=" + soLuongCoSan +
-                ", hinhAnh='" + hinhAnh + '\'' +
-                ", trangThai='" + trangThai + '\'' +
-                ", danhMuc=" + danhMuc +
-                '}';
-    }
 }

@@ -39,6 +39,8 @@ dependencies {
     implementation group: 'org.webjars', name: 'font-awesome', version: '5.15.2'
     implementation group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+
 
 }
 

@@ -76,16 +76,21 @@ public class QuanLyNhapKhoBean implements Serializable {
 
         for (Item it : itemList) {
             ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
-            ct.setSanPham(it.getSanPham());
+
+            ct.setXuatXu(it.getSanPham().getXuatXu());
+            ct.setTenSanPham(it.getSanPham().getTenSanPham());
+            ct.setDonGia(it.getSanPham().getDonGia());
             ct.setSoLuongNhap(it.getQuantity());
             ct.setPhieuNhap(phieuNhap);
+            ct.setMaSanPham(it.getSanPham().getMaSanPham());
             ct.setThanhTien(it.getQuantity() * it.getSanPham().getDonGia());
-            quanLyNhapKhoService.addChiTietPhieuNhap(ct);
 
             selectedSanPham = sanPhamService.find(it.getSanPham().getMaSanPham());
             int sl = selectedSanPham.getSoLuongCoSan();
             selectedSanPham.setSoLuongCoSan(sl + it.getQuantity());
             sanPhamService.updateSanPham(selectedSanPham);
+
+            quanLyNhapKhoService.addChiTietPhieuNhap(ct);
         }
         return "pmn_warehouse?faces-redirect=true";
     }
@@ -103,23 +108,23 @@ public class QuanLyNhapKhoBean implements Serializable {
         return itemList;
     }
 
-    public String delete(SanPham sanPham) {
+    public String deleteKhoiPhieuNhap(SanPham sanPham) {
         int index = exists(sanPham);
         itemList.remove(index);
         return "pmn_warehouse_create";
     }
 
     //    xóa phiếu nhập - chi tiết phiếu nhập, cập nhật số lượng sau khi xóa phiếu nhập
-    public String deletePhieuNhap(PhieuNhap p) {
-        chiTietPhieuNhapList = quanLyNhapKhoService.getChiTietPhieuNhaps(p.getMaPhieuNhap());
+    public String deletePhieuNhap() {
+        chiTietPhieuNhapList = quanLyNhapKhoService.getChiTietPhieuNhaps(selectedPhieuNhap.getMaPhieuNhap());
         for (ChiTietPhieuNhap ct: chiTietPhieuNhapList) {
             selectedSanPham = sanPhamService.find(ct.getSanPham().getMaSanPham());
             int sl = selectedSanPham.getSoLuongCoSan();
             selectedSanPham.setSoLuongCoSan(sl - ct.getSoLuongNhap());
             sanPhamService.updateSanPham(selectedSanPham);
         }
-        quanLyNhapKhoService.deletePhieuNhap(p);
-        quanLyNhapKhoService.deleteChiTietPhieuNhap(p.getMaPhieuNhap());
+        quanLyNhapKhoService.deletePhieuNhap(selectedPhieuNhap);
+        quanLyNhapKhoService.deleteChiTietPhieuNhap(selectedPhieuNhap.getMaPhieuNhap());
         return "pmn_warehouse?faces-redirect=true";
     }
 

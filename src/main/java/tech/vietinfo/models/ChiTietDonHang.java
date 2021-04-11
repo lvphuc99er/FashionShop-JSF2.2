@@ -22,10 +22,21 @@ public class ChiTietDonHang implements Serializable {
     @JoinColumn(name = "maDonHang", referencedColumnName = "maDonHang")
     private DonHang donHang;
 
-    @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "maSanPham", referencedColumnName = "maSanPham")
     private SanPham sanPham;
+
+    @Id
+    @Column(name = "maSanPham")
+    private int maSanPham;
+
+    @Column(name = "tenSanPham")
+    private String tenSanPham;
+
+    @Column(name = "xuatXu")
+    private String xuatXu;
+
+    @Column(name = "donGia")
+    private double donGia;
 
     @Column(name = "soLuong")
     private int soLuong;

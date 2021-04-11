@@ -23,7 +23,7 @@
             <p:column style="width: 25%" headerText="Ngày đặt">
                 <p:outputLabel value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy')}"/>
             </p:column>
-            <p:column style="width: 15%;text-align: center" headerText="Ngày nhận">
+            <p:column style="width: 15%;text-align: center" headerText="Ngày nhận dự kiến">
                 <p:outputLabel value="#{of:formatDate(cartBean.ngayDatHang.plusDays(3), 'dd/MM/yyyy')}"/>
             </p:column>
             <p:column style="width: 15%;text-align: center" headerText="Tổng tiền">
@@ -94,16 +94,16 @@
                     <p:dataTable var="ctsp" style="width: 800px;" scrollable="true" scrollHeight="200"
                                  value="#{cartBean.getChiTietDonHangs(cartBean.donHang.maDonDang)}">
                         <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
-                            <p:outputLabel value="#{ctsp.sanPham.maSanPham}"/>
+                            <p:outputLabel value="#{ctsp.maSanPham}"/>
                         </p:column>
                         <p:column style="width: 30%" headerText="Tên sản phẩm">
-                            <p:outputLabel value="#{ctsp.sanPham.tenSanPham}"/>
+                            <p:outputLabel value="#{ctsp.tenSanPham}"/>
                         </p:column>
                         <p:column style="width: 10%" headerText="Xuất xứ">
-                            <p:outputLabel value="#{ctsp.sanPham.xuatXu}"/>
+                            <p:outputLabel value="#{ctsp.xuatXu}"/>
                         </p:column>
                         <p:column style="width: 10%" headerText="Đơn giá">
-                            <p:outputLabel value="#{ctsp.sanPham.donGia}"/>
+                            <p:outputLabel value="#{ctsp.donGia}"/>
                         </p:column>
                         <p:column style="width: 15%; text-align: center" headerText="Số lượng mua">
                             <p:outputLabel value="#{ctsp.soLuong}"/>
@@ -118,15 +118,26 @@
                     <p:outputLabel for="sum" style="">Tổng tiền đơn hàng:</p:outputLabel>
                     <p:inputText id="sum" disabled="true" style="font-size: 20px; width: 150px"
                                  value="#{cartBean.donHang.thanhTien}"/>VNĐ
-                    <p:commandButton style="margin-left: 35%" value="Hủy đơn hàng" styleClass="ui-button-warning"
+                    <p:commandButton value="Hủy đơn hàng" styleClass="ui-button-warning"
                                      rendered="#{cartBean.donHang.trangThai eq 'Chờ xác nhận'}"
-                                     action="#{cartBean.huyDonHang(cartBean.donHang)}"/>
+                                     oncomplete="PF('dlghuy').show()"/>
                 </div>
             </p:outputPanel>
             <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('details').hide()"
                              styleClass="ui-button-danger" style="float: right"/><br/>
             <p:outputLabel style="font-size: 12px"><i>(Lưu ý: Chỉ được hủy khi đơn hàng đang
                 ở trạng thái "Chờ xác nhận", không thể hủy khi ở trạng thái "Đang giao hàng")</i></p:outputLabel>
+        </p:dialog>
+
+        <!--dialog hủy đơn hàng-->
+        <p:dialog header="Xác nhận" widgetVar="dlghuy" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn hủy đơn hàng này ?</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 action="#{cartBean.huyDonHang(cartBean.donHang,'Đã hủy')}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlghuy').hide()"/>
+            </f:facet>
         </p:dialog>
     </ui:define>
 </ui:composition>

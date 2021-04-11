@@ -22,12 +22,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.NotBlank;
 
 @Named("login")
 @SessionScoped
 @Getter
 @Setter
-@NoArgsConstructor
 public class Login implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,8 +35,13 @@ public class Login implements Serializable {
     private final String ADMIN = "admin";
     private final String PASS = "admin";
 
+    @NotBlank(message = "Tên đăng nhập không đúng")
     private String username;
+
+    @NotBlank(message = "Mật khẩu không đúng")
     private String password;
+
+    private int integer;
 
     @Inject
     private KhachHangService khachHangService;
@@ -44,7 +49,8 @@ public class Login implements Serializable {
     private KhachHang khachHang;
 
     HttpSession session = SessionUtil.getSession();
-    private String message;
+    private int err;
+    private String messSai = "Tên tài khoản hoặc mật khẩu không chính xác";
 
     /*
      * kiểm tra xem đã đăng nhập hay chưa
@@ -97,11 +103,20 @@ public class Login implements Serializable {
             for (KhachHang kh : khachHangs) {
                 if (username.equals(kh.getSoDienThoai()) && password.equals(kh.getMatKhau())) {
                     if (kh.getTrangThai().equals("KHÓA")) {
+                        err = 2;
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Thông báo", "Tài khoản " +
+                                "của bạn đã bị khóa do vi phạm chính sách người dùng. Vui lòng liên hệ 0123456789 để giải đáp thắc" +
+                                "mắc và khiếu nại.");
+                        PrimeFaces.current().dialog().showMessageDynamic(message);
+                        load();
                         return "login";
                     } else {
                         session.setAttribute("name", "user");
                         return "dashboard?faces-redirect=true&includeViewParams=true";
                     }
+                } else {
+                    load();
+                    err = 1;
                 }
             }
         }
@@ -118,5 +133,10 @@ public class Login implements Serializable {
         return "u_information?faces-redirect=true";
     }
 
-
+    public String load() {
+        username = "";
+        password = "";
+        err = 0;
+        return "login?faces-redirect=true";
+    }
 }
