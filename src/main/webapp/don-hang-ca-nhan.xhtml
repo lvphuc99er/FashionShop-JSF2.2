@@ -1,0 +1,148 @@
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions" xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            <f:viewParam name="kh" value="#{login.khachHang.maKhachHang}"/>
+        </f:metadata>
+        <h3 align="center">ĐƠN HÀNG CỦA TÔI</h3>
+        <hr/>
+        <p:dataTable var="dh" value="#{cartBean.getDonHangsByKhachHang(login.khachHang.maKhachHang)}"
+                     style="margin-left: 20px; margin-right: 20px">
+            <p:column style="width: 10%; text-align: center" headerText="Mã đơn hàng">
+                <p:outputLabel value="#{dh.maDonHang}"/>
+            </p:column>
+            <p:column style="width: 15%" headerText="Người nhận">
+                <p:outputLabel value="#{dh.tenNguoiNhan}"/>
+            </p:column>
+            <p:column style="width: 25%" headerText="Ngày đặt">
+                <p:outputLabel value="#{dh.ngayDatHang}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Ngày nhận dự kiến">
+                <p:outputLabel value="#{dh.ngayNhanHang}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Tổng tiền">
+                <p:outputLabel value="#{dh.thanhTien}"/>
+            </p:column>
+            <p:column style="width: 15%;text-align: center" headerText="Trạng thái">
+                <p:outputLabel value="#{dh.trangThai}"/>
+            </p:column>
+            <p:column style="width: 15%" headerText="">
+                <p:commandButton icon="pi pi-search" styleClass="rounded-button ui-button-success"
+                                 style="margin-right: 5px" update=":chi-tiet"
+                                 oncomplete="PF('details').show()">
+                    <f:setPropertyActionListener value="#{dh}" target="#{cartBean.selectedDonHang}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+
+        <!--dialog chi tiết phiếu nhập-->
+        <p:dialog header="Chi tiết đơn hàng của tôi" modal="true" widgetVar="details" resizable="false">
+            <h:form id="chi-tiet">
+                <table cellpadding="2px">
+                    <tr>
+                        <td><p:outputLabel value="Mã đơn hàng:"/></td>
+                        <td>
+                            <p:inputText readonly="true" value="#{cartBean.selectedDonHang.maDonHang}"
+                                         style="width: 220px"/>
+                        </td>
+                        <td><p:outputLabel value="Người nhận:"/></td>
+                        <td>
+                            <p:inputText readonly="true" style="width: 220px"
+                                         value="#{cartBean.selectedDonHang.tenNguoiNhan}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Ngày đặt hàng:"/></td>
+                        <td>
+                            <p:inputText readonly="true" style="width: 220px"
+                                         value="#{cartBean.selectedDonHang.ngayDatHang}"/>
+                        </td>
+                        <td><p:outputLabel value="Ngày nhận dự kiến:"/></td>
+                        <td>
+                            <p:inputText readonly="true" style="width: 220px"
+                                         value="#{cartBean.selectedDonHang.ngayNhanHang}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Địa chỉ nhận hàng:"/></td>
+                        <td colspan="3">
+                            <p:inputText readonly="true" style="width: 590px"
+                                         value="#{cartBean.selectedDonHang.diaChiNguoiNhan}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Đơn vị vận chuyển:"/></td>
+                        <td>
+                            <p:inputText readonly="true" value="#{cartBean.selectedDonHang.donViVanChuyen}"
+                                         style="width: 220px"/>
+                        </td>
+                        <td><p:outputLabel value="Phương thức:"/></td>
+                        <td>
+                            <p:inputText value="#{cartBean.selectedDonHang.phuongThucThanhToan}"
+                                         readonly="true" style="width: 220px"/>
+                        </td>
+                    </tr>
+                </table>
+                <hr/>
+                <div class="p-field" style="margin-left: 5px; margin-right: 5px">
+                    <p:outputLabel>Danh sách sản phẩm đặt:</p:outputLabel>
+                    <p:dataTable var="ctsp" style="width: 800px;" scrollable="true" scrollHeight="200"
+                                 value="#{cartBean.getChiTietDonHangs(cartBean.selectedDonHang.maDonHang)}">
+                        <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
+                            <p:outputLabel value="#{ctsp.maSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 30%" headerText="Tên sản phẩm">
+                            <p:outputLabel value="#{ctsp.tenSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Phân loại">
+                            <p:outputLabel value="#{ctsp.phanLoai}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Đơn giá">
+                            <p:outputLabel value="#{ctsp.donGia}"/>
+                        </p:column>
+                        <p:column style="width: 15%; text-align: center" headerText="Số lượng mua">
+                            <p:outputLabel value="#{ctsp.soLuong}"/>
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Thành tiền">
+                            <p:outputLabel value="#{ctsp.thanhTien}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <hr/>
+                <div class="p-field">
+                    <p:outputLabel for="sum" style="">Tổng tiền đơn hàng:</p:outputLabel>
+                    <p:inputText id="sum" disabled="true" style="font-size: 20px; width: 150px"
+                                 value="#{cartBean.selectedDonHang.thanhTien}"/>VNĐ <br/>
+                </div>
+                <p:commandButton value="Hủy đơn hàng" styleClass="ui-button-warning"
+                                 rendered="#{cartBean.selectedDonHang.trangThai eq 'Chờ xác nhận'}"
+                                 oncomplete="PF('dlghuy').show()" style="margin-right: 10px"/>
+                <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('details').hide()"
+                                 styleClass="ui-button-danger" style="float: right"/><br/>
+                <p:outputLabel
+                        style="font-size: 12px"><i>(Lưu ý: Chỉ được hủy khi đơn hàng trong vòng 30 phút từ khi đặt và đang
+                    ở trạng thái "Chờ xác nhận", không thể hủy khi ở trạng thái "Đã xác nhận")</i></p:outputLabel>
+            </h:form>
+        </p:dialog>
+
+
+        <!--dialog hủy đơn hàng-->
+        <p:dialog header="Xác nhận" widgetVar="dlghuy" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn hủy đơn hàng này ?</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 action="don-hang-ca-nhan?faces-redirect=true"
+                                 actionListener="#{cartBean.huyDonHang(cartBean.selectedDonHang)}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlghuy').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>
+

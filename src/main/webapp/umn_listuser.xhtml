@@ -3,8 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:of="http://omnifaces.org/functions">
+                xmlns:p="http://primefaces.org/ui">
     <ui:define name="body">
         <f:metadata>
             <f:event type="preRenderView" listener="#{login.grantPermission}"/>
@@ -17,7 +16,7 @@
         </div>
         <hr/>
         <h:form id="formInfor">
-            <p:dataTable var="kh" value="#{khachHangBean.khachHangs}" autoUpdate="true">
+            <p:dataTable var="kh" value="#{nguoiDungBean.khachHangs}" autoUpdate="true">
                 <p:column style="width: 4%; text-align: center" headerText="Mã">
                     <p:outputLabel value="#{kh.maKhachHang}"/>
                 </p:column>
@@ -45,7 +44,7 @@
                 <p:column style="width: 10%; text-align: center" headerText="">
                     <p:commandButton icon="pi pi-search" style="margin-left: 5px" update="manage-user-content"
                                      oncomplete="PF('details').show()" styleClass="ui-button-success">
-                        <f:setPropertyActionListener value="#{kh}" target="#{khachHangBean.selectedKhachHang}"/>
+                        <f:setPropertyActionListener value="#{kh}" target="#{nguoiDungBean.khachHang}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -57,40 +56,40 @@
             <p:outputPanel id="manage-user-content" class="ui-fluid">
                 <div class="p-field">
                     <p:outputLabel for="makh">Mã khách hàng:</p:outputLabel>
-                    <p:inputText id="makh" disabled="true" value="#{khachHangBean.selectedKhachHang.maKhachHang}"/>
+                    <p:inputText id="makh" disabled="true" value="#{nguoiDungBean.khachHang.maKhachHang}"/>
                 </div>
                 <div class="p-field">
                     <p:outputLabel for="ten">Tên khách hàng:</p:outputLabel>
-                    <p:inputText id="ten" disabled="true" value="#{khachHangBean.selectedKhachHang.tenKhachHang}"/>
+                    <p:inputText id="ten" disabled="true" value="#{nguoiDungBean.khachHang.tenKhachHang}"/>
                 </div>
                 <div class="p-field">
                     <p:outputLabel for="ns">Ngày sinh:</p:outputLabel>
                     <p:inputText id="ns" disabled="true"
-                                 value="#{khachHangBean.selectedKhachHang.ngaySinh}"/>
+                                 value="#{nguoiDungBean.khachHang.ngaySinh}"/>
                 </div>
                 <div class="p-field">
                     <p:outputLabel for="gt">Giới tính:</p:outputLabel>
-                    <p:inputText id="gt" disabled="true" value="#{khachHangBean.selectedKhachHang.gioiTinh}"/>
+                    <p:inputText id="gt" disabled="true" value="#{nguoiDungBean.khachHang.gioiTinh}"/>
                 </div>
                 <div class="p-field">
                     <p:outputLabel for="sdt">Số điện thoại:</p:outputLabel>
-                    <p:inputText id="sdt" disabled="true" value="#{khachHangBean.selectedKhachHang.soDienThoai}"/>
+                    <p:inputText id="sdt" disabled="true" value="#{nguoiDungBean.khachHang.soDienThoai}"/>
                 </div>
                 <div class="p-field">
                     <p:outputLabel for="dc">Địa chỉ:</p:outputLabel>
-                    <p:inputText id="dc" disabled="true" value="#{khachHangBean.selectedKhachHang.diaChi}"/>
+                    <p:inputText id="dc" disabled="true" value="#{nguoiDungBean.khachHang.diaChi}"/>
                 </div>
                 <div class="p-field">
                     <p:outputLabel for="em">Email:</p:outputLabel>
-                    <p:inputText id="em" disabled="true" value="#{khachHangBean.selectedKhachHang.email}"/>
+                    <p:inputText id="em" disabled="true" value="#{nguoiDungBean.khachHang.email}"/>
                 </div>
                 <br/>
                 <div class="p-field">
                     <p:commandButton value="Khóa tài khoản" oncomplete="PF('pmKhoa').show()" class="ui-button-danger"
-                                     rendered="#{khachHangBean.selectedKhachHang.trangThai eq 'CHO PHÉP'}"
+                                     rendered="#{nguoiDungBean.khachHang.trangThai eq 'CHO PHÉP'}"
                                      style="margin-bottom: 5px"/>
                     <p:commandButton value="Mở tài khoản" oncomplete="PF('pmMo').show()" class="ui-button-success"
-                                     rendered="#{khachHangBean.selectedKhachHang.trangThai eq 'KHÓA'}"/>
+                                     rendered="#{nguoiDungBean.khachHang.trangThai eq 'KHÓA'}"/>
                 </div>
             </p:outputPanel>
             <f:facet name="footer">
@@ -106,7 +105,8 @@
                 đã bị khóa và không thể đăng nhập.</p>
             <f:facet name="footer">
                 <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                 action="#{khachHangBean.lockKhachHang(khachHangBean.selectedKhachHang,'KHÓA')}"/>
+                                 actionListener="#{nguoiDungBean.lockKhachHang(nguoiDungBean.khachHang,'KHÓA')}"
+                                 action="umn_listuser?faces-redirect=true"/>
                 <p:commandButton value="Bỏ qua" onclick="PF('pmKhoa').hide()"/>
             </f:facet>
         </p:dialog>
@@ -118,7 +118,8 @@
                 đăng nhập lại bằng tài khoản này.</p>
             <f:facet name="footer">
                 <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                 action="#{khachHangBean.lockKhachHang(khachHangBean.selectedKhachHang,'CHO PHÉP')}"/>
+                                 actionListener="#{nguoiDungBean.lockKhachHang(nguoiDungBean.khachHang,'CHO PHÉP')}"
+                                 action="umn_listuser?faces-redirect=true"/>
                 <p:commandButton value="Bỏ qua" onclick="PF('pmMo').hide()"/>
             </f:facet>
         </p:dialog>

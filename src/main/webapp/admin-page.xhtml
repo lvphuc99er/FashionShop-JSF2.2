@@ -1,0 +1,1055 @@
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
+        </f:metadata>
+        <div class="card">
+            <h:form>
+                <p:splitter style="margin: 5px">
+                    <p:splitterPanel size="20" minSize="20">
+                        <p:panelMenu>
+                            <p:submenu label="QUẢN LÝ KHÁCH HÀNG">
+                                <p:menuitem value="Khách hàng" action="#{homeBean.setDieuHuong(1)}" update="@form"/>
+                            </p:submenu>
+                            <p:submenu label="QUẢN LÝ NHÂN VIÊN">
+                                <p:menuitem value="Nhân viên" action="#{homeBean.setDieuHuong(2)}" update="@form"/>
+                            </p:submenu>
+                            <p:submenu label="QUẢN LÝ SẢN PHẨM">
+                                <p:menuitem value="Sản phẩm" action="#{homeBean.setDieuHuong(3)}" update="@form"/>
+                            </p:submenu>
+                            <p:submenu label="QUẢN LÝ NHÀ CUNG CẤP">
+                                <p:menuitem value="Nhà cung cấp" action="#{homeBean.setDieuHuong(4)}" update="@form"/>
+                            </p:submenu>
+                            <p:submenu label="QUẢN LÝ ĐƠN HÀNG">
+                                <p:menuitem value="Đơn hàng" action="#{homeBean.setDieuHuong(5)}" update="@form"/>
+                            </p:submenu>
+                            <p:submenu label="QUẢN LÝ NHẬP KHO">
+                                <p:menuitem value="Kho" action="#{homeBean.setDieuHuong(6)}" update="@form"/>
+                            </p:submenu>
+                            <p:submenu label="THỐNG KÊ">
+                                <p:menuitem value="Thống kê" action="#{homeBean.setDieuHuong(7)}" update="@form"/>
+                            </p:submenu>
+                        </p:panelMenu>
+                    </p:splitterPanel>
+                    <p:splitterPanel size="80" minSize="80">
+
+                        <!--Quản lý khách hàng-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 1}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ KHÁCH HÀNG "/></p:column>
+                                <p:column><p:inputText style="margin-left: 58%; width: 300px"
+                                                       placeholder="Nhập tên/số điện thoại..."/></p:column>
+                            </p:row>
+                            <p:dataTable var="kh" value="#{nguoiDungBean.khachHangs}" scrollable="true"
+                                         autoUpdate="true" scrollHeight="355">
+                                <p:column style="width: 4%; text-align: center" headerText="Mã">
+                                    <p:outputLabel value="#{kh.maKhachHang}"/>
+                                </p:column>
+                                <p:column style="width: 20%" headerText="Tên khách hàng">
+                                    <p:outputLabel value="#{kh.tenKhachHang}"/>
+                                </p:column>
+                                <p:column style="width: 42%" headerText="Địa chỉ">
+                                    <p:outputLabel value="#{kh.diaChi}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Số điện thoại">
+                                    <p:outputLabel value="#{kh.soDienThoai}"/>
+                                </p:column>
+                                <p:column style="width: 12%; text-align: center" headerText="Trạng thái">
+                                    <p:outputLabel value="#{kh.trangThai}"/>
+                                </p:column>
+                                <p:column style="width: 7%; text-align: center" headerText="">
+                                    <p:commandButton icon="pi pi-search" style="margin-left: 5px"
+                                                     update="manage-customer-content"
+                                                     oncomplete="PF('customer-detail').show()"
+                                                     styleClass="ui-button-success">
+                                        <f:setPropertyActionListener value="#{kh}" target="#{nguoiDungBean.khachHang}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                        <!--Quản lý nhân viên-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 2}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ NHÂN VIÊN "/></p:column>
+                                <p:column>
+                                    <p:commandButton value="Thêm mới" icon="pi pi-plus"
+                                                     style="margin-left: 49%; margin-right: 5px"
+                                                     oncomplete="PF('staff-detail').show()"
+                                                     actionListener="#{nguoiDungBean.init()}" update=":info-staff"/>
+                                    <p:inputText style="width: 300px"
+                                                 placeholder="Nhập tên/số điện thoại..."/>
+                                </p:column>
+                            </p:row>
+                            <p:dataTable var="nv" value="#{nguoiDungBean.nhanViens}" scrollable="true"
+                                         autoUpdate="true" scrollHeight="355">
+                                <p:column style="width: 10%; text-align: center" headerText="Mã">
+                                    <p:outputLabel value="#{nv.maNhanVien}"/>
+                                </p:column>
+                                <p:column style="width: 20%" headerText="Tên nhân viên">
+                                    <p:outputLabel value="#{nv.tenNhanVien}"/>
+                                </p:column>
+                                <p:column style="width: 10%" headerText="Ngày sinh">
+                                    <p:outputLabel value="#{nv.ngaySinh}"/>
+                                </p:column>
+                                <p:column style="width: 10%" headerText="Giới tính">
+                                    <p:outputLabel value="#{nv.gioiTinh}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Số điện thoại">
+                                    <p:outputLabel value="#{nv.soDienThoai}"/>
+                                </p:column>
+                                <p:column style="width: 20%; text-align: center" headerText="Chức vụ">
+                                    <p:outputLabel value="#{nv.viTri}"/>
+                                </p:column>
+                                <p:column style="width: 10%; text-align: center">
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger"
+                                                     oncomplete="PF('dlg-xoannv').show()">
+                                        <f:setPropertyActionListener value="#{nv}"
+                                                                     target="#{nguoiDungBean.nhanVien}"/>
+                                    </p:commandButton>
+                                    <p:commandButton icon="pi pi-pencil" style="margin-left: 5px" update=":info-staff"
+                                                     oncomplete="PF('staff-detail').show()">
+                                        <f:setPropertyActionListener value="#{nv}" target="#{nguoiDungBean.nhanVien}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                        <!--Quản lý sản phẩm-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 3}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ SẢN PHẨM "/></p:column>
+                                <p:column>
+                                    <p:commandButton value="Thêm mới" icon="pi pi-plus"
+                                                     style="margin-left: 49%; margin-right: 5px"
+                                                     oncomplete="PF('product-detail').show()"
+                                                     actionListener="#{sanPhamBean.init()}" update=":info-product"/>
+                                    <p:inputText style="width: 300px"
+                                                 placeholder="Nhập tên..."/>
+                                </p:column>
+                            </p:row>
+                            <p:dataTable var="sp" value="#{sanPhamBean.sanPhams}" scrollable="true" autoUpdate="true"
+                                         scrollHeight="355">
+                                <p:column style="width: 10%; text-align: center" headerText="Hình ảnh">
+                                    <p:graphicImage
+                                            value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"
+                                            style="width: 50px; height: 70px"/>
+                                </p:column>
+                                <p:column style="width: 30%" headerText="Tên sản phẩm">
+                                    <h:outputText value="#{sp.tenSanPham}"/>
+                                </p:column>
+                                <p:column style="width: 25%" headerText="Danh mục">
+                                    <h:outputText value="#{sp.tenLoaiSanPham}"/>
+                                </p:column>
+                                <p:column style="width: 8%" headerText="Đơn giá">
+                                    <h:outputText value="#{sp.donGia}"/>
+                                </p:column>
+                                <p:column style="width: 8%; text-align: center" headerText="Số lượng">
+                                    <h:outputText value="#{sp.soLuongCoSan}"/>
+                                </p:column>
+                                <p:column style="width: 10%; text-align: center" headerText="">
+                                    <p:commandButton icon="pi pi-trash" onclick="PF('dlg-xoasp').show()"
+                                                     styleClass="ui-button-danger">
+                                        <f:setPropertyActionListener value="#{sp}"
+                                                                     target="#{sanPhamBean.sanPham}"/>
+                                    </p:commandButton>
+                                    <p:commandButton icon="pi pi-pencil" onclick="PF('product-detail').show()"
+                                                     update=":info-product" style="margin-left: 5px; margin-right: 5px">
+                                        <f:setPropertyActionListener value="#{sp}"
+                                                                     target="#{sanPhamBean.sanPham}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                        <!--Quản lý nhà cung cấp-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 4}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ NHÀ CUNG CẤP "/></p:column>
+                                <p:column>
+                                    <p:commandButton value="Thêm mới" icon="pi pi-plus"
+                                                     style="margin-left: 46%; margin-right: 5px"
+                                                     oncomplete="PF('detail-ncc').show()"
+                                                     actionListener="#{nhaCungCapBean.init()}" update=":info-supplier"/>
+                                    <p:inputText style="width: 300px"
+                                                 placeholder="Nhập tên/số điện thoại..."/>
+                                </p:column>
+                            </p:row>
+                            <p:dataTable var="ncc" value="#{nhaCungCapBean.nhaCungCaps}" scrollable="true" id="tblNCC"
+                                         autoUpdate="true" scrollHeight="355">
+                                <p:column style="width: 5%; text-align: center" headerText="Mã">
+                                    <h:outputText value="#{ncc.maNhaCungCap}"/>
+                                </p:column>
+                                <p:column style="width: 30%" headerText="Tên nhà cung cấp">
+                                    <h:outputText value="#{ncc.tenNhaCungCap}"/>
+                                </p:column>
+                                <p:column style="width: 40%" headerText="Địa chỉ">
+                                    <h:outputText value="#{ncc.diaChi}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Số điện thoại">
+                                    <h:outputText value="#{ncc.soDienThoai}"/>
+                                </p:column>
+                                <p:column style="width: 10%" headerText="" exportable="false">
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger"
+                                                     oncomplete="PF('dlg-xoancc').show()">
+                                        <f:setPropertyActionListener value="#{ncc}"
+                                                                     target="#{nhaCungCapBean.nhaCungCap}"/>
+                                    </p:commandButton>
+                                    <p:commandButton icon="pi pi-pencil" style="margin-left: 5px"
+                                                     update=":info-supplier" oncomplete="PF('detail-ncc').show()">
+                                        <f:setPropertyActionListener value="#{ncc}"
+                                                                     target="#{nhaCungCapBean.nhaCungCap}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                        <!--Quản lý đơn hàng-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 5}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ ĐƠN HÀNG"/></p:column>
+                                <p:column><p:inputText style="margin-left: 50%; width: 300px"
+                                                       placeholder="Nhập tên khách hàng/mã đơn hàng..."/></p:column>
+                            </p:row>
+                            <p:dataTable var="dh" value="#{quanLyDonHangBean.donHangs}" scrollable="true"
+                                         autoUpdate="true" scrollHeight="355">
+                                <p:column style="width: 5%; text-align: center" headerText="Mã">
+                                    <p:outputLabel value="#{dh.maDonHang}"/>
+                                </p:column>
+                                <p:column style="width: 20%" headerText="Tên khách hàng">
+                                    <p:outputLabel value="#{dh.tenNguoiNhan}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Số điện thoại">
+                                    <p:outputLabel value="#{dh.sdtNguoiNhan}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Ngày đặt">
+                                    <p:outputLabel value="#{dh.ngayDatHang}"/>
+                                </p:column>
+                                <p:column style="width: 15%; text-align: center" headerText="Trạng thái">
+                                    <p:outputLabel value="#{dh.trangThai}"/>
+                                </p:column>
+                                <p:column style="width: 10%; text-align: center">
+                                    <p:commandButton icon="pi pi-search" styleClass="ui-button-success"
+                                                     style="margin-right: 5px" update="manage-order-content"
+                                                     oncomplete="PF('detail-don-hang').show()">
+                                        <f:setPropertyActionListener value="#{dh}" target="#{cartBean.donHang}"/>
+                                    </p:commandButton>
+                                    <p:commandButton icon="pi pi-times" oncomplete="PF('dlg-xoa-don-hang').show()"
+                                                     style="width: 40px" styleClass="ui-button-danger"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                        <!--Quản lý kho-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 6}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ KHO"/></p:column>
+                                <p:column><p:inputText style="margin-left: 58%; width: 300px"
+                                                       placeholder="Nhập tên/số điện thoại..."/></p:column>
+                            </p:row>
+                            <p:dataTable var="pn" value="#{quanLyNhapKhoBean.phieuNhaps}" scrollable="true"
+                                         autoUpdate="true" scrollHeight="355">
+                                <p:column style="width: 10%; text-align: center" headerText="Mã phiếu nhập">
+                                    <p:outputLabel value="#{pn.maPhieuNhap}"/>
+                                </p:column>
+                                <p:column style="width: 25%" headerText="Nhân viên">
+                                    <p:outputLabel value="#{pn.tenNhanVien}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Ngày lập phiếu">
+                                    <p:outputLabel value="#{pn.ngayLapPhieu}"/>
+                                </p:column>
+                                <p:column style="width: 35%" headerText="Nhà cung cấp">
+                                    <p:outputLabel value="#{pn.nhaCungCap.tenNhaCungCap}"/>
+                                </p:column>
+                                <p:column style="width: 15%;text-align: center" headerText="Tổng tiền (VNĐ)">
+                                    <p:outputLabel value="#{pn.thanhTien}"/>
+                                </p:column>
+                                <p:column style="width: 10%">
+                                    <p:commandButton styleClass="ui-button-success"
+                                                     oncomplete="PF('chi-tiet-phieu').show()"
+                                                     style="margin-right: 5px" update="nhap-kho" icon="pi pi-search">
+                                        <f:setPropertyActionListener value="#{pn}"
+                                                                     target="#{quanLyNhapKhoBean.phieuNhap}"/>
+                                    </p:commandButton>
+                                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger"
+                                                     oncomplete="PF('dlg-xoa-phieu-nhap').show()">
+                                        <f:setPropertyActionListener value="#{pn}"
+                                                                     target="#{quanLyNhapKhoBean.phieuNhap}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                        <!--Thống kê-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 7}">
+                            <p:row>
+                                <p:column><p:outputLabel value="QUẢN LÝ KHÁCH HÀNG "/></p:column>
+                                <p:column><p:inputText style="margin-left: 58%; width: 300px"
+                                                       placeholder="Nhập tên/số điện thoại..."/></p:column>
+                            </p:row>
+                            <p:dataTable var="kh" value="#{nguoiDungBean.khachHangs}" scrollable="true"
+                                         autoUpdate="true" scrollHeight="355">
+                                <p:column style="width: 4%; text-align: center" headerText="Mã">
+                                    <p:outputLabel value="#{kh.maKhachHang}"/>
+                                </p:column>
+                                <p:column style="width: 20%" headerText="Tên khách hàng">
+                                    <p:outputLabel value="#{kh.tenKhachHang}"/>
+                                </p:column>
+                                <p:column style="width: 42%" headerText="Địa chỉ">
+                                    <p:outputLabel value="#{kh.diaChi}"/>
+                                </p:column>
+                                <p:column style="width: 15%" headerText="Số điện thoại">
+                                    <p:outputLabel value="#{kh.soDienThoai}"/>
+                                </p:column>
+                                <p:column style="width: 12%; text-align: center" headerText="Trạng thái">
+                                    <p:outputLabel value="#{kh.trangThai}"/>
+                                </p:column>
+                                <p:column style="width: 7%; text-align: center" headerText="">
+                                    <p:commandButton icon="pi pi-search" style="margin-left: 5px"
+                                                     update="manage-customer-content"
+                                                     oncomplete="PF('customer-detail').show()"
+                                                     styleClass="ui-button-success">
+                                        <f:setPropertyActionListener value="#{kh}" target="#{nguoiDungBean.khachHang}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panelGrid>
+
+                    </p:splitterPanel>
+                </p:splitter>
+            </h:form>
+        </div>
+
+        <!--dialog xem chi tiết khách hàng-->
+        <p:dialog header="Chi tiết khách hàng" showEffect="fade" modal="true"
+                  widgetVar="customer-detail" hideEffect="fade" resizable="false" width="600">
+            <p:outputPanel id="manage-customer-content" class="ui-fluid">
+                <div class="p-field">
+                    <p:outputLabel for="makh">Mã khách hàng:</p:outputLabel>
+                    <p:inputText id="makh" readonly="true" value="#{nguoiDungBean.khachHang.maKhachHang}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="tenkh">Tên khách hàng:</p:outputLabel>
+                    <p:inputText id="tenkh" readonly="true" value="#{nguoiDungBean.khachHang.tenKhachHang}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="nskh">Ngày sinh:</p:outputLabel>
+                    <p:inputText id="nskh" readonly="true"
+                                 value="#{nguoiDungBean.khachHang.ngaySinh}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="gt">Giới tính:</p:outputLabel>
+                    <p:inputText id="gt" readonly="true" value="#{nguoiDungBean.khachHang.gioiTinh}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="sdtkh">Số điện thoại:</p:outputLabel>
+                    <p:inputText id="sdtkh" readonly="true" value="#{nguoiDungBean.khachHang.soDienThoai}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="dckh">Địa chỉ:</p:outputLabel>
+                    <p:inputText id="dckh" readonly="true" value="#{nguoiDungBean.khachHang.diaChi}"/>
+                </div>
+                <div class="p-field">
+                    <p:outputLabel for="emkh">Email:</p:outputLabel>
+                    <p:inputText id="emkh" readonly="true" value="#{nguoiDungBean.khachHang.email}"/>
+                </div>
+                <br/>
+                <div class="p-field">
+                    <p:commandButton value="Khóa tài khoản" oncomplete="PF('pmKhoa').show()" class="ui-button-danger"
+                                     rendered="#{nguoiDungBean.khachHang.trangThai eq 'CHO PHÉP'}"
+                                     style="margin-bottom: 5px"/>
+                    <p:commandButton value="Mở tài khoản" oncomplete="PF('pmMo').show()" class="ui-button-success"
+                                     rendered="#{nguoiDungBean.khachHang.trangThai eq 'KHÓA'}"/>
+                </div>
+            </p:outputPanel>
+            <f:facet name="footer">
+                <p:commandButton value="Đóng" onclick="PF('customer-detail').hide()" class="ui-button-danger"
+                                 style="margin-right: 10px"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog khóa tài khoản khách hàng-->
+        <p:dialog header="Xác nhận" widgetVar="pmKhoa" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn khóa tài khách hàng? Khách hàng sẽ được thông báo tài khoản
+                đã bị khóa và không thể đăng nhập.</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 actionListener="#{nguoiDungBean.lockKhachHang(nguoiDungBean.khachHang,'KHÓA')}"
+                                 action="admin-page?faces-redirect=true"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('pmKhoa').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog mở tài khoản khách hàng-->
+        <p:dialog header="Xác nhận" widgetVar="pmMo" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn mở khóa tài khách hàng ? Khách hàng sẽ được có thể
+                đăng nhập lại bằng tài khoản này.</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 actionListener="#{nguoiDungBean.lockKhachHang(nguoiDungBean.khachHang,'CHO PHÉP')}"
+                                 action="admin-page?faces-redirect=true"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('pmMo').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog chi tiết nhà cung cấp-->
+        <p:dialog header="Chi tiết nhà cung cấp" showEffect="fade" modal="true"
+                  widgetVar="detail-ncc" hideEffect="fade" resizable="false" width="600px">
+            <h:form id="info-supplier">
+                <p:outputPanel rendered="#{not empty nhaCungCapBean.nhaCungCap}">
+                    <table>
+                        <tr>
+                            <td>
+                                <p:outputLabel>Mã nhà cung cấp:</p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText readonly="true" style="width: 400px"
+                                             value="#{nhaCungCapBean.nhaCungCap.maNhaCungCap}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel>Tên nhà cung cấp:</p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="tenncc" style="width: 400px"
+                                             value="#{nhaCungCapBean.nhaCungCap.tenNhaCungCap}"/><br/>
+                                <h:message for="tenncc" style="color: red"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel>Địa chỉ:</p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="dcncc" style="width: 400px"
+                                             value="#{nhaCungCapBean.nhaCungCap.diaChi}"/><br/>
+                                <h:message for="dcncc" style="color: red"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel>Số điện thoại:</p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="sdtncc" style="width: 400px"
+                                             value="#{nhaCungCapBean.nhaCungCap.soDienThoai}"/><br/>
+                                <h:message for="sdtncc" style="color: red"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel>Email:</p:outputLabel>
+                            </td>
+                            <td>
+                                <p:inputText id="emncc" style="width: 400px"
+                                             value="#{nhaCungCapBean.nhaCungCap.email}"/><br/>
+                                <h:message for="emncc" style="color: red"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center">
+                                <p:commandButton value="Lưu" actionListener="#{nhaCungCapBean.saveNhaCungCap}"
+                                                 ajax="true" style="margin-right: 10px" icon="pi pi-save"
+                                                 update=":info-supplier" action="admin-page?faces-redirect=true"/>
+                                <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('detail-ncc').hide()"
+                                                 class="ui-button-danger" style="margin-top: 5px"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <!--dialog xác nhận xóa nhà cung cấp-->
+        <p:dialog header="Xác nhận" widgetVar="dlg-xoancc" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn xóa nhà cung cấp ?</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning" action="admin-page?faces-redirect=true"
+                                 actionListener="#{nhaCungCapBean.deleteNhaCungCap}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlg-xoancc').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog xác nhận xóa nhân viên-->
+        <p:dialog header="Xác nhận" widgetVar="dlg-xoannv" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn xóa nhân viên ?</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning" action="admin-page?faces-redirect=true"
+                                 actionListener="#{nguoiDungBean.deleteNhanVien}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlg-xoannv').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog xem chi tiết nhân viên-->
+        <p:dialog header="Chi tiết nhân viên" showEffect="fade" modal="true"
+                  widgetVar="staff-detail" hideEffect="fade" resizable="false" width="920">
+            <h:form id="info-staff">
+                <p:outputPanel rendered="#{not empty nguoiDungBean.nhanVien}">
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Mã nhân viên: " style="margin-right: 2px"/>
+                                <p:inputText id="manv" readonly="true" value="#{nguoiDungBean.nhanVien.maNhanVien}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Ngày sinh: "/>
+                                <p:inputText id="nsnv" type="date" value="#{nguoiDungBean.nhanVien.ngaySinh}"/><br/>
+                                <h:message for="nsnv" style="color: red"/>
+                            </p:column>
+                            <p:column rowspan="4">
+                                <p:outputLabel value="Hình ảnh của nhân viên"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Tên nhân viên: "/>
+                                <p:inputText id="tennv" value="#{nguoiDungBean.nhanVien.tenNhanVien}"/><br/>
+                                <h:message for="tennv" style="color: red"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Giới tính: "/>
+                                <p:selectOneRadio value="#{nguoiDungBean.nhanVien.gioiTinh}"
+                                                  style="margin-left: 75px; margin-top: -27px">
+                                    <f:selectItem itemLabel="Nam" itemValue="Nam"/>
+                                    <f:selectItem itemLabel="Nữ" itemValue="Nữ"/>
+                                </p:selectOneRadio>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Số điện thoại: " style="margin-right: 4px"/>
+                                <p:inputText id="sdtnv" value="#{nguoiDungBean.nhanVien.soDienThoai}"/>
+                                <h:message for="sdtnv" style="color: red"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Email: " style="margin-right: 30px"/>
+                                <p:inputText id="emnv" value="#{nguoiDungBean.nhanVien.email}"
+                                             style="width: 190px"/><br/>
+                                <h:message for="emnv" style="color: red"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel value="Mật khẩu: "/>
+                                <p:password id="mknv" value="#{nguoiDungBean.nhanVien.matKhau}" toggleMask="true"
+                                            redisplay="true" style="width: 197px; margin-left: 32px"/><br/>
+                                <h:message for="mknv" style="color: red"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Chức vụ: " style="margin-right: 12px;"/>
+                                <p:selectOneMenu id="cvnv" value="#{nguoiDungBean.nhanVien.viTri}" style="width: 190px">
+                                    <f:selectItem itemLabel="Chọn chức vụ ..."/>
+                                    <f:selectItem itemLabel="Quản lý kho" itemValue="Nhân viên quản lý kho"/>
+                                    <f:selectItem itemLabel="Bán hàng" itemValue="Nhân viên bán hàng"/>
+                                </p:selectOneMenu><br/>
+                                <h:message for="cvnv" style="color: red"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:outputLabel value="Địa chỉ: "/>
+                                <p:inputText id="dcnv" value="#{nguoiDungBean.nhanVien.diaChi}"
+                                             style="width: 92%"/><br/>
+                                <h:message for="dcnv" style="color: red"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Lưu" actionListener="#{nguoiDungBean.saveNhanVien}" ajax="true"
+                                                 update=":info-staff" style="width: 100px; margin-left: 40%"
+                                                 action="admin-page?faces-redirect=true"/>
+                                <p:commandButton value="Đóng" onclick="PF('staff-detail').hide()"
+                                                 class="ui-button-danger" style=" margin-left: 10px; width: 100px"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <!--dialog xác nhận xóa sản phẩm-->
+        <p:dialog header="Xác nhận" widgetVar="dlg-xoasp" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn xóa sản phẩm ?</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                 actionListener="#{sanPhamBean.deleteSanPham}" action="admin-page?faces-redirect=true"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlg-xoasp').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog xem chi tiết sản phẩm-->
+        <p:dialog header="Chi tiết sản phẩm" showEffect="fade" modal="true"
+                  widgetVar="product-detail" hideEffect="fade" resizable="false" width="1250    ">
+            <h:form id="info-product" enctype="multipart/form-data">
+                <p:outputPanel styleClass="ui-fluid" rendered="#{not empty sanPhamBean.sanPham}">
+                    <table>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Mã sản phẩm:"
+                                               style="margin-right: 10px; margin-left: 20px;"/>
+                            </td>
+                            <td>
+                                <p:inputText readonly="true" value="#{sanPhamBean.sanPham.maSanPham}"
+                                             style="width: 300px"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="Tên:" style="margin-left: 20px; margin-right: -10px"/>
+                            </td>
+                            <td>
+                                <p:inputText id="tensp" value="#{sanPhamBean.sanPham.tenSanPham}"/><br/>
+                                <h:message for="tensp" style="color:red;"/>
+                            </td>
+                            <td rowspan="5">
+                                <p:galleria value="#{sanPhamBean.getHinhAnhBySanPham(sanPhamBean.sanPham.maSanPham)}"
+                                            var="im" panelWidth="260" panelHeight="360" style="margin-left: 10px"
+                                            rendered="#{sanPhamBean.sanPham.maSanPham != 0}">
+                                    <p:graphicImage value="images/#{im.tenHinhAnh}"
+                                                    style="width: 250px; height: 350px;"/>
+                                </p:galleria>
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Danh mục:" style="margin-left: 20px"/>
+                            </td>
+                            <td>
+                                <p:inputText id="dm" value="#{sanPhamBean.sanPham.tenLoaiSanPham}" style="width: 255px"
+                                             readonly="true"/>
+                                <p:commandButton icon="pi pi-plus" onclick="PF('dlg-chon-danh-muc').show()"
+                                                 style="width: 40px; margin-left: 5px"/><br/>
+                                <h:message for="dm" style="color:red;"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="Xuất xứ:" style="margin-left: 20px"/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{sanPhamBean.sanPham.tenNoiSanXuat}">
+                                    <f:selectItems value="#{sanPhamBean.getNoiSanXuats()}"/>
+                                </p:selectOneMenu>
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Đơn giá:" style="margin-left: 20px; "/>
+                            </td>
+                            <td>
+                                <p:inputText id="dg" value="#{sanPhamBean.sanPham.donGia}" style="width: 300px"/><br/>
+                                <h:message for="dg" style="color:red;"/>
+                            </td>
+                            <td>
+                                <p:outputLabel value="Số lượng:" style="margin-left: 20px; "/>
+                            </td>
+                            <td>
+                                <p:inputText readonly="true" value="#{sanPhamBean.sanPham.soLuongCoSan}"
+                                             style="width: 255px"/>
+                                <p:commandButton icon="pi pi-search" onclick="PF('dlg-so-luong').show()"
+                                                 rendered="#{sanPhamBean.sanPham.maSanPham != 0}" update=":so-luong"
+                                                 style="width: 40px; margin-left: 5px">
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Trạng thái:" style="margin-left: 20px"/>
+                            </td>
+                            <td>
+                                <p:selectOneMenu value="#{sanPhamBean.sanPham.trangThai}" style="width: 300px">
+                                    <f:selectItem itemLabel="ĐANG BÁN" itemValue="ĐANG BÁN"/>
+                                    <f:selectItem itemLabel="NGỪNG KINH DOANH" itemValue="NGỪNG KINH DOANH"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Mô tả: " style="margin-left: 20px"/>
+                            </td>
+                            <td colspan="3">
+                                <p:inputTextarea value="#{sanPhamBean.sanPham.moTaSanPham}" id="mota" rows="10"
+                                                 style="width: 750px" placeholder="Nhập mô tả sản phẩm..."/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center">
+                                <p:commandButton value="Tiếp theo" ajax="true" update=":info-product"
+                                                 style="margin-right: 10px; width: 200px; margin-left: 8%"
+                                                 action="#{sanPhamBean.openDialog}" icon="pi pi-plus"
+                                                 rendered="#{sanPhamBean.sanPham.maSanPham == 0}"/>
+                                <p:commandButton value="Lưu" ajax="true" style="width: 100px; margin-right: 10px"
+                                                 update=":info-product" icon="pi pi-save"
+                                                 actionListener="#{sanPhamBean.saveSanPham}"
+                                                 action="admin-page?faces-redirect=true"
+                                                 rendered="#{sanPhamBean.sanPham.maSanPham != 0}"/>
+                                <p:commandButton value="Đóng" onclick="PF('product-detail').hide()"
+                                                 class="ui-button-danger" icon="pi pi-times" style="width: 100px"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <!--dialog chọn loại sản phẩm-->
+        <p:dialog header="CHỌN DANH MỤC SẢN PHẨM"
+                  widgetVar="dlg-chon-danh-muc" minHeight="200" width="850" showEffect="fade" modal="true">
+            <h:form>
+                <p:outputLabel value="THỜI TRANG NỮ:" style="margin-right: 13px"/>
+                <p:commandButton value="Áo &amp; Váy đầm" actionListener="#{homeBean.setMaAdminPage(1)}" update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:commandButton value="Quần &amp; Chân váy" actionListener="#{homeBean.setMaAdminPage(2)}"
+                                 update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 1}">
+                    <f:selectItem itemLabel="THUN NỮ TAY NGẮN TRƠN" itemValue="THUN NỮ TAY NGẮN TRƠN"/>
+                    <f:selectItem itemLabel="THUN NỮ TAY NGẮN IN HÌNH" itemValue="THUN NỮ TAY NGẮN IN HÌNH"/>
+                    <f:selectItem itemLabel="THUN NỮ TAY NGẮN CÓ CỔ" itemValue="THUN NỮ TAY NGẮN CÓ CỔ"/>
+                    <f:selectItem itemLabel="THUN NỮ TAY NGẮN CROPTOP" itemValue="THUN NỮ TAY NGẮN CROPTOP"/>
+                    <f:selectItem itemLabel="THUN NỮ TAY DÀI IN HÌNH" itemValue="THUN NỮ TAY DÀI IN HÌNH"/>
+                    <f:selectItem itemLabel="THUN NỮ TAY DÀI CROPTOP" itemValue="THUN NỮ TAY DÀI CROPTOP"/>
+                    <f:selectItem itemLabel="SƠ MI NỮ TAY NGẮN" itemValue="SƠ MI NỮ TAY NGẮN"/>
+                    <f:selectItem itemLabel="SƠ MI NỮ TAY DÀI" itemValue="SƠ MI NỮ TAY DÀI"/><br/>
+                    <f:selectItem itemLabel="VÁY ĐẦM" itemValue="VÁY ĐẦM"/>
+                </p:selectOneRadio>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 2}">
+                    <f:selectItem itemLabel="QUẦN SHORT NỮ JEAN" itemValue="QUẦN SHORT NỮ JEAN"/>
+                    <f:selectItem itemLabel="QUẦN SHORT NỮ KAKI" itemValue="QUẦN SHORT NỮ KAKI"/>
+                    <f:selectItem itemLabel="QUẦN DÀI NỮ JEAN" itemValue="QUẦN DÀI NỮ JEAN"/>
+                    <f:selectItem itemLabel="QUẦN DÀI NỮ KAKI" itemValue="QUẦN DÀI NỮ KAKI"/>
+                    <f:selectItem itemLabel="QUẦN DÀI NỮ THUN" itemValue="QUẦN DÀI NỮ THUN"/><br/>
+                    <f:selectItem itemLabel="CHÂN VÁY" itemValue="CHÂN VÁY"/>
+                </p:selectOneRadio>
+                <p:divider/>
+                <p:outputLabel value="THỜI TRANG NAM:"/>
+                <p:commandButton value="Áo" actionListener="#{homeBean.setMaAdminPage(3)}" update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:commandButton value="Quần" actionListener="#{homeBean.setMaAdminPage(4)}" update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 3}">
+                    <f:selectItem itemLabel="THUN NAM TAY NGẮN TRƠN" itemValue="THUN NAM TAY NGẮN TRƠN"/>
+                    <f:selectItem itemLabel="THUN NAM TAY NGẮN IN HÌNH" itemValue="THUN NAM TAY NGẮN IN HÌNH"/>
+                    <f:selectItem itemLabel="THUN NAM TAY NGẮN CÓ CỔ" itemValue="THUN NAM TAY NGẮN CÓ CỔ"/>
+                    <f:selectItem itemLabel="THUN NAM TAY DÀI LEN" itemValue="THUN NAM TAY DÀI LEN"/>
+                    <f:selectItem itemLabel="THUN NAM TAY DÀI IN HÌNH" itemValue="THUN NAM TAY DÀI IN HÌNH"/>
+                    <f:selectItem itemLabel="SƠ MI NAM TAY NGẮN" itemValue="SƠ MI NAM TAY NGẮN"/>
+                    <f:selectItem itemLabel="SƠ MI NAM TAY DÀI" itemValue="SƠ MI NAM TAY DÀI"/>
+                </p:selectOneRadio>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 4}">
+                    <f:selectItem itemLabel="QUẦN SHORT NAM JEAN" itemValue="QUẦN SHORT NAM JEAN"/>
+                    <f:selectItem itemLabel="QUẦN SHORT NAM KAKI" itemValue="QUẦN SHORT NAM KAKI"/>
+                    <f:selectItem itemLabel="QUẦN DÀI NAM JEAN" itemValue="QUẦN DÀI NAM JEAN"/>
+                    <f:selectItem itemLabel="QUẦN DÀI NAM KAKI" itemValue="QUẦN DÀI NAM KAKI"/>
+                    <f:selectItem itemLabel="QUẦN DÀI NAM THUN" itemValue="QUẦN DÀI NAM THUN"/>
+                </p:selectOneRadio>
+                <p:divider/>
+                <p:outputLabel value="PHỤ KIỆN:" style="margin-right: 63px"/>
+                <p:commandButton value="Ba lô &amp; Túi xách" actionListener="#{homeBean.setMaAdminPage(5)}"
+                                 update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:commandButton value="Nón" actionListener="#{homeBean.setMaAdminPage(6)}" update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:commandButton value="Khác" actionListener="#{homeBean.setMaAdminPage(7)}" update="@form"
+                                 styleClass="ui-button-flat"/>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="5"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 5}">
+                    <f:selectItem itemLabel="BA LÔ" itemValue="BA LÔ"/>
+                    <f:selectItem itemLabel="TÚI XÁCH" itemValue="TÚI XÁCH"/>
+                </p:selectOneRadio>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="5"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 6}">
+                    <f:selectItem itemLabel="NÓN LƯỠI TRAI" itemValue="NÓN LƯỠI TRAI"/>
+                    <f:selectItem itemLabel="NÓN SNAPBACK" itemValue="NÓN SNAPBACK"/>
+                    <f:selectItem itemLabel="NÓN BUCKET" itemValue="NÓN BUCKET"/>
+                </p:selectOneRadio>
+                <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="5"
+                                  styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 7}">
+                    <f:selectItem itemLabel="VÍ" itemValue="VÍ"/>
+                    <f:selectItem itemLabel="DÂY NỊCH" itemValue="DÂY NỊCH"/>
+                    <f:selectItem itemLabel="THẮT LƯNG" itemValue="THẮT LƯNG"/>
+                    <f:selectItem itemLabel="ĐỒNG HỒ" itemValue="ĐỒNG HỒ"/>
+                </p:selectOneRadio>
+                <p:divider/>
+
+                <p:commandButton value="Bỏ qua" style="margin-left: 42%; margin-right: 5px"
+                                 onclick="PF('dlg-chon-danh-muc').hide()" styleClass="ui-button-danger"/>
+                <p:commandButton value="Đồng ý" rendered="#{homeBean.maAdminPage==1 or homeBean.maAdminPage==3}"
+                                 update=":info-product" oncomplete="PF('dlg-chon-danh-muc').hide()">
+                    <f:setPropertyActionListener target="#{sanPhamBean.sanPham.loai}" value="1"/>
+                </p:commandButton>
+                <p:commandButton value="Đồng ý" rendered="#{homeBean.maAdminPage==2 or homeBean.maAdminPage==4}"
+                                 update=":info-product" oncomplete="PF('dlg-chon-danh-muc').hide()">
+                    <f:setPropertyActionListener target="#{sanPhamBean.sanPham.loai}" value="2"/>
+                </p:commandButton>
+                <p:commandButton
+                        rendered="#{homeBean.maAdminPage==5 or homeBean.maAdminPage==6 or homeBean.maAdminPage==7}"
+                        oncomplete="PF('dlg-chon-danh-muc').hide()" value="Đồng ý" update=":info-product">
+                    <f:setPropertyActionListener target="#{sanPhamBean.sanPham.loai}" value="3"/>
+                </p:commandButton>
+
+            </h:form>
+        </p:dialog>
+
+        <!--dialog thêm hình ảnh và màu sắc cho sản phẩm-->
+        <p:dialog header="HÌNH ẢNH 	&amp; MÀU SẮC SẢN PHẨM" widgetVar="dlg-hinh-anh" showEffect="fade" modal="true">
+            <h:form id="hinh-anh" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td style="text-align: center">
+                            <p:outputLabel value="HÌNH ẢNH"/>
+                        </td>
+                        <td style="text-align: center; margin-left: 30px">
+                            <p:outputLabel value="MÀU SẮC"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i>(Tối đa 5 hình ảnh, chỉ chấp nhận định dạng jpg | jpeg | png)</i><br/><br/>
+                            <p:fileUpload value="#{sanPhamBean.resume}" mode="simple" skinSimple="true" multiple="true"
+                                          sizeLimit="10000000" fileLimit="5" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                        </td>
+                        <td>
+                            <p:selectManyCheckbox value="#{sanPhamBean.mauSacListString}" columns="3" layout="grid"
+                                                  styleClass="grid-radio" style="margin-left: 30px">
+                                <f:selectItem itemLabel="Đỏ" itemValue="Đỏ" style="color:red"/>
+                                <f:selectItem itemLabel="Vàng" itemValue="Vàng"/>
+                                <f:selectItem itemLabel="Xanh dương" itemValue="Xanh dương"/>
+                                <f:selectItem itemLabel="Xanh lá" itemValue="Xanh lá"/>
+                                <f:selectItem itemLabel="Hồng" itemValue="Hồng"/>
+                                <f:selectItem itemLabel="Trắng" itemValue="Trắng"/>
+                                <f:selectItem itemLabel="Đen" itemValue="Đen"/>
+                                <f:selectItem itemLabel="Cam" itemValue="Cam"/>
+                                <f:selectItem itemLabel="Tím" itemValue="Tím"/>
+                                <f:selectItem itemLabel="Xám" itemValue="Xám"/>
+                                <f:selectItem itemLabel="Nâu" itemValue="Nâu"/>
+                            </p:selectManyCheckbox>
+                        </td>
+                    </tr>
+                </table>
+                <p:divider/>
+                <p:commandButton value="Lưu" update=":hinh-anh" style="margin-left: 40%; margin-right: 10px"
+                                 action="admin-page?faces-redirect=true" icon="pi pi-save" ajax="false"
+                                 actionListener="#{sanPhamBean.saveSanPham}"/>
+                <p:commandButton value="Quay lại" onclick="PF('dlg-hinh-anh').hide()" styleClass="ui-button-danger"
+                                 icon="pi pi-arrow-left"/>
+            </h:form>
+        </p:dialog>
+
+        <!--dialog chi tiết số lượng-->
+        <p:dialog header="SỐ LƯỢNG SẢN PHẨM" widgetVar="dlg-so-luong" showEffect="fade" modal="true">
+            <h:form id="so-luong">
+                <p:outputLabel value="Tên sản phẩm: #{sanPhamBean.sanPham.tenSanPham}"/>
+                <p:dataTable var="ms" value="#{sanPhamBean.getMauSacBySanPham(sanPhamBean.sanPham.maSanPham)}">
+                    <p:column style="width: 15%; text-align: center" headerText="Màu">
+                        <p:outputLabel value="#{ms.tenMau}"/>
+                    </p:column>
+                    <p:column style="width: 15%" headerText="Số lượng">
+                        <p:outputLabel value="#{ms.soLuong}"/>
+                    </p:column>
+                    <p:column style="width: 70%" headerText="Size - Số lượng tương ứng">
+                        <p:dataTable var="kc" value="#{sanPhamBean.getKichCoByMauSac(ms.maMau)}">
+                            <p:outputLabel id="soLuong" value="#{kc.tenKichCo} - #{kc.soLuong}"/>
+                        </p:dataTable>
+                    </p:column>
+                </p:dataTable>
+                <p:divider/>
+                <p:commandButton value="Đóng" onclick="PF('dlg-so-luong').hide()" styleClass="ui-button-danger"
+                                 icon="pi pi-times"/>
+            </h:form>
+        </p:dialog>
+
+        <!--dialog chi tiết đơn hàng-->
+        <p:dialog header="Chi tiết đơn hàng" modal="true" widgetVar="detail-don-hang" resizable="false">
+            <p:outputPanel id="manage-order-content" class="ui-fluid">
+                <table cellpadding="2px">
+                    <tr>
+                        <td><p:outputLabel value="Mã đơn hàng:"/></td>
+                        <td>
+                            <p:inputText disabled="true" value="#{cartBean.donHang.maDonHang}" style="width: 220px"/>
+                        </td>
+                        <td><p:outputLabel value="Khách hàng:"/></td>
+                        <td>
+                            <p:inputText disabled="true" style="width: 220px"
+                                         value="#{cartBean.donHang.khachHang.tenKhachHang}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Ngày đặt hàng:"/></td>
+                        <td>
+                            <p:inputText disabled="true" style="width: 220px"
+                                         value="#{cartBean.donHang.ngayDatHang}"/>
+                        </td>
+                        <td><p:outputLabel value="Ngày nhận dự kiến:"/></td>
+                        <td>
+                            <p:inputText disabled="true" style="width: 220px"
+                                         value="#{cartBean.donHang.ngayNhanHang}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Địa chỉ nhận hàng:"/></td>
+                        <td colspan="3">
+                            <p:inputText disabled="true" style="width: 590px"
+                                         value="#{cartBean.donHang.diaChiNguoiNhan}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Đơn vị vận chuyển:"/></td>
+                        <td>
+                            <p:inputText disabled="true" value="#{cartBean.donHang.donViVanChuyen}"
+                                         style="width: 220px"/>
+                        </td>
+                        <td><p:outputLabel value="Phương thức:"/></td>
+                        <td>
+                            <p:inputText value="#{cartBean.donHang.phuongThucThanhToan}"
+                                         disabled="true" style="width: 220px"/>
+                        </td>
+                    </tr>
+                </table>
+                <hr/>
+                <div class="p-field" style="margin-left: 5px; margin-right: 5px">
+                    <p:outputLabel>Danh sách sản phẩm đặt:</p:outputLabel>
+                    <p:dataTable var="ctdh" style="width: 800px;" scrollable="true" scrollHeight="200"
+                                 value="#{cartBean.getChiTietDonHangs(cartBean.donHang.maDonHang)}">
+                        <p:column style="width: 15%; text-align: center" headerText="Mã sản phẩm">
+                            <p:outputLabel value="#{ctdh.maSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 30%" headerText="Tên sản phẩm">
+                            <p:outputLabel value="#{ctdh.tenSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Phân loại">
+                            <p:outputLabel value="#{ctdh.phanLoai}"/>
+                        </p:column>
+                        <p:column style="width: 10%" headerText="Đơn giá">
+                            <p:outputLabel value="#{ctdh.donGia}"/>
+                        </p:column>
+                        <p:column style="width: 15%; text-align: center" headerText="Số lượng mua">
+                            <p:outputLabel value="#{ctdh.soLuong}"/>
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Thành tiền">
+                            <p:outputLabel value="#{ctdh.thanhTien}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <hr/>
+                <div class="p-field">
+                    <p:outputLabel for="sum" style="">Tổng tiền đơn hàng:</p:outputLabel>
+                    <p:inputText id="sum" disabled="true" style="font-size: 20px; width: 150px"
+                                 value="#{cartBean.donHang.thanhTien}"/>VNĐ
+                </div>
+                <br/>
+                <div class="p-field">
+                    <p:commandButton value="Xác nhận đơn hàng" action="admin-page?faces-redirect=true"
+                                     actionListener="#{cartBean.choXacNhan(cartBean.donHang)}"
+                                     rendered="#{cartBean.donHang.trangThai eq 'Chờ xác nhận'}"
+                                     style="width: 200px"/>
+                    <p:commandButton value="Giao đơn hàng" action="admin-page?faces-redirect=true"
+                                     actionListener="#{cartBean.dangGiaoHang(cartBean.donHang)}"
+                                     rendered="#{cartBean.donHang.trangThai eq 'Chờ lấy hàng'}"
+                                     style="width: 200px"/>
+                    <p:commandButton value="Hoàn tất đơn hàng" action="admin-page?faces-redirect=true"
+                                     actionListener="#{cartBean.daGiaoHang(cartBean.donHang)}"
+                                     rendered="#{cartBean.donHang.trangThai eq 'Đang giao hàng'}"
+                                     style="width: 200px"/>
+                </div>
+            </p:outputPanel>
+            <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('detail-don-hang').hide()"
+                             styleClass="ui-button-danger" style="float: right"/>
+        </p:dialog>
+
+        <!--dialog xác nhận xóa đơn hàng-->
+        <p:dialog header="Xác nhận" widgetVar="dlg-xoa-don-hang" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn xóa đơn hàng này ?</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning" action="admin-page?faces-redirect=true"
+                                 actionListener="#{cartBean.deleteDonHang(cartBean.donHang)}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlg-xoa-don-hang').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog xóa phiếu nhập-->
+        <p:dialog header="Xác nhận" widgetVar="dlg-xoa-phieu-nhap" minHeight="40" width="300" showEffect="fade"
+                  modal="true">
+            <p class="p-m-0">Chắc chắn xóa phiếu nhập này? Số lượng có sẵn hiện tại của sản phẩm sẽ trừ đi số lượng đã nhập.</p>
+            <f:facet name="footer">
+                <p:commandButton value="Đồng ý" styleClass="ui-button-warning" action="admin-page?faces-redirect=true"
+                                 actionListener="#{quanLyNhapKhoBean.deletePhieuNhap}"/>
+                <p:commandButton value="Bỏ qua" onclick="PF('dlg-xoa-phieu-nhap').hide()"/>
+            </f:facet>
+        </p:dialog>
+
+        <!--dialog chi tiết phiếu nhập-->
+        <p:dialog header="Chi tiết phiếu nhập" showEffect="fade" modal="true"
+                  widgetVar="chi-tiet-phieu" hideEffect="fade" resizable="false">
+            <p:outputPanel id="nhap-kho" class="ui-fluid">
+                <table cellpadding="5px">
+                    <tr>
+                        <td><p:outputLabel value="Mã phiếu nhập:"/></td>
+                        <td><p:inputText readonly="true" value="#{quanLyNhapKhoBean.phieuNhap.maPhieuNhap}"
+                                         style="width: 100px"/></td>
+                        <td><p:outputLabel value="Nhân viên:"/></td>
+                        <td><p:inputText readonly="true" value="#{quanLyNhapKhoBean.phieuNhap.tenNhanVien}"
+                                         style="width: 200px"/></td>
+                        <td><p:outputLabel value="Ngày lập phiếu:"/></td>
+                        <td><p:inputText readonly="true" value="#{quanLyNhapKhoBean.phieuNhap.ngayLapPhieu}"
+                                         style="width: 100px"/></td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel value="Nhà cung cấp:"/></td>
+                        <td colspan="5"><p:inputText readonly="true" style="width: 635px"
+                                                     value="#{quanLyNhapKhoBean.phieuNhap.nhaCungCap.tenNhaCungCap}"/>
+                        </td>
+                    </tr>
+                </table>
+                <hr/>
+                <div class="p-field">
+                    <p:outputLabel>Danh sách sản phẩm nhập:</p:outputLabel>
+                    <p:dataTable var="ctsp" style="width: 800px" scrollable="true" scrollHeight="240"
+                                 value="#{quanLyNhapKhoBean.getChiTietPhieuNhaps(quanLyNhapKhoBean.phieuNhap.maPhieuNhap)}">
+                        <p:column style="width: 10%; text-align: center" headerText="Mã">
+                            <p:outputLabel value="#{ctsp.maSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 35%" headerText="Tên sản phẩm">
+                            <p:outputLabel value="#{ctsp.tenSanPham}"/>
+                        </p:column>
+                        <p:column style="width: 15%" headerText="Đơn giá">
+                            <p:outputLabel value="#{ctsp.donGia}"/>
+                        </p:column>
+                        <p:column style="width: 20%; text-align: center" headerText="Số lượng nhập">
+                            <p:outputLabel value="#{ctsp.soLuongNhap}"/>
+                        </p:column>
+                        <p:column style="width: 20%" headerText="Thành tiền">
+                            <p:outputLabel value="#{ctsp.thanhTien}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <hr/>
+                <div class="p-field">
+                    <p:outputLabel value="Tổng tiền nhập: "/>
+                    <p:inputText readonly="true" style="font-size: 20px; width: 150px"
+                                 value="#{quanLyNhapKhoBean.phieuNhap.thanhTien}"/>
+                </div>
+            </p:outputPanel>
+            <f:facet name="footer">
+                <p:commandButton value="Đóng" icon="pi pi-times" onclick="PF('chi-tiet-phieu').hide()"
+                                 class="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

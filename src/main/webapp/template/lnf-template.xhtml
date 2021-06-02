@@ -3,19 +3,83 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
 <h:head>
-    <meta content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Fashion Shop</title>
+    <style>
+        section {
+            display: -webkit-flex;
+            display: flex;
+        }
+        nav.danh-gia {
+            -webkit-flex: 5;
+            -ms-flex: 5;
+            flex: 5;
+            background-color: #dddddd;
+            padding: 20px;
+        }
+        article.danh-gia {
+            -webkit-flex: 2;
+            -ms-flex: 2;
+            flex: 2;
+            background-color: aliceblue;
+            padding: 10px;
+        }
+        nav.chi-tiet {
+            -webkit-flex: 3;
+            -ms-flex: 3;
+            flex: 3;
+            padding: 20px;
+            margin-right: 10px;
+            text-align: center;
+        }
+        article.chi-tiet {
+            -webkit-flex: 5;
+            -ms-flex: 5;
+            flex: 5;
+            padding: 10px;
+        }
+        nav.danh-muc {
+            -webkit-flex: 3;
+            -ms-flex: 3;
+            flex: 3;
+            padding: 20px;
+        }
+        article.danh-muc {
+            -webkit-flex: 7;
+            -ms-flex: 7;
+            text-align: center;
+            flex: 7;
+            padding: 10px;
+        }
+        nav.don-hang {
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            padding: 20px;
+        }
+        article.don-hang {
+            -webkit-flex: 5;
+            -ms-flex: 5;
+            text-align: center;
+            flex: 5;
+            padding: 10px;
+        }
+    </style>
 </h:head>
 <h:body>
     <div>
         <ui:insert name="header">
             <c:set var = "role" scope = "session" value = "${login.checkRole()}"/>
             <c:if test="${role == 1}">
-                <ui:include src="header-admin.xhtml"/>
+                <ui:include src="header-admin.xhtml" />
             </c:if>
             <c:if test="${role == 2}">
                 <ui:include src="header-user.xhtml"/>
+            </c:if>
+            <c:if test="${role == 3}">
+                <ui:include src="header-staff.xhtml"/>
             </c:if>
             <c:if test="${role == 0}">
                 <ui:include src="header.xhtml"/>
@@ -29,7 +93,7 @@
     <br/>
     <div>
         <ui:insert name="footer">
-            <h3 align="center">LÊ VĂN PHÚC - IUH</h3>
+            <h3 align="center">PHẠM ANH VŨ - LÊ VĂN PHÚC - IUH</h3>
         </ui:insert>
     </div>
 </h:body>

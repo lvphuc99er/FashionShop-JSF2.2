@@ -19,7 +19,7 @@ public class DonHang implements Serializable {
     @Id
     @Column(name = "maDonHang")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int maDonDang;
+    private int maDonHang;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "maKhachHang", referencedColumnName = "maKhachHang")
@@ -52,7 +52,14 @@ public class DonHang implements Serializable {
     @Column(name = "trangThai")
     private String trangThai;
 
+    @Column(name = "ghiChu")
+    private String ghiChu;
+
+    @Column(name = "gioNhanHang")
+    private String gioNhanHang;
+
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHang> chiTietDonHangList;
+
     
 }

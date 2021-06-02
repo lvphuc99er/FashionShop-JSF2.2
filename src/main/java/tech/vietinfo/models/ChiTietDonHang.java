@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Data
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChiTietDonHang implements Serializable {
@@ -22,9 +21,6 @@ public class ChiTietDonHang implements Serializable {
     @JoinColumn(name = "maDonHang", referencedColumnName = "maDonHang")
     private DonHang donHang;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private SanPham sanPham;
-
     @Id
     @Column(name = "maSanPham")
     private int maSanPham;
@@ -32,8 +28,11 @@ public class ChiTietDonHang implements Serializable {
     @Column(name = "tenSanPham")
     private String tenSanPham;
 
-    @Column(name = "xuatXu")
-    private String xuatXu;
+    @Column(name = "tenNoiSanXuat")
+    private String tenNoiSanXuat;
+
+    @Column(name = "phanLoai")
+    private String phanLoai;
 
     @Column(name = "donGia")
     private double donGia;

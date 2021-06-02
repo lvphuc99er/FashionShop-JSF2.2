@@ -1,0 +1,88 @@
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+        </f:metadata>
+        <div>
+            <p:commandButton value="Quay lại trang danh sách" action="quan-ly-nhap-kho?faces-redirect=true"/>
+            <h3 style="margin-left: 37%; margin-top: -25px">QUẢN LÝ NHẬP KHO - TẠO PHIẾU NHẬP</h3>
+        </div>
+        <hr/>
+        <h:form>
+            <table cellspacing="10px">
+                <tr>
+                    <td><p:outputLabel value="Nhân viên:"/></td>
+                    <td><p:inputText value="#{login.nhanVien.tenNhanVien}" style="width: 400px" readonly="true"/></td>
+                    <td><p:outputLabel value="Ngày lập phiếu nhập:"/></td>
+                    <td colspan="2">
+                        <p:inputText id="nlp" type="date" value="#{quanLyNhapKhoBean.phieuNhap.ngayLapPhieu}"/></td>
+                    <td><p:message for="nlp" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><p:outputLabel value="Nhà cung cấp:"/></td>
+                    <td>
+                        <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.maNCC}">
+                            <f:selectItems value="#{nhaCungCapBean.nhaCungCaps}" var="ncc"
+                                           itemLabel="#{ncc.tenNhaCungCap}" itemValue="#{ncc.maNhaCungCap}"/>
+                        </p:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:outputLabel value="Sản phẩm:"/>
+                    </td>
+                    <td>
+                        <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.maSP}">
+                            <f:selectItems value="#{sanPhamBean.sanPhams}" var="sp" itemValue="#{sp.maSanPham}"
+                                           itemLabel="#{sp.tenSanPham}"/>
+                        </p:selectOneMenu>
+                    </td>
+                    <td><p:outputLabel value="Số lượng: "/>
+                        <p:spinner style="width: 75px" min="1" value="#{quanLyNhapKhoBean.sl}"/>
+                    </td>
+                    <td><p:commandButton value="Thêm" action="#{quanLyNhapKhoBean.getItems}" ajax="false"/></td>
+                </tr>
+            </table>
+            <hr/>
+            <p:outputLabel style="text-align: center" value="DANH SÁCH SẢN PHẨM CHỌN NHẬP"/>
+            <p:dataTable var="it" value="#{quanLyNhapKhoBean.itemList}">
+                <p:column style="width: 10%; text-align: center" headerText="Mã sản phẩm">
+                    <h:outputText value="#{it.sanPham.maSanPham}"/>
+                </p:column>
+                <p:column style="width: 30%" headerText="Tên sản phẩm">
+                    <h:outputText value="#{it.sanPham.tenSanPham}"/>
+                </p:column>
+                <p:column style="width: 10%;" headerText="Xuất xứ">
+                    <h:outputText value="#{it.sanPham.tenNoiSanXuat}"/>
+                </p:column>
+                <p:column style="width: 15%" headerText="Đơn giá">
+                    <h:outputText value="#{it.sanPham.donGia}"/>
+                </p:column>
+                <p:column style="width: 10%" headerText="Số lượng nhập">
+                    <h:outputText value="#{it.quantity}"/>
+                </p:column>
+                <p:column style="width: 10%" headerText="Thành tiền">
+                    <h:outputText value="#{it.sanPham.donGia * it.quantity}"/>
+                </p:column>
+                <p:column style="width: 10%">
+                    <p:commandButton icon="pi pi-times" styleClass="ui-button-danger"
+                                     action="tao-phieu-nhap?faces-redirect=true"
+                                     actionListener="#{quanLyNhapKhoBean.deleteKhoiPhieuNhap(it.sanPham)}"/>
+                </p:column>
+            </p:dataTable>
+            <hr/>
+            <p:commandButton value="Đồng ý nhập" action="#{quanLyNhapKhoBean.addPhieuNhap}" ajax="false">
+                <f:setPropertyActionListener value="#{login.nhanVien.tenNhanVien}"
+                                             target="#{quanLyNhapKhoBean.phieuNhap.tenNhanVien}"/>
+            </p:commandButton>
+            <p:outputLabel style="margin-left: 61%; font-size: 20px" value="Tổng tiền nhập: "/>
+            <p:inputText style="font-size: 25px; width: 250px;" readonly="true" value="#{quanLyNhapKhoBean.total()}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

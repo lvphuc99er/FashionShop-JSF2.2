@@ -46,15 +46,18 @@ public class KhachHang implements Serializable {
     private String gioiTinh;
 
     @Column(name = "matKhau")
-    @Size(min = 8, max = 36, message = "Mật khẩu từ 8 - 36 ký tự")
+    @Size(min = 4, max = 36, message = "Mật khẩu từ 4 - 36 ký tự")
     private String matKhau;
 
     @Column(name = "trangThai")
     private String trangThai;
 
     @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<DonHang> donHangList;
 
     @OneToOne(mappedBy = "khachHang")
+    @ToString.Exclude
     private GioHang gioHang;
+
 }

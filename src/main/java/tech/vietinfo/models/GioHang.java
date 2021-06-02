@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class GioHang implements Serializable {
@@ -24,14 +23,10 @@ public class GioHang implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maKhachHang",referencedColumnName = "maKhachHang")
-
     private KhachHang khachHang;
 
     @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<ChiTietGioHang> chiTietGioHangList;
-
-    @Column(name = "thanhTien")
-    private double thanhTien;
 
 }

@@ -11,20 +11,48 @@
     <h:form id="form">
         <p:growl id="message">
             <p:menubar>
-                <p:menuitem value="Trang chủ" outcome="dashboard"/>
-                <p:menuitem value="Sản phẩm" action="#{homeBean.setMa(4)}"/>
-                <p:menuitem value="Liên hệ" outcome="about"/>
+                <p:menuitem value="TRANG CHỦ" outcome="trang-chu"/>
+                <p:submenu label="THỜI TRANG NỮ">
+                    <p:menuitem value="ÁO THUN NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(1)}" update="@form"/>
+                    <p:menuitem value="ÁO SƠ MI NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(2)}" update="@form"/>
+                    <p:menuitem value="QUẦN SHORT NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(3)}" update="@form"/>
+                    <p:menuitem value="QUẦN DÀI NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(4)}" update="@form"/>
+                    <p:menuitem value="VÁY ĐẦM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(5)}"/>
+                    <p:menuitem value="CHÂN VÁY" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(6)}"/>
+                </p:submenu>
+                <p:submenu label="THỜI TRANG NAM">
+                    <p:menuitem value="ÁO THUN NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(7)}"/>
+                    <p:menuitem value="ÁO SƠ MI NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(8)}"/>
+                    <p:menuitem value="QUẦN SHORT NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(9)}"/>
+                    <p:menuitem value="QUẦN DÀI NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(10)}"/>
+                </p:submenu>
+                <p:menuitem value="PHỤ KIỆN" action="san-pham-theo-danh-muc?faces-redirect=true"
+                            actionListener="#{homeBean.setMaHeader(11)}"/>
+
+                <p:menuitem value="LIÊN HỆ" outcome="about"/>
                 <f:facet name="options">
-                    <p:inputText placeholder="Tìm kiếm..."/>
+                    <p:inputText placeholder="Tìm kiếm..." value="#{homeBean.tuKhoa}"/>
+                    <p:commandButton icon="pi pi-search" style="width: 40px;" actionListener="#{homeBean.setTu}"
+                                     action="trang-ket-qua-tim-kiem?faces-redirect=true"/>
                     <p:commandButton icon="pi pi-shopping-cart" action="shoppingcart?faces-redirect=true"
-                                     value="#{cartBean.demSoLuong(login.getKhachHang().maKhachHang)}"
+                                     value="#{cartBean.demSoLuongTrongGioHang(login.getKhachHang().maKhachHang)}"
                                      style="margin-left: 5px"/>
                     <p:outputLabel value="Khách hàng: " style="margin-left: 5px; margin-right: 5px"/>
                     <p:outputLabel value="#{login.khachHang.tenKhachHang}" style="margin-right: 5px;" disabled="true"/>
                     <p:menuButton icon="pi pi-user" styleClass="rounded-button ui-button-info"
                                   style="margin-right: 5px;">
-                        <p:menuitem value="Hồ sơ cá nhân" outcome="u_information"/>
-                        <p:menuitem value="Đơn hàng" outcome="u_listorder"/>
+                        <p:menuitem value="Hồ sơ cá nhân" outcome="thong-tin-ca-nhan"/>
+                        <p:menuitem value="Đơn hàng" outcome="don-hang-ca-nhan"/>
                     </p:menuButton>
                     <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
                                      oncomplete="PF('dlg1').show()"/>

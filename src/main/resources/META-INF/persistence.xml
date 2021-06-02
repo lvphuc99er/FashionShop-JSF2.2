@@ -5,7 +5,6 @@
              version="2.2">
     <persistence-unit name="fashionshop" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>tech.vietinfo.models.DanhMuc</class>
         <class>tech.vietinfo.models.SanPham</class>
         <class>tech.vietinfo.models.DonHang</class>
         <class>tech.vietinfo.models.ChiTietDonHang</class>
@@ -15,9 +14,14 @@
         <class>tech.vietinfo.models.KhachHang</class>
         <class>tech.vietinfo.models.GioHang</class>
         <class>tech.vietinfo.models.ChiTietGioHang</class>
+        <class>tech.vietinfo.models.NhanVien</class>
+        <class>tech.vietinfo.models.MauSac</class>
+        <class>tech.vietinfo.models.HinhAnh</class>
+        <class>tech.vietinfo.models.KichCo</class>
+        <class>tech.vietinfo.models.DanhGia</class>
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/fashionshop_v4"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/fashionshop_v5"/>
             <property name="hibernate.connection.autocommit" value="false"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="123456"/>

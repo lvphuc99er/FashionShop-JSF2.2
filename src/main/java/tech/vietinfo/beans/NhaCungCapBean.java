@@ -42,21 +42,21 @@ public class NhaCungCapBean implements Serializable {
 
     public String addNhaCungCap() {
         nhaCungCapService.addNhaCungCap(nhaCungCap);
-        return "smn_listsupplier?faces-redirect=true";
+        return "";
     }
 
     public String deleteNhaCungCap() {
         nhaCungCapService.deleteNhaCungCap(nhaCungCap);
-        return "smn_listsupplier?faces-redirect=true";
+        return "";
     }
 
-    public String updateNhaCungCap() {
-        nhaCungCapService.updateNhaCungCap(nhaCungCap);
-        return "smn_listsupplier?faces-redirect=true";
-    }
-
-    public String nextPageCreate() {
-        return "smn_listsupplier_create?faces-redirect=true";
+    public String saveNhaCungCap() {
+        if(nhaCungCap.getMaNhaCungCap()==0){
+            nhaCungCapService.addNhaCungCap(nhaCungCap);
+        }else{
+            nhaCungCapService.updateNhaCungCap(nhaCungCap);
+        }
+        return "";
     }
 
 }

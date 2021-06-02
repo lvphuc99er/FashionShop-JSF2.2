@@ -39,7 +39,7 @@ public class KhachHangService implements Serializable {
     }
 
     public List<KhachHang> getSanPhamsBySDT(String sdt){
-        String hql = "select kh from KhachHang kh where kh.soDienThoai = '"+sdt+"'";
+        String hql = "select kh from KhachHang kh where kh.soDienThoai = '" + sdt + "'";
         Query query = entityManager.createQuery(hql);
         return query.getResultList();
     }

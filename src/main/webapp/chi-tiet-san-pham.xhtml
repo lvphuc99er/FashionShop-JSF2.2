@@ -1,0 +1,195 @@
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
+        <f:viewParam name="tsp" value="#{sanPhamBean.sanPham.tenSanPham}"/>
+        <f:viewParam name="tt" value="#{sanPhamBean.sanPham.trangThai}"/>
+        <f:viewParam name="slcs" value="#{sanPhamBean.sanPham.soLuongCoSan}"/>
+        <f:viewParam name="em" value="#{sanPhamBean.sanPham.moTaSanPham}"/>
+        <f:viewParam name="l" value="#{sanPhamBean.sanPham.loai}"/>
+        <f:viewParam name="dg" value="#{sanPhamBean.sanPham.donGia}"/>
+        <f:viewParam name="ms" value="#{sanPhamBean.mauSac.tenMau}"/>
+        <f:viewParam name="ms" value="#{sanPhamBean.mauSac.maMau}"/>
+        <f:viewParam name="kc" value="#{sanPhamBean.kichCo.tenKichCo}"/>
+        <f:viewParam name="slcb" value="#{cartBean.soLuong}"/>
+        <f:viewParam name="kccb" value="#{cartBean.kichCo}"/>
+        <f:viewParam name="mcb" value="#{cartBean.mau}"/>
+        <f:viewParam name="makh" value="#{login.khachHang.maKhachHang}"/>
+        <f:viewParam name="tenkh" value="#{login.khachHang.tenKhachHang}"/>
+    </f:metadata>
+    <ui:define name="body">
+        <h2 align="center">CHI TIẾT SẢN PHẨM</h2>
+        <hr/>
+        <h:form id="form1">
+            <section>
+                <nav class="chi-tiet">
+                    <p:galleria value="#{sanPhamBean.getHinhAnhBySanPham(sanPhamBean.sanPham.maSanPham)}"
+                                var="im" panelWidth="460" panelHeight="610">
+                        <p:graphicImage value="images/#{im.tenHinhAnh}"
+                                        style="width: 450px; height: 600px;"/>
+                    </p:galleria>
+                </nav>
+                <article class="chi-tiet">
+                    <b><p:outputLabel style="font-size: 45px" value="#{sanPhamBean.sanPham.tenSanPham}"/></b>
+                    <br/>
+                    <table style="background-color: #f3f6f6; border-radius: 5px 5px 5px 5px" cellpadding="5px">
+                        <tr>
+                            <td>
+                                <p:outputLabel
+                                        value="#{sanPhamBean.tinhTrungBinhSao(sanPhamBean.sanPham.maSanPham)}/5"/>
+                                <p:outputLabel value=" ★" style="color: #ffd800; font-size: 20px; font-weight: bold"/>
+                            </td>
+                            <td>|</td>
+                            <td>
+                                <p:outputLabel
+                                        value="#{sanPhamBean.getDanhGiaBySanPham(sanPhamBean.sanPham.maSanPham).size()} đánh giá"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <p/>
+                    <p/>
+
+                    <b><p:outputLabel style="font-size: 60px; color: red" value="#{sanPhamBean.sanPham.donGia}"/></b>
+                    <p/>
+
+                    <p:outputLabel value="Màu sắc:" style="margin-right: 10px"/>
+                    <p:selectOneButton value="#{cartBean.mau}" id="mau"
+                                       rendered="#{sanPhamBean.sanPham.loai eq '1' or sanPhamBean.sanPham.loai eq '2'}">
+                        <f:selectItems value="#{sanPhamBean.getMauSacBySanPhamString(sanPhamBean.sanPham.maSanPham)}"/>
+                    </p:selectOneButton>
+                    <h:message for="mau" style="color:red;"/>
+                    <p/>
+
+                    <p:outputLabel value="Kích cỡ:" style="margin-right: 15px"/>
+                    <p:selectOneButton value="#{cartBean.kichCo}" id="kichcoao"
+                                       rendered="#{sanPhamBean.sanPham.loai eq '1'}">
+                        <f:selectItem itemValue="S" itemLabel="S"/>
+                        <f:selectItem itemValue="M" itemLabel="M"/>
+                        <f:selectItem itemValue="L" itemLabel="L"/>
+                        <f:selectItem itemValue="XL" itemLabel="XL"/>
+                    </p:selectOneButton>
+                    <p:selectOneButton value="#{cartBean.kichCo}" id="kichcoquan"
+                                       rendered="#{sanPhamBean.sanPham.loai eq '2'}">
+                        <f:selectItem itemValue="26" itemLabel="26"/>
+                        <f:selectItem itemValue="27" itemLabel="27"/>
+                        <f:selectItem itemValue="28" itemLabel="28"/>
+                        <f:selectItem itemValue="29" itemLabel="29"/>
+                        <f:selectItem itemValue="30" itemLabel="30"/>
+                        <f:selectItem itemValue="31" itemLabel="31"/>
+                        <f:selectItem itemValue="32" itemLabel="32"/>
+                        <f:selectItem itemValue="33" itemLabel="33"/>
+                    </p:selectOneButton>
+                    <h:message for="kichcoao" style="color:red;"/>
+                    <h:message for="kichcoquan" style="color:red;"/>
+                    <p/>
+
+                    <p:outputLabel value="Số lượng: "/>
+                    <p:spinner style="width: 100px" min="1" value="#{cartBean.soLuong}"/>
+                    <i><p:outputLabel value="(còn #{sanPhamBean.sanPham.soLuongCoSan} sản phẩm)"
+                                      style="margin-left: 20px; color: darkgray"/></i>
+                    <p/>
+                    <p/>
+
+                    <p:commandButton value="THÊM VÀO GIỎ HÀNG" styleClass="ui-button-warning" icon="pi pi-shopping-cart"
+                                     action="#{cartBean.addSanPhamVaoGioHang(sanPhamBean.sanPham.maSanPham)}"
+                                     style="margin-right: 10px; width: 250px; height: 50px; border-radius: 0 0 0 0"
+                                     rendered="#{sanPhamBean.sanPham.soLuongCoSan > 0 and  sanPhamBean.sanPham.trangThai eq 'ĐANG BÁN'
+                                                and not empty login.khachHang.maKhachHang}"
+                                     update=":form1" ajax="true"/>
+                    <p:commandButton value="THÊM VÀO GIỎ HÀNG" styleClass="ui-button-warning"
+                                     action="login.xhtml?faces-redirect=true" icon="pi pi-shopping-cart"
+                                     style="margin-right: 10px; width: 250px; height: 50px; border-radius: 0 0 0 0"
+                                     rendered="#{empty login.khachHang.maKhachHang}" ajax="true" update=":form1"/>
+
+                    <p:commandButton value="Ngừng kinh doanh" disabled="true" styleClass="ui-button-secondary"
+                                     rendered="#{sanPhamBean.sanPham.trangThai eq 'NGỪNG KINH DOANH'}"
+                                     style="margin-right: 10px; width: 250px; height: 50px"/>
+                    <p:commandButton value="Hết hàng" disabled="true" styleClass="ui-button-secondary"
+                                     rendered="#{sanPhamBean.sanPham.soLuongCoSan == 0}"
+                                     style="margin-right: 10px; width: 250px; height: 50px"/>
+                    <p/>
+                    <p/>
+                    <p:outputLabel value="THÔNG TIN SẢN PHẨM"/>
+                    <p:inputTextarea value="#{sanPhamBean.sanPham.moTaSanPham}" readonly="true" cols="105"
+                                     style="font-size: 18px; margin-top: 10px"/>
+                </article>
+            </section>
+        </h:form>
+
+        <h:form id="form2">
+        <p:divider/>
+        <p:tabView>
+            <p:tab title="Hình ảnh mô tả" titleStyle="font-size: 20px">
+                <p class="p-m-0">
+                    <p:graphicImage
+                            value="images/#{sanPhamBean.getHinhAnhDemo(sanPhamBean.sanPham.maSanPham).tenHinhAnh}"/>
+                </p>
+            </p:tab>
+            <p:tab title="Đánh giá và nhận xét (#{sanPhamBean.getDanhGiaBySanPham(sanPhamBean.sanPham.maSanPham).size()})"
+                   titleStyle="font-size: 20px">
+                <section>
+                    <nav class="danh-gia">
+                        <p:dataTable var="danhGia"
+                                     value="#{sanPhamBean.getDanhGiaBySanPham(sanPhamBean.sanPham.maSanPham)}">
+                            <p:column>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="#{danhGia.thoiGian}"/>
+                                        </td>
+                                        <td>
+                                            <p:outputLabel value="#{danhGia.tenKhachHang}"/>
+                                        </td>
+                                        <td>
+                                            <p:rating value="#{danhGia.sao}" readonly="true"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="background-color: #ddfdf7">
+                                            <p:outputLabel value="#{danhGia.noiDung}" style="width: 400px"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:column>
+                        </p:dataTable>
+                    </nav>
+                    <article class="danh-gia">
+                        <table>
+                            <tr>
+                                <td style="text-align: center" colspan="2">
+                                    <h2><p:outputLabel value="THÊM ĐÁNH GIÁ"/></h2>
+                                    <p:outputLabel value="Đánh giá của bạn"/>
+                                    <p:outputLabel value="*" style="color: red"/>
+                                    <p/>
+                                    <p:rating value="#{sanPhamBean.danhGia.sao}" style="color: orangered"
+                                              required="true" requiredMessage="Đánh giá sao cho sản phẩm" id="cSao"/>
+                                    <h:message for="cSao" style="color: red"/>
+                                    <p/>
+                                    <p:outputLabel value="Nhận xét của bạn"/>
+                                    <p:outputLabel value="*" style="color: red"/>
+                                    <p/>
+                                    <p:inputTextarea placeholder="Nhập nhận xét của bạn về chất lượng sản phẩm..."
+                                                     cols="50" rows="6" scrollHeight="6"
+                                                     value="#{sanPhamBean.danhGia.noiDung}"/>
+                                    <p/>
+                                    <p:commandButton value="Gửi đi" action="#{sanPhamBean.nextPageDetail(sanPhamBean.sanPham.maSanPham)}"
+                                                     rendered="#{not empty login.khachHang.maKhachHang}"
+                                                     process="@this" ajax="false" update=":form2"
+                                                     actionListener="#{sanPhamBean.saveDanhGia(login.khachHang.tenKhachHang,sanPhamBean.sanPham.maSanPham)}"/>
+                                    <p:commandButton value="Gửi đi" rendered="#{empty login.khachHang.maKhachHang}"
+                                                     action="login?faces-redirect=true" ajax="false" update=":form2"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </article>
+                </section>
+            </p:tab>
+        </p:tabView>
+    </h:form>
+</ui:define>
+        </ui:composition>
+

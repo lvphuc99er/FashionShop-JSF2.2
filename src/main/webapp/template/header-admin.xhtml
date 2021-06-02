@@ -3,37 +3,16 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
-    <h:graphicImage width="100%" value="images/ban.png"/>
     <h:form id="form">
-        <p:growl id="message">
-            <p:menubar>
-                <p:menuitem value="Trang chủ" outcome="dashboard"/>
-                <p:menuitem value="Sản phẩm" action="#{homeBean.setMa(4)}"/>
-                <p:menuitem value="Liên hệ" outcome="about"/>
-                <p:submenu style="margin-left: 50px;" label="Quản lý">
-                    <p:submenu label="Sản phẩm">
-                        <p:menuitem value="Danh sách sản phẩm" outcome="pmn_listproduct"/>
-                        <p:menuitem value="Thêm sản phẩm mới" outcome="pmn_listproduct_create"/>
-                        <p:menuitem value="Nhập sản phẩm" outcome="pmn_warehouse"/>
-                    </p:submenu>
-                    <p:submenu label="Nhà cung cấp">
-                        <p:menuitem value="Danh sách nhà cung cấp" outcome="smn_listsupplier"/>
-                        <p:menuitem value="Thêm nhà cung cấp mới" action="#{nhaCungCapBean.nextPageCreate}"/>
-                    </p:submenu>
-                    <p:menuitem value="Người dùng" outcome="umn_listuser"/>
-                    <p:menuitem value="Đơn hàng" outcome="listorder"/>
-                </p:submenu>
-                <p:menuitem value="Thống kê" outcome="statistical"/>
-                <f:facet name="options">
-                    <p:inputText placeholder="Tìm kiếm..."/>
-                    <p:commandButton icon="pi pi-shopping-cart" style="margin-left: 5px"
-                                     action="shoppingcart?faces-redirect=true"/>
-                    <p:outputLabel value="Tài khoản: ADMIN" style="margin-left: 5px; margin-right: 5px"/>
-                    <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
-                                     oncomplete="PF('dlg1').show()"/>
-                </f:facet>
-            </p:menubar>
-        </p:growl>
+        <p:menubar>
+            <p:menuitem value="L I V E  L O U N G E" style="font-weight: bold; background-color: red"/>
+            <p:menuitem value="Bạn đang là ADMIN của hệ thống" disabled="true"/>
+            <f:facet name="options">
+                <p:outputLabel value="Tài khoản: ADMIN" style="margin-left: 5px; margin-right: 5px"/>
+                <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
+                                 oncomplete="PF('dlg1').show()"/>
+            </f:facet>
+        </p:menubar>
 
         <!--dialog-->
         <p:dialog header="Đăng xuất !" widgetVar="dlg1" minHeight="40" width="300" showEffect="fade" modal="true">

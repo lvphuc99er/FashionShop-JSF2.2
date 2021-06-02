@@ -1,0 +1,35 @@
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <h:form id="form-tim-kiem">
+            <h1><p:outputLabel value="Tìm kiếm với từ khóa: &quot;#{homeBean.tuTimKiem}&quot;"/></h1>
+            <hr/>
+            <p:selectOneMenu>
+                <f:selectItem itemLabel="Giá thấp đến cao &#8593;" itemValue="Giá thấp đến cao"/>
+                <f:selectItem itemLabel="Giá cao xuống thấp &#8595;" itemValue="Giá cao xuống thấp"/>
+            </p:selectOneMenu>
+            <p/>
+            <p:dataView var="sp" value="#{sanPhamBean.getSanPhamsByTuKhoa(homeBean.tuTimKiem)}" layout="grid"
+                        rows="24" gridIcon="pi pi-th-large" paginator="true">
+                <p:dataViewGridItem>
+                    <p:panel header="#{sp.tenSanPham}" style="text-align:center">
+                        <p:panelGrid columns="1" style="width: 100%">
+                            <f:facet name="header">
+                                <p:graphicImage style="width: 250px; height: 350px"
+                                                value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"/><br/>
+                                <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                            </f:facet>
+                            <p:commandButton action="#{sanPhamBean.nextPageDetail(sp.maSanPham)}"
+                                             process="@this" style="width: 180px" value="Xem chi tiết"/>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:dataViewGridItem>
+            </p:dataView>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

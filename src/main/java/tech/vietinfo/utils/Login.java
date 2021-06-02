@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
 import tech.vietinfo.models.KhachHang;
+import tech.vietinfo.models.NhanVien;
 import tech.vietinfo.services.KhachHangService;
+import tech.vietinfo.services.NhanVienService;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -48,6 +50,11 @@ public class Login implements Serializable {
     private List<KhachHang> khachHangs;
     private KhachHang khachHang;
 
+    @Inject
+    private NhanVienService nhanVienService;
+    private List<NhanVien> nhanViens;
+    private NhanVien nhanVien;
+
     HttpSession session = SessionUtil.getSession();
     private int err;
     private String messSai = "Tên tài khoản hoặc mật khẩu không chính xác";
@@ -72,33 +79,36 @@ public class Login implements Serializable {
     public String logout() {
         session = SessionUtil.getSession();
         session.invalidate();
-        return "dashboard?faces-redirect=true";
+        return "trang-chu?faces-redirect=true";
     }
 
-    /*
-     * kiểm tra vai trò đăng nhập
-     * @return 1 là admin, 2 là user
-     */
     public int checkRole() {
         Object userLoggedIn = session.getAttribute("name");
         if (userLoggedIn == "admin") {
             return 1;
-        }
-        if (userLoggedIn == "user") {
+        } else if (userLoggedIn == "user") {
             return 2;
+        } else if (userLoggedIn == "nhanvien") {
+            return 3;
         }
         return 0;
     }
 
-    /*
-     * kiểm tra đăng nhập
-     * @return trả về đang chủ nếu đăng nhập đúng
-     */
     public String validateLogin() {
         if (username.equals(ADMIN) && password.equals(PASS)) {
             session.setAttribute("name", "admin");
-            return "dashboard?faces-redirect=true&includeViewParams=true";
+            return "admin-page?faces-redirect=true";
+        } else if (username.contains("nhanvien@")) {
+            nhanViens = nhanVienService.getNhanViens();
+            for (NhanVien nv : nhanViens) {
+                if (username.equals("nhanvien@" + nv.getSoDienThoai()) && password.equals(nv.getMatKhau())) {
+                    nhanVien = nv;
+                    session.setAttribute("name", "nhanvien");
+                    return "trang-chu?faces-redirect=true&includeViewParams=true";
+                }
+            }
         } else {
+            int dem = 0;
             khachHangs = khachHangService.getKhachHangs();
             for (KhachHang kh : khachHangs) {
                 if (username.equals(kh.getSoDienThoai()) && password.equals(kh.getMatKhau())) {
@@ -111,26 +121,27 @@ public class Login implements Serializable {
                         load();
                         return "login";
                     } else {
+                        khachHang = kh;
                         session.setAttribute("name", "user");
-                        return "dashboard?faces-redirect=true&includeViewParams=true";
+                        return "trang-chu?faces-redirect=true&includeViewParams=true";
                     }
                 } else {
-                    load();
-                    err = 1;
+                    dem++;
                 }
+            }
+            if (dem == khachHangs.size()) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Thông báo", "Tên" +
+                        "đăng nhập hoặc tài khoản không đúng.");
+                PrimeFaces.current().dialog().showMessageDynamic(message);
+                load();
             }
         }
         return "login";
     }
 
-    public KhachHang getKhachHang() {
-        khachHang = khachHangService.getSanPhamsBySDT(username).get(0);
-        return khachHang;
-    }
-
     public String updateKhachHang() {
         khachHangService.updateKhachHang(khachHang);
-        return "u_information?faces-redirect=true";
+        return "thong-tin-ca-nhan?faces-redirect=true";
     }
 
     public String load() {

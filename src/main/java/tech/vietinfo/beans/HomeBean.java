@@ -23,28 +23,22 @@ public class HomeBean implements Serializable {
     @Inject
     private SanPhamService sanPhamService;
     private List<SanPham> sanPhamList = new ArrayList<>();
-    private int ma;
+    private int maAdminPage;
+    private int maHeader;
+    private int dieuHuong;
+    private String tuKhoa;
+    private String tuTimKiem;
+    private int maGia;
+    private int maDonHang;
 
-    public String setMa(int ma) {
-        this.ma = ma;
-        return "sanpham-danh-sach?faces-redirect=true";
+    public String setMaAdminPage(int ma) {
+        this.maAdminPage = ma;
+        return "";
     }
 
-    public List<SanPham> getSanPhams() {
-        if (ma == 4) {
-            sanPhamList = sanPhamService.getSanPhams();
-        }
-        if (ma == 1) {
-            sanPhamList = sanPhamService.getSanPhamsByDanhMuc(1);
-        }
-        if (ma == 2) {
-            sanPhamList = sanPhamService.getSanPhamsByDanhMuc(2);
-        }
-        if (ma == 3) {
-            sanPhamList = sanPhamService.getSanPhamsByDanhMuc(3);
-        }
-        return sanPhamList;
+    public String setTu(){
+        setTuTimKiem(tuKhoa);
+        setTuKhoa("");
+        return "";
     }
-
-
 }

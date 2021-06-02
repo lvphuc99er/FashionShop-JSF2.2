@@ -1,0 +1,332 @@
+<ui:composition template="template/lnf-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="body">
+        <f:metadata>
+            <f:param value="#{login.khachHang.maKhachHang}"/>
+            <f:viewParam name="mah" value="#{homeBean.maHeader}"/>
+            <f:viewParam name="mag" value="#{homeBean.maGia}"/>
+        </f:metadata>
+        <h:form>
+            <section>
+                <nav class="danh-muc">
+                    <p:commandButton value="Trở lại" icon="pi pi-arrow-left" update="@form"
+                                     actionListener="#{homeBean.setMaHeader(1)}"
+                                     rendered="#{homeBean.maHeader == 12 or homeBean.maHeader == 13 or
+                                                     homeBean.maHeader == 17 or homeBean.maHeader == 18 or
+                                                     homeBean.maHeader == 19 or homeBean.maHeader == 20 or
+                                                     homeBean.maHeader == 21 or homeBean.maHeader == 22}"/>
+                    <p/>
+                    <p/>
+
+                    <p:commandButton value="Trở lại" icon="pi pi-arrow-left" update="@form"
+                                     actionListener="#{homeBean.setMaHeader(7)}"
+                                     rendered="#{homeBean.maHeader == 14 or homeBean.maHeader == 15 or
+                                                     homeBean.maHeader == 30 or homeBean.maHeader == 31 or
+                                                     homeBean.maHeader == 33 or homeBean.maHeader == 34 or
+                                                     homeBean.maHeader == 35}"/>
+                    <p/>
+                    <p/>
+
+                    <p:commandButton value="Trở lại" icon="pi pi-arrow-left" update="@form"
+                                     actionListener="#{homeBean.setMaHeader(11)}"
+                                     rendered="#{homeBean.maHeader == 16 or homeBean.maHeader == 47 or
+                                                     homeBean.maHeader == 48 or homeBean.maHeader == 49}"/>
+                    <p/>
+                    <p/>
+
+                    <!--Áo thun nữ-->
+                    <p:fieldset legend="ÁO THUN NỮ" rendered="#{homeBean.maHeader == 1}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="ÁO THUN NỮ TAY NGẮN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(12)}"/>
+                            <p:menuitem value="ÁO THUN NỮ TAY DÀI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(13)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo thun nữ -> thun nữ tay ngắn-->
+                    <p:fieldset legend="ÁO THUN NỮ → TAY NGẮN" rendered="#{homeBean.maHeader == 12 or
+                            homeBean.maHeader == 17 or homeBean.maHeader == 18 or homeBean.maHeader == 19
+                            or homeBean.maHeader == 20}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="THUN NỮ TAY NGẮN TRƠN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(17)}"/>
+                            <p:menuitem value="THUN NỮ TAY NGẮN IN HÌNH" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(18)}"/>
+                            <p:menuitem value="THUN NỮ TAY NGẮN CÓ CỔ" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(19)}"/>
+                            <p:menuitem value="THUN NỮ TAY NGẮN CROPTOP" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(20)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo thun nữ -> thun nữ tay dài-->
+                    <p:fieldset legend="ÁO THUN NỮ → TAY DÀI" rendered="#{homeBean.maHeader == 13
+                            or homeBean.maHeader == 21 or homeBean.maHeader == 22}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="THUN NỮ TAY DÀI IN HÌNH" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(21)}"/>
+                            <p:menuitem value="THUN NỮ TAY DÀI CROPTOP" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(22)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo sơ mi nữ-->
+                    <p:fieldset legend="ÁO SƠ MI NỮ" rendered="#{homeBean.maHeader == 2
+                            or homeBean.maHeader == 23 or homeBean.maHeader == 24}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="ÁO SƠ MI NỮ TAY NGẮN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(23)}"/>
+                            <p:menuitem value="ÁO SƠ MI NỮ TAY DÀI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(24)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Quần short nữ-->
+                    <p:fieldset legend="QUẦN SHORT NỮ" rendered="#{homeBean.maHeader == 3
+                            or homeBean.maHeader == 25 or homeBean.maHeader == 26}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="QUẦN SHORT NỮ JEAN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(25)}"/>
+                            <p:menuitem value="QUẦN SHORT NỮ KAKI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(26)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Quần dài nữ-->
+                    <p:fieldset legend="QUẦN DÀI NỮ" rendered="#{homeBean.maHeader == 4
+                            or homeBean.maHeader == 27 or homeBean.maHeader == 28 or homeBean.maHeader == 29}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="QUẦN DÀI NỮ JEAN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(27)}"/>
+                            <p:menuitem value="QUẦN DÀI NỮ THUN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(28)}"/>
+                            <p:menuitem value="QUẦN DÀI NỮ KAKI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(29)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Váy đầm nữ-->
+                    <p:fieldset legend="VÁY ĐẦM" rendered="#{homeBean.maHeader == 5}">
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Chân váy nữ-->
+                    <p:fieldset legend="CHÂN VÁY" rendered="#{homeBean.maHeader == 6}">
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo thun nam-->
+                    <p:fieldset legend="ÁO THUN NAM" rendered="#{homeBean.maHeader == 7}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="ÁO THUN NAM TAY NGẮN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(14)}"/>
+                            <p:menuitem value="ÁO THUN NAM TAY DÀI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(15)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo thun nam -> thun nam tay ngắn-->
+                    <p:fieldset legend="ÁO THUN NAM → TAY NGẮN" rendered="#{homeBean.maHeader == 14
+                            or homeBean.maHeader == 30 or homeBean.maHeader == 31 or homeBean.maHeader == 33}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="THUN NAM TAY NGẮN TRƠN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(30)}"/>
+                            <p:menuitem value="THUN NAM TAY NGẮN IN HÌNH" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(31)}"/>
+                            <p:menuitem value="THUN NAM TAY NGẮN CÓ CỔ" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(33)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo thun nam -> thun nam tay dài-->
+                    <p:fieldset legend="ÁO THUN NAM → TAY DÀI" rendered="#{homeBean.maHeader == 15
+                            or homeBean.maHeader == 34 or homeBean.maHeader == 35}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="THUN NAM TAY DÀI IN HÌNH" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(34)}"/>
+                            <p:menuitem value="THUN NAM TAY DÀI LEN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(35)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Áo sơ mi nam-->
+                    <p:fieldset legend="ÁO SƠ MI NAM" rendered="#{homeBean.maHeader == 8
+                            or homeBean.maHeader == 36 or homeBean.maHeader == 50}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="ÁO SƠ MI NAM TAY NGẮN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(50)}"/>
+                            <p:menuitem value="ÁO SƠ MI NAM TAY DÀI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(36)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Quần short nam-->
+                    <p:fieldset legend="QUẦN SHORT NAM" rendered="#{homeBean.maHeader == 9
+                            or homeBean.maHeader == 37 or homeBean.maHeader == 38}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="QUẦN SHORT NAM JEAN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(37)}"/>
+                            <p:menuitem value="QUẦN SHORT NAM KAKI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(38)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Quần dài nam-->
+                    <p:fieldset legend="QUẦN DÀI NAM" rendered="#{homeBean.maHeader == 10
+                            or homeBean.maHeader == 39 or homeBean.maHeader == 40 or homeBean.maHeader == 41}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="QUẦN DÀI NAM JEAN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(39)}"/>
+                            <p:menuitem value="QUẦN DÀI NAM KAKI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(40)}"/>
+                            <p:menuitem value="QUẦN DÀI NAM THUN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(41)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Phụ kiện-->
+                    <p:fieldset legend="PHỤ KIỆN" rendered="#{homeBean.maHeader == 11 or homeBean.maHeader == 42
+                            or homeBean.maHeader == 43 or homeBean.maHeader == 44 or homeBean.maHeader == 45
+                            or homeBean.maHeader == 46}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="BA LÔ" update="@form" actionListener="#{homeBean.setMaHeader(42)}"/>
+                            <p:menuitem value="DÂY NỊCH" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(43)}"/>
+                            <p:menuitem value="ĐỒNG HỒ" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(44)}"/>
+                            <p:menuitem value="NÓN" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(16)}"/>
+                            <p:menuitem value="THẮT LƯNG" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(45)}"/>
+                            <p:menuitem value="VÍ" update="@form" actionListener="#{homeBean.setMaHeader(46)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Phụ kiện -> Nón-->
+                    <p:fieldset legend="PHỤ KIỆN → NÓN" rendered="#{homeBean.maHeader == 16
+                            or homeBean.maHeader == 47 or homeBean.maHeader == 48 or homeBean.maHeader == 49}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="NÓN LƯỠI TRAI" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(47)}"/>
+                            <p:menuitem value="NÓN SNAPBACK" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(48)}"/>
+                            <p:menuitem value="NÓN BUCKET" update="@form"
+                                        actionListener="#{homeBean.setMaHeader(49)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Lọc theo giá -->
+                    <p:fieldset legend="LỌC THEO GIÁ" style="margin-top: 10px; margin-bottom: 10px">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="Tất cả" update="@form"
+                                        actionListener="#{homeBean.setMaGia(5)}"/>
+                            <p:menuitem value="Dưới 100.000 &#8363;" update="@form"
+                                        actionListener="#{homeBean.setMaGia(1)}"/>
+                            <p:menuitem value="100.000 &#8363; - 300.000 &#8363;" update="@form"
+                                        actionListener="#{homeBean.setMaGia(2)}"/>
+                            <p:menuitem value="300.000 &#8363; - 800.000 &#8363;" update="@form"
+                                        actionListener="#{homeBean.setMaGia(3)}"/>
+                            <p:menuitem value="Trên 800.000 &#8363;" update="@form"
+                                        actionListener="#{homeBean.setMaGia(4)}"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                    <p/>
+                    <p/>
+
+                    <!--Lọc theo màu -->
+                    <p:fieldset legend="LỌC THEO MÀU" rendered="#{homeBean.maHeader != 11}">
+                        <p:tieredMenu style="width:95%">
+                            <p:menuitem value="Tất cả"/>
+                            <p:menuitem value="Đỏ" style="background-color: red; margin-bottom: 2px"/>
+                            <p:menuitem value="Cam" style="background-color: orange; margin-bottom: 2px"/>
+                            <p:menuitem value="Vàng" style="background-color: yellow; margin-bottom: 2px"/>
+                            <p:menuitem value="Hồng" style="background-color: pink; margin-bottom: 2px"/>
+                            <p:menuitem value="Đen" style="background-color: black; margin-bottom: 2px"/>
+                            <p:menuitem value="Trắng" style="background-color: white; margin-bottom: 2px"/>
+                            <p:menuitem value="Xanh dương" style="background-color: royalblue; margin-bottom: 2px"/>
+                            <p:menuitem value="Xanh lá" style="background-color: forestgreen; margin-bottom: 2px"/>
+                            <p:menuitem value="Xám" style="background-color: gray; margin-bottom: 2px"/>
+                            <p:menuitem value="Nấu" style="background-color: brown; margin-bottom: 2px"/>
+                            <p:menuitem value="Tím" style="background-color: violet;"/>
+                        </p:tieredMenu>
+                    </p:fieldset>
+                </nav>
+
+                <article class="danh-muc">
+                    <p:dataView var="sp" value="#{sanPhamBean.getSanPhamsByGia(homeBean.maGia,homeBean.maHeader)}"
+                                layout="grid" rows="6" gridIcon="pi pi-th-large" paginator="true"
+                                rendered="#{homeBean.maGia == 1 or homeBean.maGia == 2
+                                                or homeBean.maGia == 3 or homeBean.maGia == 4}">
+                        <p:dataViewGridItem>
+                            <p:panel header="#{sp.tenSanPham}" style="text-align:center">
+                                <p:panelGrid columns="1" style="width: 100%">
+                                    <f:facet name="header">
+                                        <p:graphicImage style="width: 250px; height: 350px"
+                                                        value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"/><br/>
+                                        <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                                    </f:facet>
+                                    <p:commandButton action="#{sanPhamBean.nextPageDetail(sp.maSanPham)}"
+                                                     process="@this" style="width: 180px" value="Xem chi tiết"/>
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:dataViewGridItem>
+                    </p:dataView>
+                    <p:dataView var="sp" value="#{sanPhamBean.getSanPhamsTheoLoai(homeBean.maHeader)}" layout="grid"
+                                rows="6" gridIcon="pi pi-th-large" paginator="true"
+                                rendered="#{homeBean.maGia != 1 and homeBean.maGia != 3
+                                                and homeBean.maGia != 2 and homeBean.maGia != 4}">
+                        <p:dataViewGridItem>
+                            <p:panel header="#{sp.tenSanPham}" style="text-align:center">
+                                <p:panelGrid columns="1" style="width: 100%">
+                                    <f:facet name="header">
+                                        <p:graphicImage style="width: 250px; height: 350px"
+                                                        value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"/><br/>
+                                        <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                                    </f:facet>
+                                    <p:commandButton value="Xem chi tiết" style="width: 180px"
+                                                     action="#{sanPhamBean.nextPageDetail(sp.maSanPham)}"/>
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:dataViewGridItem>
+                    </p:dataView>
+                </article>
+            </section>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

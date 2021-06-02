@@ -2,6 +2,7 @@ package tech.vietinfo.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import tech.vietinfo.entities.Item;
 import tech.vietinfo.models.ChiTietPhieuNhap;
 import tech.vietinfo.models.NhaCungCap;
@@ -12,6 +13,7 @@ import tech.vietinfo.services.QuanLyNhapKhoService;
 import tech.vietinfo.services.SanPhamService;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,25 +38,23 @@ public class QuanLyNhapKhoBean implements Serializable {
     @Inject
     private NhaCungCapService nhaCungCapService;
 
+    private List<Item> itemList = new ArrayList<>();
     private List<PhieuNhap> phieuNhapList = new ArrayList<>();
-    private PhieuNhap phieuNhap;
-    private PhieuNhap selectedPhieuNhap;
-
     private List<ChiTietPhieuNhap> chiTietPhieuNhapList = new ArrayList<>();
-    private ChiTietPhieuNhap chiTietPhieuNhap;
 
+    private NhaCungCap selectedNhaCungCap;
+    private SanPham selectedSanPham;
+    private PhieuNhap phieuNhap;
+    private Item item;
+    private ChiTietPhieuNhap chiTietPhieuNhap;
     private int sl;
     private int maSP;
     private int maNCC;
-    private SanPham selectedSanPham;
-    private NhaCungCap selectedNhaCungCap;
-
-    private List<Item> itemList = new ArrayList<>();
-    private Item item;
 
     @PostConstruct
     public void init() {
         phieuNhap = new PhieuNhap();
+        selectedSanPham = new SanPham();
     }
 
     public List<PhieuNhap> getPhieuNhaps() {
@@ -67,32 +67,45 @@ public class QuanLyNhapKhoBean implements Serializable {
         return chiTietPhieuNhapList;
     }
 
-    //    thêm mới phiếu nhập - chi tiết sản phẩm, cập nhật số lượng sau khi nhập của sản phẩm
     public String addPhieuNhap() {
-        selectedNhaCungCap = nhaCungCapService.find(maNCC);
-        phieuNhap.setNhaCungCap(selectedNhaCungCap);
-        phieuNhap.setThanhTien(total());
-        quanLyNhapKhoService.addPhieuNhap(phieuNhap);
+        if(checkSoLuongNhap()){
+            selectedNhaCungCap = nhaCungCapService.find(maNCC);
+            phieuNhap.setNhaCungCap(selectedNhaCungCap);
+            phieuNhap.setThanhTien(total());
+            quanLyNhapKhoService.addPhieuNhap(phieuNhap);
 
-        for (Item it : itemList) {
-            ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
+            for (Item it : itemList) {
+                ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
 
-            ct.setXuatXu(it.getSanPham().getXuatXu());
-            ct.setTenSanPham(it.getSanPham().getTenSanPham());
-            ct.setDonGia(it.getSanPham().getDonGia());
-            ct.setSoLuongNhap(it.getQuantity());
-            ct.setPhieuNhap(phieuNhap);
-            ct.setMaSanPham(it.getSanPham().getMaSanPham());
-            ct.setThanhTien(it.getQuantity() * it.getSanPham().getDonGia());
+                ct.setTenNoiSanXuat(it.getSanPham().getTenNoiSanXuat());
+                ct.setTenSanPham(it.getSanPham().getTenSanPham());
+                ct.setDonGia(it.getSanPham().getDonGia());
+                ct.setSoLuongNhap(it.getQuantity());
+                ct.setPhieuNhap(phieuNhap);
+                ct.setMaSanPham(it.getSanPham().getMaSanPham());
+                ct.setThanhTien(it.getQuantity() * it.getSanPham().getDonGia());
 
-            selectedSanPham = sanPhamService.find(it.getSanPham().getMaSanPham());
-            int sl = selectedSanPham.getSoLuongCoSan();
-            selectedSanPham.setSoLuongCoSan(sl + it.getQuantity());
-            sanPhamService.updateSanPham(selectedSanPham);
+                selectedSanPham = sanPhamService.find(it.getSanPham().getMaSanPham());
+                int sl = selectedSanPham.getSoLuongCoSan();
+                selectedSanPham.setSoLuongCoSan(sl + it.getQuantity());
+                sanPhamService.updateSanPham(selectedSanPham);
 
-            quanLyNhapKhoService.addChiTietPhieuNhap(ct);
+                quanLyNhapKhoService.addChiTietPhieuNhap(ct);
+            }
+            return "quan-ly-nhap-kho?faces-redirect=true";
+        }else{
+            return "";
         }
-        return "pmn_warehouse?faces-redirect=true";
+    }
+
+    public boolean checkSoLuongNhap(){
+        if(itemList.size()==0){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Thông báo", "Chưa có " +
+                    "sản phẩm nào để nhập");
+            PrimeFaces.current().dialog().showMessageDynamic(message);
+            return false;
+        }
+        return true;
     }
 
     public List<Item> getItems() {
@@ -111,21 +124,21 @@ public class QuanLyNhapKhoBean implements Serializable {
     public String deleteKhoiPhieuNhap(SanPham sanPham) {
         int index = exists(sanPham);
         itemList.remove(index);
-        return "pmn_warehouse_create";
+        return "";
     }
 
     //    xóa phiếu nhập - chi tiết phiếu nhập, cập nhật số lượng sau khi xóa phiếu nhập
     public String deletePhieuNhap() {
-        chiTietPhieuNhapList = quanLyNhapKhoService.getChiTietPhieuNhaps(selectedPhieuNhap.getMaPhieuNhap());
+        chiTietPhieuNhapList = quanLyNhapKhoService.getChiTietPhieuNhaps(phieuNhap.getMaPhieuNhap());
         for (ChiTietPhieuNhap ct: chiTietPhieuNhapList) {
-            selectedSanPham = sanPhamService.find(ct.getSanPham().getMaSanPham());
+            selectedSanPham = sanPhamService.find(ct.getMaSanPham());
             int sl = selectedSanPham.getSoLuongCoSan();
             selectedSanPham.setSoLuongCoSan(sl - ct.getSoLuongNhap());
             sanPhamService.updateSanPham(selectedSanPham);
         }
-        quanLyNhapKhoService.deletePhieuNhap(selectedPhieuNhap);
-        quanLyNhapKhoService.deleteChiTietPhieuNhap(selectedPhieuNhap.getMaPhieuNhap());
-        return "pmn_warehouse?faces-redirect=true";
+        quanLyNhapKhoService.deletePhieuNhap(phieuNhap);
+        quanLyNhapKhoService.deleteChiTietPhieuNhap(phieuNhap.getMaPhieuNhap());
+        return "";
     }
 
     public double total() {
@@ -143,9 +156,5 @@ public class QuanLyNhapKhoBean implements Serializable {
             }
         }
         return -1;
-    }
-
-    public String nextPageCreate() {
-        return "pmn_warehouse_create?faces-redirect=true";
     }
 }

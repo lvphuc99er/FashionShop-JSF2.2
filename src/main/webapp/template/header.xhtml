@@ -3,15 +3,55 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:param value="#{login.khachHang.maKhachHang}"/>
+        <f:viewParam name="#{sanPhamBean.tuTimKiem}"/>
+    </f:metadata>
     <h:graphicImage width="100%" value="images/ban.png"/>
     <h:form id="form">
         <p:growl id="message">
             <p:menubar>
-                <p:menuitem value="Trang chủ" outcome="dashboard"/>
-                <p:menuitem value="Sản phẩm" action="#{homeBean.setMa(4)}"/>
-                <p:menuitem value="Liên hệ" outcome="about"/>
+                <p:menuitem value="TRANG CHỦ" outcome="trang-chu"/>
+                <p:submenu label="THỜI TRANG NỮ">
+                    <p:menuitem value="ÁO THUN NỮ" actionListener="#{homeBean.setMaHeader(1)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="ÁO SƠ MI NỮ" actionListener="#{homeBean.setMaHeader(2)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="QUẦN SHORT NỮ" actionListener="#{homeBean.setMaHeader(3)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="QUẦN DÀI NỮ" actionListener="#{homeBean.setMaHeader(4)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="VÁY ĐẦM" actionListener="#{homeBean.setMaHeader(5)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="CHÂN VÁY" actionListener="#{homeBean.setMaHeader(6)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+                </p:submenu>
+                <p:submenu label="THỜI TRANG NAM">
+                    <p:menuitem value="ÁO THUN NAM" actionListener="#{homeBean.setMaHeader(7)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="ÁO SƠ MI NAM" actionListener="#{homeBean.setMaHeader(8)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="QUẦN SHORT NAM" actionListener="#{homeBean.setMaHeader(9)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                    <p:menuitem value="QUẦN DÀI NAM" actionListener="#{homeBean.setMaHeader(10)}" update="@form"
+                                action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+                </p:submenu>
+                <p:menuitem value="PHỤ KIỆN" actionListener="#{homeBean.setMaHeader(11)}" update="@form"
+                            action="san-pham-theo-danh-muc?faces-redirect=true&amp;includeViewParams=true"/>
+
+                <p:menuitem value="LIÊN HỆ" outcome="about"/>
                 <f:facet name="options">
-                    <p:inputText placeholder="Tìm kiếm..."/>
+                    <p:inputText placeholder="Tìm kiếm..." value="#{homeBean.tuKhoa}"/>
+                    <p:commandButton icon="pi pi-search" style="width: 40px;" actionListener="#{homeBean.setTu}"
+                                     action="trang-ket-qua-tim-kiem?faces-redirect=true"/>
                     <p:commandButton icon="pi pi-shopping-cart" style="margin-left: 5px"
                                      action="shoppingcart?faces-redirect=true"/>
                     <p:commandButton style="width: 110px;font-size: 15px;margin-left: 5px; margin-right: 5px"

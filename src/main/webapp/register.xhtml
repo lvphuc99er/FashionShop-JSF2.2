@@ -9,19 +9,27 @@
             <h:form>
                 <table cellspacing="10px">
                     <tr>
-                        <td><b><p:outputLabel value="ĐĂNG KÝ THÀNH VIÊN" style="font-size: 20px"/></b></td>
-                        <td><p:outputLabel value="Số điện thoại: "/></td>
                         <td>
-                            <p:inputText id="soDienThoai" value="#{khachHangBean.khachHang.soDienThoai}"
+                            <b><p:outputLabel value="ĐĂNG KÝ THÀNH VIÊN" style="font-size: 20px"/></b>
+                        </td>
+                        <td>
+                            <p:outputLabel value="Số điện thoại: "/>
+                        </td>
+                        <td>
+                            <p:inputText id="soDienThoai" value="#{nguoiDungBean.khachHang.soDienThoai}"
                                          placeholder="Nhập số điện thoại..."/><br/>
+                            <p:commandButton value="Gửi mã" style="margin-left: 10px"/>
                         </td>
                         <td><p:message for="soDienThoai" style="color: red"/></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td><p:outputLabel value="Tên hiển thị: "/></td>
                         <td>
-                            <p:inputText id="tenHienThi" value="#{khachHangBean.khachHang.tenKhachHang}"
+                        </td>
+                        <td>
+                            <p:outputLabel value="Tên hiển thị: "/>
+                        </td>
+                        <td>
+                            <p:inputText id="tenHienThi" value="#{nguoiDungBean.khachHang.tenKhachHang}"
                                          placeholder="Nhập tên hiển thị..."/><br/>
                         </td>
                         <td><p:message for="tenHienThi" style="color: red"/></td>
@@ -30,7 +38,7 @@
                         <td></td>
                         <td><p:outputLabel value="Mật khẩu: "/></td>
                         <td>
-                            <p:password id="matKhau" value="#{khachHangBean.khachHang.matKhau}" style="width: 196px"
+                            <p:password id="matKhau" value="#{nguoiDungBean.khachHang.matKhau}" style="width: 196px"
                                         placeholder="Nhập mật khẩu..." toggleMask="true" redisplay="true"/><br/>
                         </td>
                         <td><p:message for="matKhau" style="color: red"/></td>
@@ -38,7 +46,7 @@
                     <tr style="display: none">
                         <td><p:outputLabel value="Trạng thái: "/></td>
                         <td>
-                            <p:selectOneMenu unselectable="true" value="#{khachHangBean.khachHang.trangThai}">
+                            <p:selectOneMenu unselectable="true" value="#{nguoiDungBean.khachHang.trangThai}">
                                 <f:selectItem itemLabel="CHO PHÉP" itemValue="CHO PHÉP"/>
                                 <f:selectItem itemLabel="KHÓA" itemValue="KHÓA"/>
                             </p:selectOneMenu>
@@ -50,7 +58,7 @@
                 <p:commandLink value="điều khoản thỏa thuận" onclick="PF('dlgdieukhoan').show()"
                                style="margin-left: -8px"/><br/>
                 <p:commandButton value="Đăng ký" style="margin-left: 23%;" ajax="false"
-                                 action="#{khachHangBean.addKhachHang}"/>
+                                 action="#{nguoiDungBean.addKhachHang}"/>
 
                 <!--dialog điều khoản-->
                 <p:dialog header="LIVE LOUNGE" widgetVar="dlgdieukhoan" height="400" width="800" showEffect="fade"

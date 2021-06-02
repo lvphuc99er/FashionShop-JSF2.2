@@ -7,72 +7,84 @@
     <ui:define name="body">
         <f:metadata>
             <f:event type="preRenderView" listener="#{login.grantPermission}"/>
-            <f:param value="#{login.khachHang.maKhachHang}"/>
             <f:param value="#{cartBean.chiTietGioHangList}"/>
+            <f:param value="#{login.khachHang}"/>
+            <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
+            <f:viewParam name="sl" value="#{cartBean.soLuong}"/>
+            <f:viewParam name="kc" value="#{cartBean.kichCo}"/>
+            <f:viewParam name="m" value="#{cartBean.mau}"/>
         </f:metadata>
-        <p:commandButton value="Tiếp tục mua sắm" action="dashboard?faces-redirect=true"/>
-        <hr/>
-        <h3 align="center">GIỎ HÀNG CỦA BẠN</h3>
-        <hr/>
-        <p:dataTable var="sp" value="#{cartBean.getChiTietGioHangs(login.khachHang.maKhachHang)}">
-            <p:column style="width: 7%; text-align: center" headerText="Mã">
-                <h:outputText value="#{sp.sanPham.maSanPham}"/>
-            </p:column>
-            <p:column style="width: 11%" headerText="Hình ảnh">
-                <p:graphicImage value="images/#{sp.sanPham.hinhAnh}" style="width: 100px; height: 100px"/>
-            </p:column>
-            <p:column style="width: 21%" headerText="Tên sản phẩm">
-                <h:outputText value="#{sp.sanPham.tenSanPham}"/>
-            </p:column>
-            <p:column style="width: 9%; text-align: center" headerText="Số lượng mua">
-                <h:outputText value="#{sp.soLuong}"/>
-            </p:column>
-            <p:column style="width: 9%" headerText="Đơn giá">
-                <h:outputText value="#{sp.sanPham.donGia}"/>
-            </p:column>
-            <p:column style="width: 9%" headerText="Thành tiền">
-                <h:outputText value="#{sp.sanPham.donGia * sp.soLuong}"/>
-            </p:column>
-            <p:column style="width: 5%" headerText="">
-                <p:commandButton icon="pi pi-times" styleClass="ui-button-raised ui-button-danger"
-                                 onclick="PF('dlg2').show()">
-                    <f:setPropertyActionListener value="#{sp}"
-                                                 target="#{cartBean.chiTietGioHang}"/>
-                </p:commandButton>
-            </p:column>
-        </p:dataTable>
-        <hr/>
-        <p:outputLabel style="font-size: 30px; margin-left: 1000px" value="Tổng tiền: "/>
-        <p:inputText style="font-size: 30px; width: 250px" disabled="true"
-                     value="#{cartBean.totalSanPham()}"/>
-        <p:outputLabel style="font-size: 30px;" value="VNĐ"/>
-        <hr/>
-        <p:commandButton value="Thanh toán" style="margin-left: 1000px" action="pay?faces-redirect=true"
-                         rendered="#{cartBean.chiTietGioHangList.size() > 0}"/>
-        <p:commandButton value="Thanh toán" style="margin-left: 1000px" onclick="PF('pmThanhToan').show()"
-                         rendered="#{cartBean.chiTietGioHangList.size() == 0}"/>
-        <hr/>
+        <h:form id="gio-hang">
+            <p:commandButton value="Tiếp tục mua sắm" action="trang-chu?faces-redirect=true"/>
+            <p:outputLabel value="GIỎ HÀNG CỦA TÔI" style="margin-left: 30%; font-weight: bold; font-size: 20px"/>
+            <hr/>
 
-        <!--dialog thông báo chưa có sản phẩm để thanh toán-->
-        <p:dialog header="Thông báo" widgetVar="pmThanhToan" minHeight="30" width="300" showEffect="fade"
-                  modal="true">
-            <p class="p-m-0">Chưa có sản phẩm nào để thanh toán ! Tiếp tục mua sắm nhaaaa ?</p>
-            <f:facet name="footer">
-                <p:commandButton value="Đồng ý" action="dashboard?faces-redirect=true"/>
-            </f:facet>
-        </p:dialog>
+            <p:dataTable var="sp" value="#{cartBean.getChiTietGioHangs(login.khachHang.maKhachHang)}">
+                <p:column style="width: 10%" headerText="Hình ảnh">
+                    <p:graphicImage style="width: 75px; height: 90px"
+                                    value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.sanPham.maSanPham).get(0).tenHinhAnh}"/>
+                </p:column>
 
-        <!--dialog xóa sản phẩm-->
-        <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
-                  modal="true">
-            <p class="p-m-0">Bỏ sản phẩm khỏi giỏ hàng ?</p>
-            <f:facet name="footer">
-                <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                 action="#{cartBean.deleteSanPhamKhoiGioHang(cartBean.chiTietGioHang)}"/>
-                <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
-            </f:facet>
-        </p:dialog>
+                <p:column style="width: 25%" headerText="Tên sản phẩm">
+                    <h:outputText value="#{sp.sanPham.tenSanPham}"/>
+                </p:column>
 
+                <p:column style="width: 15%; text-align: center" headerText="Phân loại">
+                    <h:outputText value="#{sp.phanLoai}"/>
+                </p:column>
+
+                <p:column style="width: 15%; text-align: center" headerText="Số lượng">
+                    <p:commandButton icon="pi pi-minus" action="#{cartBean.giamSoLuong(sp)}" update="@form"/>
+                    <p:inputNumber id="soLuongMua" value="#{sp.soLuong}" size="1" minValue="1" readonly="true"/>
+                    <p:commandButton icon="pi pi-plus" action="#{cartBean.tangSoLuong(sp)}" update="@form"/>
+                </p:column>
+
+                <p:column style="width: 10%" headerText="Đơn giá">
+                    <h:outputText value="#{sp.sanPham.donGia}"/>
+                </p:column>
+
+                <p:column style="width: 10%" headerText="Thành tiền">
+                    <h:outputText value="#{sp.sanPham.donGia * sp.soLuong}"/>
+                </p:column>
+
+                <p:column style="width: 5%">
+                    <p:commandButton icon="pi pi-times" styleClass="ui-button-danger" onclick="PF('dlg2').show()">
+                        <f:setPropertyActionListener value="#{sp}" target="#{cartBean.chiTietGioHang}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <hr/>
+
+            <p:outputLabel style="font-size: 30px; margin-left: 950px" value="Tổng tiền: #{cartBean.totalSanPham()}"/>
+            <p:outputLabel style="font-size: 30px; margin-left: 30px; margin-right: 5px; font-weight: inherit"
+                           value="(VNĐ)"/>
+
+            <p:commandButton value="Thanh toán" style="margin-left: 1000px" action="pay?faces-redirect=true"
+                             rendered="#{cartBean.chiTietGioHangList.size() > 0}"
+                             actionListener="#{homeBean.setDieuHuong(9)}"/>
+            <p:commandButton value="Thanh toán" style="margin-left: 1000px" onclick="PF('pmThanhToan').show()"
+                             rendered="#{cartBean.chiTietGioHangList.size() == 0}"/>
+
+            <!--dialog thông báo chưa có sản phẩm để thanh toán-->
+            <p:dialog header="Thông báo" widgetVar="pmThanhToan" minHeight="30" width="300" showEffect="fade"
+                      modal="true">
+                <p class="p-m-0">Chưa có sản phẩm nào để thanh toán ! Tiếp tục mua sắm nhaaaa ?</p>
+                <f:facet name="footer">
+                    <p:commandButton value="Đồng ý" action="trang-chu?faces-redirect=true"/>
+                </f:facet>
+            </p:dialog>
+
+            <!--dialog xóa sản phẩm khỏi giỏ hàng-->
+            <p:dialog header="Xác nhận" widgetVar="dlg2" minHeight="40" width="300" showEffect="fade"
+                      modal="true">
+                <p class="p-m-0">Bỏ sản phẩm khỏi giỏ hàng ?</p>
+                <f:facet name="footer">
+                    <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
+                                     action="#{cartBean.deleteSanPhamKhoiGioHang(cartBean.chiTietGioHang)}"/>
+                    <p:commandButton value="Bỏ qua" onclick="PF('dlg2').hide()"/>
+                </f:facet>
+            </p:dialog>
+        </h:form>
     </ui:define>
 </ui:composition>
 

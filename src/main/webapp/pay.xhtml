@@ -8,34 +8,45 @@
     <ui:define name="body">
         <f:metadata>
             <f:event type="preRenderView" listener="#{login.grantPermission}"/>
+            <f:param value="#{login.khachHang}"/>
+            <f:param value="#{homeBean.dieuHuong}"/>
+            <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
         </f:metadata>
         <p:commandButton value="Quay lại giỏ hàng" action="shoppingcart?faces-redirect=true"/>
         <hr/>
         <h3 align="center">TIẾN HÀNH THANH TOÁN ĐƠN HÀNG</h3>
         <hr/>
-        <div class="create" style="margin-left: 50px; margin-right: 50px">
-            <h:form>
-                <div class="card">
+        <h:form id="thanh-toan">
+            <div style="margin-left: 50px; margin-right: 50px">
+                <div>
                     <p:growl id="diachi" showDetail="true" skipDetailIfEqualsSummary="true"/>
                     <p:fieldset legend="Người nhận">
                         <table cellpadding="10px">
                             <tr>
                                 <td><p:outputLabel value="Địa chỉ nhận hàng: "/></td>
                                 <td>
+                                    <p:inputText value="#{login.khachHang.tenKhachHang}" readonly="true"
+                                                 placeholder="Người nhận..." rendered="#{homeBean.dieuHuong != 8}"/>
+                                    <p:inputText value="#{login.khachHang.soDienThoai}" readonly="true"
+                                                 placeholder="Số điện thoại..." rendered="#{homeBean.dieuHuong != 8}"/>
+                                    <p:inputText value="#{login.khachHang.diaChi}" style="width: 600px" readonly="true"
+                                                 placeholder="Địa chỉ nhận ..." rendered="#{homeBean.dieuHuong != 8}"/>
+
                                     <p:inputText value="#{cartBean.donHang.tenNguoiNhan}"
-                                                 placeholder="Người nhận..."/>
+                                                 placeholder="Người nhận..." rendered="#{homeBean.dieuHuong == 8}"/>
                                     <p:inputText value="#{cartBean.donHang.sdtNguoiNhan}"
-                                                 placeholder="Số điện thoại..."/>
+                                                 placeholder="Số điện thoại..." rendered="#{homeBean.dieuHuong == 8}"/>
                                     <p:inputText value="#{cartBean.donHang.diaChiNguoiNhan}" style="width: 600px"
-                                                 placeholder="Địa chỉ nhận hàng..."/>
-                                    <p:commandButton value="Thay đổi" styleClass="ui-button-flat"/>
+                                                 placeholder="Địa chỉ nhận ..." rendered="#{homeBean.dieuHuong == 8}"/>
+                                    <p:commandButton value="Thay đổi" styleClass="ui-button-flat"
+                                                     update="@form" actionListener="#{homeBean.setDieuHuong(8)}"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td><p:outputLabel value="Ngày đặt hàng:"/></td>
                                 <td>
-                                    <p:inputText disabled="true"
-                                                 value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy')}"/>
+                                    <p:inputText readonly="true"
+                                                 value="#{of:formatDate(cartBean.ngayDatHang, 'dd/MM/yyyy HH:mm:ss')}"/>
                                 </td>
                             </tr>
                         </table>
@@ -53,7 +64,8 @@
                                     <p:selectOneRadio value="#{cartBean.donHang.phuongThucThanhToan}">
                                         <f:selectItem itemLabel="Thanh toán khi nhận hàng"
                                                       itemValue="Thanh toán khi nhận hàng"/>
-                                        <f:selectItem itemLabel="Thẻ tín dụng/ghi nợ" itemValue="Thẻ tín dụng/ghi nợ"/>
+                                        <f:selectItem itemLabel="Thẻ tín dụng/ghi nợ" itemValue="Thẻ tín dụng/ghi nợ"
+                                                      noSelectionOption="true"/>
                                     </p:selectOneRadio>
                                 </td>
                             </tr>
@@ -61,15 +73,31 @@
                                 <td><p:outputLabel value="Đơn vị vận chuyển:"/></td>
                                 <td>
                                     <p:outputLabel value="Nhân viên LIVE LOUNGE"/>
-                                    <i style="color: dimgray">(Thời gian giao hàng từ 2 - 3 ngày)</i>
+                                    <i style="color: dimgray">(Thời gian giao hàng trong vòng 3 ngày)</i>
+                                    <p:commandButton value="Chọn đơn vị vận chuyển" styleClass="ui-button-flat"
+                                                     style="margin-left: 20px"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel value="Thời gian nhận hàng:"/>
                                 </td>
                                 <td>
-                                    <p:commandButton value="Chọn đơn vị vận chuyển" styleClass="ui-button-flat"/>
+                                    <p:selectOneRadio id="dm" value="#{cartBean.donHang.gioNhanHang}" layout="grid"
+                                                      columns="3">
+                                        <f:selectItem itemLabel="Tất cả các ngày trong tuần"
+                                                      itemValue="Tất cả các ngày trong tuần"/>
+                                        <f:selectItem itemLabel="Sáng các ngày (8 giờ đến 11 giờ)"
+                                                      itemValue="Sáng các ngày (7 giờ đến 11 giờ)"/>
+                                        <f:selectItem itemLabel="Chiều các ngày (14 giờ đến 17 giờ)"
+                                                      itemValue="Chiều các ngày (14 giờ đến 17 giờ)"/>
+                                    </p:selectOneRadio><br/>
+                                    <h:message for="dm" style="color:red;"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td><p:outputLabel value="Nhận hàng dự kiến trước: "/></td>
-                                <td><p:inputText disabled="true"
+                                <td><p:inputText readonly="true"
                                                  value="#{of:formatDate(cartBean.ngayDatHang.plusDays(3), 'dd/MM/yyyy')}">
 
                                 </p:inputText></td>
@@ -82,20 +110,24 @@
                     <p:growl id="sanpham" showDetail="true" skipDetailIfEqualsSummary="true"/>
                     <p:fieldset legend="Sản phẩm">
                         <p:dataTable var="sp" value="#{cartBean.getChiTietGioHangs(login.khachHang.maKhachHang)}">
-                            <p:column style="width: 11%" headerText="Hình ảnh">
-                                <p:graphicImage value="images/#{sp.sanPham.hinhAnh}"
-                                                style="width: 100px; height: 100px"/>
+                            <p:column style="width: 10%" headerText="Hình ảnh">
+                                <p:graphicImage
+                                        value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.sanPham.maSanPham).get(0).tenHinhAnh}"
+                                        style="width: 100px; height: 100px"/>
                             </p:column>
-                            <p:column style="width: 21%" headerText="Tên sản phẩm">
+                            <p:column style="width: 25%" headerText="Tên sản phẩm">
                                 <h:outputText value="#{sp.sanPham.tenSanPham}"/>
                             </p:column>
-                            <p:column style="width: 9%; text-align: center" headerText="Số lượng mua">
+                            <p:column style="width: 10%" headerText="Phân loại">
+                                <h:outputText value="#{sp.phanLoai}"/>
+                            </p:column>
+                            <p:column style="width: 10%; text-align: center" headerText="Số lượng mua">
                                 <h:outputText value="#{sp.soLuong}"/>
                             </p:column>
-                            <p:column style="width: 9%" headerText="Đơn giá">
+                            <p:column style="width: 10%" headerText="Đơn giá">
                                 <h:outputText value="#{sp.sanPham.donGia}"/>
                             </p:column>
-                            <p:column style="width: 9%" headerText="Thành tiền">
+                            <p:column style="width: 10%" headerText="Thành tiền">
                                 <h:outputText value="#{sp.sanPham.donGia * sp.soLuong}"/>
                             </p:column>
                         </p:dataTable>
@@ -103,8 +135,13 @@
                 </div>
                 <br/>
 
-                <table style="margin-left: 72%" cellpadding="10px">
+                <table cellpadding="10px">
                     <tr>
+                        <td rowspan="3">
+                            <i><p:outputLabel value="Ghi chú cho đơn hàng"/></i><br/>
+                            <p:inputTextarea value="#{cartBean.donHang.ghiChu}" placeholder="Ghi chú cho đơn hàng..."
+                                             style="width: 350px; margin-right: 500px" rows="3"/>
+                        </td>
                         <td><p:outputLabel value="Tổng tiền hàng: "/></td>
                         <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{cartBean.totalSanPham()}"/>
                         </td>
@@ -122,11 +159,11 @@
                         <td><p:outputLabel value="VNĐ"/></td>
                     </tr>
                 </table>
-                <p:commandButton styleClass="ui-button-warning" style="margin-left: 73%; width: 200px"
-                                 value="Đặt hàng" action="#{cartBean.addDonHang(login.khachHang)}"/>
-            </h:form>
-        </div>
+                <p:commandButton styleClass="ui-button-warning" style="margin-left: 73%; width: 200px" action="shoppingcart?faces-redirect=true"
+                                 value="Đặt hàng" actionListener="#{cartBean.addDonHang(login.khachHang, homeBean.dieuHuong)}"/>
 
+            </div>
+        </h:form>
     </ui:define>
 </ui:composition>
 

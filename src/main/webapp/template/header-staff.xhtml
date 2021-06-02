@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:graphicImage width="100%" value="images/ban.png"/>
+    <h:form id="form">
+        <p:growl id="message">
+            <p:menubar>
+                <p:menuitem value="TRANG CHỦ" outcome="trang-chu"/>
+                <p:submenu label="THỜI TRANG NỮ">
+                    <p:menuitem value="ÁO THUN NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(1)}" update="@form"/>
+                    <p:menuitem value="ÁO SƠ MI NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(2)}" update="@form"/>
+                    <p:menuitem value="QUẦN SHORT NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(3)}" update="@form"/>
+                    <p:menuitem value="QUẦN DÀI NỮ" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(4)}" update="@form"/>
+                    <p:menuitem value="VÁY ĐẦM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(5)}"/>
+                    <p:menuitem value="CHÂN VÁY" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(6)}"/>
+                </p:submenu>
+                <p:submenu label="THỜI TRANG NAM">
+                    <p:menuitem value="ÁO THUN NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(7)}"/>
+                    <p:menuitem value="ÁO SƠ MI NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(8)}"/>
+                    <p:menuitem value="QUẦN SHORT NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(9)}"/>
+                    <p:menuitem value="QUẦN DÀI NAM" action="san-pham-theo-danh-muc?faces-redirect=true"
+                                actionListener="#{homeBean.setMaHeader(10)}"/>
+                </p:submenu>
+                <p:menuitem value="PHỤ KIỆN" action="san-pham-theo-danh-muc?faces-redirect=true"
+                            actionListener="#{homeBean.setMaHeader(11)}"/>
+
+                <p:submenu label="QUẢN LÝ" rendered="#{login.nhanVien.viTri == 'Nhân viên quản lý kho'}"
+                           style="background-color:deepskyblue">
+                    <p:menuitem value="SẢN PHẨM" outcome="quan-ly-san-pham" style="background-color: aqua"/>
+                    <p:menuitem value="NHÀ CUNG CẤP" outcome="quan-ly-nha-cung-cap" style="background-color: aqua"/>
+                </p:submenu>
+                <p:menuitem value="NHẬP KHO" rendered="#{login.nhanVien.viTri == 'Nhân viên quản lý kho'}"
+                            outcome="quan-ly-nhap-kho" style="background-color: deepskyblue"/>
+                <p:menuitem value="ĐƠN HÀNG" rendered="#{login.nhanVien.viTri == 'Nhân viên bán hàng'}"
+                            outcome="quan-ly-don-hang" style="background-color: deepskyblue"
+                            actionListener="#{homeBean.setMaDonHang(1)}"/>
+                <f:facet name="options">
+                    <p:commandButton id="basic" icon="pi pi-bell" styleClass="rounded-button ui-button-secondary"
+                                     value="#{cartBean.getDonHangsByTrangThai('Chờ xác nhận').size()}"/>
+                    <p:overlayPanel for="basic" style="width:600px">
+                        <p:dataTable var="dh" value="#{cartBean.getDonHangsByTrangThai('Chờ xác nhận')}"
+                                     scrollable="true" scrollHeight="300">
+                            <p:column headerText="Đơn hàng chờ xác nhận">
+                                <table>
+                                    <tr>
+                                        <td style="border: none; width: 350px">
+                                            <p:outputLabel value="Mã đơn hàng ##{dh.maDonHang} đang chờ xác nhận "/>
+                                        </td>
+                                        <td style="float: right; border: none;">
+                                            <p:outputLabel value="#{dh.ngayDatHang}" style="font-weight: inherit"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:column>
+                        </p:dataTable>
+                        <p:divider/>
+                        <p:commandButton action="quan-ly-don-hang?faces-redirect=true" value="Xem tất cả"
+                                         styleClass="ui-button-flat"
+                                         style="color: darkblue" actionListener="#{homeBean.setMaDonHang(2)}"/>
+                    </p:overlayPanel>
+                    <p:inputText placeholder="Tìm kiếm..." value="#{homeBean.tuKhoa}"/>
+                    <p:commandButton icon="pi pi-search" style="width: 40px;" actionListener="#{homeBean.setTu}"
+                                     action="trang-ket-qua-tim-kiem?faces-redirect=true"/>
+                    <p:outputLabel value="Nhân viên kho: #{login.nhanVien.tenNhanVien}"
+                                   rendered="#{login.nhanVien.viTri == 'Nhân viên quản lý kho'}"
+                                   style="margin-left: 5px; margin-right: 5px"/>
+                    <p:outputLabel value="Nhân viên bán hàng: #{login.nhanVien.tenNhanVien}"
+                                   rendered="#{login.nhanVien.viTri == 'Nhân viên bán hàng'}"
+                                   style="margin-left: 5px; margin-right: 5px"/>
+                    <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
+                                     oncomplete="PF('dlg1').show()"/>
+                </f:facet>
+            </p:menubar>
+        </p:growl>
+
+        <!--dialog-->
+        <p:dialog header="Đăng xuất !" widgetVar="dlg1" minHeight="40" width="300" showEffect="fade" modal="true">
+            <p class="p-m-0">Nhấn "Xác nhận" để đăng xuất !</p>
+            <f:facet name="footer">
+                <p:commandButton value="Xác nhận" action="#{login.logout}" styleClass="ui-button-warning"/>
+                <p:commandButton value="Quay lại" onclick="PF('dlg1').hide()"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+</ui:composition>
+

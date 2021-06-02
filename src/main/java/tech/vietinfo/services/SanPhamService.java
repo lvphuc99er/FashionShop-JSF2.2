@@ -1,6 +1,6 @@
 package tech.vietinfo.services;
 
-import tech.vietinfo.models.SanPham;
+import tech.vietinfo.models.*;
 
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -23,16 +23,16 @@ public class SanPhamService implements Serializable {
         return query.getResultList();
     }
 
-    public List<SanPham> getSanPhamsByDanhMuc(int ma){
-        String hql = "select sp from SanPham sp where sp.danhMuc.maDanhMuc = "+ma;
+    public List<HinhAnh> getHinhAnhsBySanPham(int masp) {
+        String hql = "select ha from HinhAnh ha where ha.sanPham.maSanPham =" + masp ;
         Query query = entityManager.createQuery(hql);
         return query.getResultList();
     }
 
-    public void deleteSanPham(SanPham sanPham) {
-        entityManager.getTransaction().begin();
-        entityManager.remove(sanPham);
-        entityManager.getTransaction().commit();
+    public List<DanhGia> getDanhGiasBySanPham(int masp) {
+        String hql = "select ha from DanhGia ha where ha.sanPham.maSanPham =" + masp ;
+        Query query = entityManager.createQuery(hql);
+        return query.getResultList();
     }
 
     public void updateSanPham(SanPham sanPham) {
@@ -47,7 +47,43 @@ public class SanPhamService implements Serializable {
         entityManager.getTransaction().commit();
     }
 
+    public void deleteSanPham(SanPham sanPham) {
+        entityManager.getTransaction().begin();
+        entityManager.remove(sanPham);
+        entityManager.getTransaction().commit();
+    }
+
+    public void addDanhGia(DanhGia danhGia) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(danhGia);
+        entityManager.getTransaction().commit();
+    }
+
+    public void deleteDanhGia(DanhGia danhGia) {
+        entityManager.getTransaction().begin();
+        entityManager.remove(danhGia);
+        entityManager.getTransaction().commit();
+    }
+
     public SanPham find(int id) {
         return entityManager.find(SanPham.class, id);
+    }
+
+    public void deleteKichCo(KichCo kichCo) {
+        entityManager.getTransaction().begin();
+        entityManager.remove(kichCo);
+        entityManager.getTransaction().commit();
+    }
+
+    public void addKichCo(KichCo kichCo) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(kichCo);
+        entityManager.getTransaction().commit();
+    }
+
+    public void addHinhAnh(HinhAnh hinhAnh) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(hinhAnh);
+        entityManager.getTransaction().commit();
     }
 }
