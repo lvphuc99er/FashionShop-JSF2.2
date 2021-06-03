@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ChiTietGioHang")
+@Table(name = "chitietgiohang")
 @Data
 @Getter
 @Setter

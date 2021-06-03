@@ -16,15 +16,25 @@
         <h:form>
             <table cellspacing="10px">
                 <tr>
-                    <td><p:outputLabel value="Nhân viên:"/></td>
-                    <td><p:inputText value="#{login.nhanVien.tenNhanVien}" style="width: 400px" readonly="true"/></td>
-                    <td><p:outputLabel value="Ngày lập phiếu nhập:"/></td>
+                    <td>
+                        <p:outputLabel value="Nhân viên:"/>
+                    </td>
+                    <td>
+                        <p:inputText value="#{login.nhanVien.tenNhanVien}" style="width: 400px" readonly="true"/>
+                    </td>
+                    <td colspan="2">
+                        <p:outputLabel value="Ngày lập phiếu nhập:"/>
+                    </td>
                     <td colspan="2">
                         <p:inputText id="nlp" type="date" value="#{quanLyNhapKhoBean.phieuNhap.ngayLapPhieu}"/></td>
-                    <td><p:message for="nlp" style="color: red"/></td>
+                    <td>
+                        <p:message for="nlp" style="color: red"/>
+                    </td>
                 </tr>
                 <tr>
-                    <td><p:outputLabel value="Nhà cung cấp:"/></td>
+                    <td>
+                        <p:outputLabel value="Nhà cung cấp:"/>
+                    </td>
                     <td>
                         <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.maNCC}">
                             <f:selectItems value="#{nhaCungCapBean.nhaCungCaps}" var="ncc"
@@ -37,15 +47,42 @@
                         <p:outputLabel value="Sản phẩm:"/>
                     </td>
                     <td>
-                        <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.maSP}">
+                        <p:selectOneMenu style="width: 400px" value="#{quanLyNhapKhoBean.maSP}" id="sanpham">
+                            <f:selectItem itemLabel="Chọn sản phẩm..."/>
+<!--                            <p:ajax listener="#{sanPhamBean.getMauSacBySanPham(quanLyNhapKhoBean.maSP)}" update="mau"/>-->
                             <f:selectItems value="#{sanPhamBean.sanPhams}" var="sp" itemValue="#{sp.maSanPham}"
                                            itemLabel="#{sp.tenSanPham}"/>
                         </p:selectOneMenu>
+                        <br/>
+                        <h:message for="sanpham" style="color: red"/>
                     </td>
-                    <td><p:outputLabel value="Số lượng: "/>
+                    <td>
+<!--                        <p:selectOneMenu style="width: 125px" value="#{quanLyNhapKhoBean.maM}" id="mau">-->
+<!--                            <f:selectItem itemLabel="Màu"/>-->
+<!--                            <p:ajax listener="#{sanPhamBean.getKichCoByMauSac(quanLyNhapKhoBean.maM)}" update="size"/>-->
+<!--                            <f:selectItems value="#{sanPhamBean.getMauSacBySanPham(quanLyNhapKhoBean.maSP)}" var="ms"-->
+<!--                                           itemValue="#{ms.maMau}" itemLabel="#{ms.tenMau}"/>-->
+<!--                        </p:selectOneMenu>-->
+<!--                        <br/>-->
+<!--                        <h:message for="mau" style="color: red"/>-->
+                    </td>
+                    <td>
+<!--                        <p:selectOneMenu style="width: 75px" value="#{quanLyNhapKhoBean.maKC}" id="size">-->
+<!--                            <f:selectItem itemLabel="Size"/>-->
+<!--                            <f:selectItems value="#{sanPhamBean.getKichCoByMauSac(quanLyNhapKhoBean.maM)}" var="kc"-->
+<!--                                           itemValue="#{kc.maKichCo}" itemLabel="#{kc.tenKichCo}"/>-->
+<!--                        </p:selectOneMenu>-->
+<!--                        <br/>-->
+<!--                        <h:message for="size" style="color: red"/>-->
+                    </td>
+                    <td>
+                        <p:outputLabel value="Số lượng: "/>
                         <p:spinner style="width: 75px" min="1" value="#{quanLyNhapKhoBean.sl}"/>
                     </td>
-                    <td><p:commandButton value="Thêm" action="#{quanLyNhapKhoBean.getItems}" ajax="false"/></td>
+                    <td>
+                        <p:commandButton value="Thêm" action="#{quanLyNhapKhoBean.getItems}" ajax="false"
+                                         update="@form"/>
+                    </td>
                 </tr>
             </table>
             <hr/>

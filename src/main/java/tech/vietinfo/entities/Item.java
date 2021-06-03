@@ -15,4 +15,5 @@ public class Item implements Serializable {
 
     private SanPham sanPham;
     private int quantity;
+//    private String phanLoai;
 }

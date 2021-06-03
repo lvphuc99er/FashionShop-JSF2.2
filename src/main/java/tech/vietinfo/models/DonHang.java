@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "DonHang")
+@Table(name = "donhang")
 @Data
 @Getter
 @Setter
@@ -59,6 +59,7 @@ public class DonHang implements Serializable {
     private String gioNhanHang;
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<ChiTietDonHang> chiTietDonHangList;
 
     

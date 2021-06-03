@@ -3,7 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:of="http://omnifaces.org/functions">
     <ui:define name="body">
         <f:metadata>
             <f:param value="#{login.khachHang.maKhachHang}"/>
@@ -272,22 +272,34 @@
                     <p:fieldset legend="LỌC THEO MÀU" rendered="#{homeBean.maHeader != 11}">
                         <p:tieredMenu style="width:95%">
                             <p:menuitem value="Tất cả"/>
+
                             <p:menuitem value="Đỏ" style="background-color: red; margin-bottom: 2px"/>
+
                             <p:menuitem value="Cam" style="background-color: orange; margin-bottom: 2px"/>
+
                             <p:menuitem value="Vàng" style="background-color: yellow; margin-bottom: 2px"/>
+
                             <p:menuitem value="Hồng" style="background-color: pink; margin-bottom: 2px"/>
+
                             <p:menuitem value="Đen" style="background-color: black; margin-bottom: 2px"/>
+
                             <p:menuitem value="Trắng" style="background-color: white; margin-bottom: 2px"/>
+
                             <p:menuitem value="Xanh dương" style="background-color: royalblue; margin-bottom: 2px"/>
+
                             <p:menuitem value="Xanh lá" style="background-color: forestgreen; margin-bottom: 2px"/>
+
                             <p:menuitem value="Xám" style="background-color: gray; margin-bottom: 2px"/>
+
                             <p:menuitem value="Nấu" style="background-color: brown; margin-bottom: 2px"/>
+
                             <p:menuitem value="Tím" style="background-color: violet;"/>
                         </p:tieredMenu>
                     </p:fieldset>
                 </nav>
 
                 <article class="danh-muc">
+
                     <p:dataView var="sp" value="#{sanPhamBean.getSanPhamsByGia(homeBean.maGia,homeBean.maHeader)}"
                                 layout="grid" rows="6" gridIcon="pi pi-th-large" paginator="true"
                                 rendered="#{homeBean.maGia == 1 or homeBean.maGia == 2
@@ -298,7 +310,8 @@
                                     <f:facet name="header">
                                         <p:graphicImage style="width: 250px; height: 350px"
                                                         value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"/><br/>
-                                        <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                                        <p:outputLabel style="font-size: 30px"
+                                                       value="#{of:formatNumber(sp.donGia,'###,###,###')}₫"/>
                                     </f:facet>
                                     <p:commandButton action="#{sanPhamBean.nextPageDetail(sp.maSanPham)}"
                                                      process="@this" style="width: 180px" value="Xem chi tiết"/>
@@ -306,6 +319,7 @@
                             </p:panel>
                         </p:dataViewGridItem>
                     </p:dataView>
+
                     <p:dataView var="sp" value="#{sanPhamBean.getSanPhamsTheoLoai(homeBean.maHeader)}" layout="grid"
                                 rows="6" gridIcon="pi pi-th-large" paginator="true"
                                 rendered="#{homeBean.maGia != 1 and homeBean.maGia != 3
@@ -316,7 +330,8 @@
                                     <f:facet name="header">
                                         <p:graphicImage style="width: 250px; height: 350px"
                                                         value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"/><br/>
-                                        <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                                        <p:outputLabel style="font-size: 30px"
+                                                       value="#{of:formatNumber(sp.donGia,'###,###,###')} ₫"/>
                                     </f:facet>
                                     <p:commandButton value="Xem chi tiết" style="width: 180px"
                                                      action="#{sanPhamBean.nextPageDetail(sp.maSanPham)}"/>
@@ -324,6 +339,7 @@
                             </p:panel>
                         </p:dataViewGridItem>
                     </p:dataView>
+
                 </article>
             </section>
         </h:form>

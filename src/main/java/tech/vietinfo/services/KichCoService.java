@@ -2,6 +2,7 @@ package tech.vietinfo.services;
 
 import tech.vietinfo.models.KichCo;
 import tech.vietinfo.models.MauSac;
+import tech.vietinfo.models.SanPham;
 
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -23,6 +24,10 @@ public class KichCoService implements Serializable {
         String hql = "select sp from KichCo sp where sp.mauSac.maMau = " + mams;
         Query query = entityManager.createQuery(hql);
         return query.getResultList();
+    }
+
+    public KichCo find(int id) {
+        return entityManager.find(KichCo.class, id);
     }
 
     public void deleteKichCo(KichCo kichCo) {

@@ -30,6 +30,7 @@ public class HomeBean implements Serializable {
     private String tuTimKiem;
     private int maGia;
     private int maDonHang;
+    private int maMau;
 
     public String setMaAdminPage(int ma) {
         this.maAdminPage = ma;

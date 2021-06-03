@@ -54,6 +54,7 @@ public class SanPhamBean implements Serializable {
     private List<DanhGia> danhGiaList = new ArrayList<>();
     private List<SanPham> selectedSanPhamList = new ArrayList<>();
     private List<SanPham> selectedSanPhamListTheoGia = new ArrayList<>();
+    private List<SanPham> selectedSanPhamListTheoMau = new ArrayList<>();
     private List<String> kichCoAoList = new ArrayList<>();
     private List<String> kichCoQuanList = new ArrayList<>();
     private List<String> mauSacListString = new ArrayList<>();
@@ -144,6 +145,45 @@ public class SanPhamBean implements Serializable {
             }
         }
         return selectedSanPhamListTheoGia;
+    }
+
+    public List<SanPham> getSanPhamsByMauSac(int maGia, int maHeader, int maMau) {
+        selectedSanPhamListTheoMau = new ArrayList<>();
+        sanPhamList = getSanPhamsTheoLoai(maHeader);
+        if(maGia != 0){
+            selectedSanPhamListTheoGia = getSanPhamsByGia(maGia, maHeader);
+            if(maMau == 1){
+                return selectedSanPhamListTheoGia;
+            }
+            if(maGia == 4){
+                for (SanPham sp : selectedSanPhamListTheoGia){
+                    mauSacList = new ArrayList<>();
+                    mauSacList = mauSacService.getMauSacsBySanPham(sp.getMaSanPham());
+                    for (MauSac ms : mauSacList){
+                        if(ms.getTenMau().equals("Vàng")){
+                            selectedSanPhamListTheoMau.add(sp);
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if(maMau == 1){
+                return sanPhamList;
+            }
+            if(maGia == 4){
+                for (SanPham sp : sanPhamList){
+                    mauSacList = new ArrayList<>();
+                    mauSacList = mauSacService.getMauSacsBySanPham(sp.getMaSanPham());
+                    for (MauSac ms : mauSacList){
+                        if(ms.getTenMau().equals("Vàng")){
+                            selectedSanPhamListTheoMau.add(sp);
+                        }
+                    }
+                }
+            }
+        }
+        return selectedSanPhamListTheoMau;
     }
 
     public List<SanPham> getSanPhamsTheoLoai(int ma) {
@@ -678,11 +718,6 @@ public class SanPhamBean implements Serializable {
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(FILE_PATH + filename)));
         stream.write(bytes);
         stream.close();
-    }
-
-    public void showMessage() {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thông báo", "Đã thêm vào giỏ hàng!");
-        PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 
     public String saveDanhGia(String tekh, int masp) {

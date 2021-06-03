@@ -59,17 +59,6 @@
                     <p:fieldset legend="Thanh toán">
                         <table cellpadding="10px">
                             <tr>
-                                <td><p:outputLabel value="Phương thức thanh toán:"/></td>
-                                <td>
-                                    <p:selectOneRadio value="#{cartBean.donHang.phuongThucThanhToan}">
-                                        <f:selectItem itemLabel="Thanh toán khi nhận hàng"
-                                                      itemValue="Thanh toán khi nhận hàng"/>
-                                        <f:selectItem itemLabel="Thẻ tín dụng/ghi nợ" itemValue="Thẻ tín dụng/ghi nợ"
-                                                      noSelectionOption="true"/>
-                                    </p:selectOneRadio>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td><p:outputLabel value="Đơn vị vận chuyển:"/></td>
                                 <td>
                                     <p:outputLabel value="Nhân viên LIVE LOUNGE"/>
@@ -125,10 +114,10 @@
                                 <h:outputText value="#{sp.soLuong}"/>
                             </p:column>
                             <p:column style="width: 10%" headerText="Đơn giá">
-                                <h:outputText value="#{sp.sanPham.donGia}"/>
+                                <h:outputText value="#{of:formatNumber(sp.sanPham.donGia,'###,###,###')} ₫"/>
                             </p:column>
                             <p:column style="width: 10%" headerText="Thành tiền">
-                                <h:outputText value="#{sp.sanPham.donGia * sp.soLuong}"/>
+                                <h:outputText value="#{of:formatNumber(sp.sanPham.donGia * sp.soLuong,'###,###,###')} ₫"/>
                             </p:column>
                         </p:dataTable>
                     </p:fieldset>
@@ -143,24 +132,22 @@
                                              style="width: 350px; margin-right: 500px" rows="3"/>
                         </td>
                         <td><p:outputLabel value="Tổng tiền hàng: "/></td>
-                        <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{cartBean.totalSanPham()}"/>
+                        <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{of:formatNumber(cartBean.totalSanPham(),'###,###,###')} ₫"/>
                         </td>
-                        <td><p:outputLabel value="VNĐ"/></td>
                     </tr>
                     <tr>
                         <td><p:outputLabel value="Phí vận chuyển: "/></td>
-                        <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{cartBean.SHIPCOST}"/></td>
-                        <td><p:outputLabel value="VNĐ"/></td>
+                        <td><p:outputLabel disabled="true" style="font-size: 20px" value="#{of:formatNumber(cartBean.SHIPCOST,'###,###,###')} ₫"/></td>
                     </tr>
                     <tr>
                         <td><p:outputLabel value="Tổng thanh toán: "/></td>
-                        <td><b><p:outputLabel disabled="true" value="#{cartBean.totalDonHang()}"
+                        <td><b><p:outputLabel disabled="true" value="#{of:formatNumber(cartBean.totalDonHang(),'###,###,###')} ₫"
                                               style="font-size: 28px; color: orangered;"/></b></td>
-                        <td><p:outputLabel value="VNĐ"/></td>
                     </tr>
                 </table>
-                <p:commandButton styleClass="ui-button-warning" style="margin-left: 73%; width: 200px" action="shoppingcart?faces-redirect=true"
+                <p:commandButton styleClass="ui-button-warning" style="margin-left: 70%; width: 200px" action="shoppingcart?faces-redirect=true"
                                  value="Đặt hàng" actionListener="#{cartBean.addDonHang(login.khachHang, homeBean.dieuHuong)}"/>
+                <p:commandButton value="Thanh toán VNPAY" action="index?faces-redirect=true"/>
 
             </div>
         </h:form>

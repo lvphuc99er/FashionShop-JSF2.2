@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "NhaCungCap")
+@Table(name = "nhacungcap")
 @Data
 @Getter
 @Setter

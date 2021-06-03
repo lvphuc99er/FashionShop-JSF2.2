@@ -3,7 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:of="http://omnifaces.org/functions">
     <f:metadata>
         <f:viewParam name="msp" value="#{sanPhamBean.sanPham.maSanPham}"/>
         <f:viewParam name="tsp" value="#{sanPhamBean.sanPham.tenSanPham}"/>
@@ -53,7 +53,8 @@
                     <p/>
                     <p/>
 
-                    <b><p:outputLabel style="font-size: 60px; color: red" value="#{sanPhamBean.sanPham.donGia}"/></b>
+                    <b><p:outputLabel style="font-size: 60px; color: red"
+                                      value="#{of:formatNumber(sanPhamBean.sanPham.donGia,'###,###,###')} ₫"/></b>
                     <p/>
 
                     <p:outputLabel value="Màu sắc:" style="margin-right: 10px"/>

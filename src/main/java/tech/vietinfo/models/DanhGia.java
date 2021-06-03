@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "DanhGia")
+@Table(name = "danhgia")
 @Data
 @Getter
 @Setter

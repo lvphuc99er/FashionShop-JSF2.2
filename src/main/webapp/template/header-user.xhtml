@@ -44,15 +44,18 @@
                     <p:inputText placeholder="Tìm kiếm..." value="#{homeBean.tuKhoa}"/>
                     <p:commandButton icon="pi pi-search" style="width: 40px;" actionListener="#{homeBean.setTu}"
                                      action="trang-ket-qua-tim-kiem?faces-redirect=true"/>
+
                     <p:commandButton icon="pi pi-shopping-cart" action="shoppingcart?faces-redirect=true"
                                      value="#{cartBean.demSoLuongTrongGioHang(login.getKhachHang().maKhachHang)}"
                                      style="margin-left: 5px"/>
+
                     <p:outputLabel value="Khách hàng: " style="margin-left: 5px; margin-right: 5px"/>
                     <p:outputLabel value="#{login.khachHang.tenKhachHang}" style="margin-right: 5px;" disabled="true"/>
                     <p:menuButton icon="pi pi-user" styleClass="rounded-button ui-button-info"
                                   style="margin-right: 5px;">
                         <p:menuitem value="Hồ sơ cá nhân" outcome="thong-tin-ca-nhan"/>
-                        <p:menuitem value="Đơn hàng" outcome="don-hang-ca-nhan"/>
+                        <p:menuitem value="Đơn hàng" action="don-hang-ca-nhan?faces-redirect=true"
+                                    actionListener="#{homeBean.setMaDonHang(1)}"/>
                     </p:menuButton>
                     <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
                                      oncomplete="PF('dlg1').show()"/>

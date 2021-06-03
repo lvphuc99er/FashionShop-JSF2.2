@@ -3,14 +3,17 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:of="http://omnifaces.org/functions">
     <ui:define name="body">
         <f:metadata>
             <f:event type="preRenderView" listener="#{login.grantPermission}"/>
         </f:metadata>
         <div class="card">
             <h:form>
-                <h2 align="center">QUẢN LÝ SẢN PHẨM</h2>
+                <p:commandButton value="Thêm mới" icon="pi pi-plus"
+                                 oncomplete="PF('product-detail').show()"
+                                 actionListener="#{sanPhamBean.init()}" update=":info-product"/>
+                <p:outputLabel value="QUẢN LÝ SẢN PHẨM" style="font-size: 24px; margin-left: 40%"/>
                 <hr/>
                 <p:panelGrid columns="1">
                     <p:dataTable var="sp" value="#{sanPhamBean.sanPhams}" scrollable="true" autoUpdate="true"
@@ -27,13 +30,13 @@
                             <h:outputText value="#{sp.tenLoaiSanPham}"/>
                         </p:column>
                         <p:column style="width: 8%" headerText="Đơn giá">
-                            <h:outputText value="#{sp.donGia}"/>
+                            <h:outputText value="#{of:formatNumber(sp.donGia,'###,###,###')}₫"/>
                         </p:column>
                         <p:column style="width: 8%; text-align: center" headerText="Số lượng">
                             <h:outputText value="#{sp.soLuongCoSan}"/>
                         </p:column>
                         <p:column style="width: 10%; text-align: center" headerText="">
-                            <p:commandButton icon="pi pi-trash" onclick="PF('dlg-xoasp').show()"
+                            <p:commandButton icon="pi pi-trash" onclick="PF('dlgtrash').show()"
                                              styleClass="ui-button-danger">
                                 <f:setPropertyActionListener value="#{sp}"
                                                              target="#{sanPhamBean.sanPham}"/>
@@ -54,7 +57,8 @@
                 <p class="p-m-0">Chắc chắn xóa sản phẩm ?</p>
                 <f:facet name="footer">
                     <p:commandButton value="Đồng ý" styleClass="ui-button-warning"
-                                     action="#{sanPhamBean.deleteSanPham}"/>
+                                     action="quan-ly-san-pham?faces-redirect=true"
+                                     actionListener="#{sanPhamBean.deleteSanPham}"/>
                     <p:commandButton value="Bỏ qua" onclick="PF('dlgtrash').hide()"/>
                 </f:facet>
             </p:dialog>
@@ -117,7 +121,8 @@
                                     <p:outputLabel value="Đơn giá:" style="margin-left: 20px; "/>
                                 </td>
                                 <td>
-                                    <p:inputText id="dg" value="#{sanPhamBean.sanPham.donGia}" style="width: 300px"/><br/>
+                                    <p:inputText id="dg" value="#{sanPhamBean.sanPham.donGia}"
+                                                 style="width: 300px"/><br/>
                                     <h:message for="dg" style="color:red;"/>
                                 </td>
                                 <td>
@@ -126,10 +131,9 @@
                                 <td>
                                     <p:inputText readonly="true" value="#{sanPhamBean.sanPham.soLuongCoSan}"
                                                  style="width: 255px"/>
-                                    <p:commandButton icon="pi pi-search" onclick="PF('dlg-so-luong').show()"
-                                                     rendered="#{sanPhamBean.sanPham.maSanPham != 0}" update=":so-luong"
-                                                     style="width: 40px; margin-left: 5px">
-                                    </p:commandButton>
+<!--                                    <p:commandButton icon="pi pi-search" onclick="PF('dlg-so-luong').show()"-->
+<!--                                                     rendered="#{sanPhamBean.sanPham.maSanPham != 0}" update=":so-luong"-->
+<!--                                                     style="width: 40px; margin-left: 5px"/>-->
                                 </td>
                             </tr>
                             <tr>
@@ -161,7 +165,7 @@
                                     <p:commandButton value="Lưu" ajax="true" style="width: 100px; margin-right: 10px"
                                                      update=":info-product" icon="pi pi-save"
                                                      actionListener="#{sanPhamBean.saveSanPham}"
-                                                     action="admin-page?faces-redirect=true"
+                                                     action="quan-ly-san-pham?faces-redirect=true"
                                                      rendered="#{sanPhamBean.sanPham.maSanPham != 0}"/>
                                     <p:commandButton value="Đóng" onclick="PF('product-detail').hide()"
                                                      class="ui-button-danger" icon="pi pi-times" style="width: 100px"/>
@@ -169,6 +173,177 @@
                             </tr>
                         </table>
                     </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+            <!--dialog chi tiết số lượng-->
+            <p:dialog header="SỐ LƯỢNG SẢN PHẨM" widgetVar="dlg-so-luong" showEffect="fade" modal="true">
+                <h:form id="so-luong">
+                    <p:outputLabel value="Tên sản phẩm: #{sanPhamBean.sanPham.tenSanPham}"/>
+                    <p:dataTable var="ms" value="#{sanPhamBean.getMauSacBySanPham(sanPhamBean.sanPham.maSanPham)}">
+                        <p:column style="width: 15%; text-align: center" headerText="Màu">
+                            <p:outputLabel value="#{ms.tenMau}"/>
+                        </p:column>
+                        <p:column style="width: 15%" headerText="Số lượng">
+                            <p:outputLabel value="#{ms.soLuong}"/>
+                        </p:column>
+                        <p:column style="width: 70%" headerText="Size - Số lượng tương ứng">
+                            <p:dataTable var="kc" value="#{sanPhamBean.getKichCoByMauSac(ms.maMau)}">
+                                <p:outputLabel id="soLuong" value="#{kc.tenKichCo} - #{kc.soLuong}"/>
+                            </p:dataTable>
+                        </p:column>
+                    </p:dataTable>
+                    <p:divider/>
+                    <p:commandButton value="Đóng" onclick="PF('dlg-so-luong').hide()" styleClass="ui-button-danger"
+                                     icon="pi pi-times"/>
+                </h:form>
+            </p:dialog>
+
+            <!--dialog chọn loại sản phẩm-->
+            <p:dialog header="CHỌN DANH MỤC SẢN PHẨM"
+                      widgetVar="dlg-chon-danh-muc" minHeight="200" width="850" showEffect="fade" modal="true">
+                <h:form>
+                    <p:outputLabel value="THỜI TRANG NỮ:" style="margin-right: 13px"/>
+                    <p:commandButton value="Áo &amp; Váy đầm" actionListener="#{homeBean.setMaAdminPage(1)}" update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:commandButton value="Quần &amp; Chân váy" actionListener="#{homeBean.setMaAdminPage(2)}"
+                                     update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 1}">
+                        <f:selectItem itemLabel="THUN NỮ TAY NGẮN TRƠN" itemValue="THUN NỮ TAY NGẮN TRƠN"/>
+                        <f:selectItem itemLabel="THUN NỮ TAY NGẮN IN HÌNH" itemValue="THUN NỮ TAY NGẮN IN HÌNH"/>
+                        <f:selectItem itemLabel="THUN NỮ TAY NGẮN CÓ CỔ" itemValue="THUN NỮ TAY NGẮN CÓ CỔ"/>
+                        <f:selectItem itemLabel="THUN NỮ TAY NGẮN CROPTOP" itemValue="THUN NỮ TAY NGẮN CROPTOP"/>
+                        <f:selectItem itemLabel="THUN NỮ TAY DÀI IN HÌNH" itemValue="THUN NỮ TAY DÀI IN HÌNH"/>
+                        <f:selectItem itemLabel="THUN NỮ TAY DÀI CROPTOP" itemValue="THUN NỮ TAY DÀI CROPTOP"/>
+                        <f:selectItem itemLabel="SƠ MI NỮ TAY NGẮN" itemValue="SƠ MI NỮ TAY NGẮN"/>
+                        <f:selectItem itemLabel="SƠ MI NỮ TAY DÀI" itemValue="SƠ MI NỮ TAY DÀI"/><br/>
+                        <f:selectItem itemLabel="VÁY ĐẦM" itemValue="VÁY ĐẦM"/>
+                    </p:selectOneRadio>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 2}">
+                        <f:selectItem itemLabel="QUẦN SHORT NỮ JEAN" itemValue="QUẦN SHORT NỮ JEAN"/>
+                        <f:selectItem itemLabel="QUẦN SHORT NỮ KAKI" itemValue="QUẦN SHORT NỮ KAKI"/>
+                        <f:selectItem itemLabel="QUẦN DÀI NỮ JEAN" itemValue="QUẦN DÀI NỮ JEAN"/>
+                        <f:selectItem itemLabel="QUẦN DÀI NỮ KAKI" itemValue="QUẦN DÀI NỮ KAKI"/>
+                        <f:selectItem itemLabel="QUẦN DÀI NỮ THUN" itemValue="QUẦN DÀI NỮ THUN"/><br/>
+                        <f:selectItem itemLabel="CHÂN VÁY" itemValue="CHÂN VÁY"/>
+                    </p:selectOneRadio>
+                    <p:divider/>
+                    <p:outputLabel value="THỜI TRANG NAM:"/>
+                    <p:commandButton value="Áo" actionListener="#{homeBean.setMaAdminPage(3)}" update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:commandButton value="Quần" actionListener="#{homeBean.setMaAdminPage(4)}" update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 3}">
+                        <f:selectItem itemLabel="THUN NAM TAY NGẮN TRƠN" itemValue="THUN NAM TAY NGẮN TRƠN"/>
+                        <f:selectItem itemLabel="THUN NAM TAY NGẮN IN HÌNH" itemValue="THUN NAM TAY NGẮN IN HÌNH"/>
+                        <f:selectItem itemLabel="THUN NAM TAY NGẮN CÓ CỔ" itemValue="THUN NAM TAY NGẮN CÓ CỔ"/>
+                        <f:selectItem itemLabel="THUN NAM TAY DÀI LEN" itemValue="THUN NAM TAY DÀI LEN"/>
+                        <f:selectItem itemLabel="THUN NAM TAY DÀI IN HÌNH" itemValue="THUN NAM TAY DÀI IN HÌNH"/>
+                        <f:selectItem itemLabel="SƠ MI NAM TAY NGẮN" itemValue="SƠ MI NAM TAY NGẮN"/>
+                        <f:selectItem itemLabel="SƠ MI NAM TAY DÀI" itemValue="SƠ MI NAM TAY DÀI"/>
+                    </p:selectOneRadio>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="3"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 4}">
+                        <f:selectItem itemLabel="QUẦN SHORT NAM JEAN" itemValue="QUẦN SHORT NAM JEAN"/>
+                        <f:selectItem itemLabel="QUẦN SHORT NAM KAKI" itemValue="QUẦN SHORT NAM KAKI"/>
+                        <f:selectItem itemLabel="QUẦN DÀI NAM JEAN" itemValue="QUẦN DÀI NAM JEAN"/>
+                        <f:selectItem itemLabel="QUẦN DÀI NAM KAKI" itemValue="QUẦN DÀI NAM KAKI"/>
+                        <f:selectItem itemLabel="QUẦN DÀI NAM THUN" itemValue="QUẦN DÀI NAM THUN"/>
+                    </p:selectOneRadio>
+                    <p:divider/>
+                    <p:outputLabel value="PHỤ KIỆN:" style="margin-right: 63px"/>
+                    <p:commandButton value="Ba lô &amp; Túi xách" actionListener="#{homeBean.setMaAdminPage(5)}"
+                                     update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:commandButton value="Nón" actionListener="#{homeBean.setMaAdminPage(6)}" update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:commandButton value="Khác" actionListener="#{homeBean.setMaAdminPage(7)}" update="@form"
+                                     styleClass="ui-button-flat"/>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="5"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 5}">
+                        <f:selectItem itemLabel="BA LÔ" itemValue="BA LÔ"/>
+                        <f:selectItem itemLabel="TÚI XÁCH" itemValue="TÚI XÁCH"/>
+                    </p:selectOneRadio>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="5"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 6}">
+                        <f:selectItem itemLabel="NÓN LƯỠI TRAI" itemValue="NÓN LƯỠI TRAI"/>
+                        <f:selectItem itemLabel="NÓN SNAPBACK" itemValue="NÓN SNAPBACK"/>
+                        <f:selectItem itemLabel="NÓN BUCKET" itemValue="NÓN BUCKET"/>
+                    </p:selectOneRadio>
+                    <p:selectOneRadio value="#{sanPhamBean.sanPham.tenLoaiSanPham}" layout="grid" columns="5"
+                                      styleClass="grid-radio" rendered="#{homeBean.maAdminPage == 7}">
+                        <f:selectItem itemLabel="VÍ" itemValue="VÍ"/>
+                        <f:selectItem itemLabel="DÂY NỊCH" itemValue="DÂY NỊCH"/>
+                        <f:selectItem itemLabel="THẮT LƯNG" itemValue="THẮT LƯNG"/>
+                        <f:selectItem itemLabel="ĐỒNG HỒ" itemValue="ĐỒNG HỒ"/>
+                    </p:selectOneRadio>
+                    <p:divider/>
+
+                    <p:commandButton value="Bỏ qua" style="margin-left: 42%; margin-right: 5px"
+                                     onclick="PF('dlg-chon-danh-muc').hide()" styleClass="ui-button-danger"/>
+                    <p:commandButton value="Đồng ý" rendered="#{homeBean.maAdminPage==1 or homeBean.maAdminPage==3}"
+                                     update=":info-product" oncomplete="PF('dlg-chon-danh-muc').hide()">
+                        <f:setPropertyActionListener target="#{sanPhamBean.sanPham.loai}" value="1"/>
+                    </p:commandButton>
+                    <p:commandButton value="Đồng ý" rendered="#{homeBean.maAdminPage==2 or homeBean.maAdminPage==4}"
+                                     update=":info-product" oncomplete="PF('dlg-chon-danh-muc').hide()">
+                        <f:setPropertyActionListener target="#{sanPhamBean.sanPham.loai}" value="2"/>
+                    </p:commandButton>
+                    <p:commandButton
+                            rendered="#{homeBean.maAdminPage==5 or homeBean.maAdminPage==6 or homeBean.maAdminPage==7}"
+                            oncomplete="PF('dlg-chon-danh-muc').hide()" value="Đồng ý" update=":info-product">
+                        <f:setPropertyActionListener target="#{sanPhamBean.sanPham.loai}" value="3"/>
+                    </p:commandButton>
+
+                </h:form>
+            </p:dialog>
+
+            <!--dialog thêm hình ảnh và màu sắc cho sản phẩm-->
+            <p:dialog header="HÌNH ẢNH 	&amp; MÀU SẮC SẢN PHẨM" widgetVar="dlg-hinh-anh" showEffect="fade" modal="true">
+                <h:form id="hinh-anh" enctype="multipart/form-data">
+                    <table>
+                        <tr>
+                            <td style="text-align: center">
+                                <p:outputLabel value="HÌNH ẢNH"/>
+                            </td>
+                            <td style="text-align: center; margin-left: 30px">
+                                <p:outputLabel value="MÀU SẮC"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i>(Tối đa 5 hình ảnh, chỉ chấp nhận định dạng jpg | jpeg | png)</i><br/><br/>
+                                <p:fileUpload value="#{sanPhamBean.resume}" mode="simple" skinSimple="true" multiple="true"
+                                              sizeLimit="10000000" fileLimit="5" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                            </td>
+                            <td>
+                                <p:selectManyCheckbox value="#{sanPhamBean.mauSacListString}" columns="3" layout="grid"
+                                                      styleClass="grid-radio" style="margin-left: 30px">
+                                    <f:selectItem itemLabel="Đỏ" itemValue="Đỏ" style="color:red"/>
+                                    <f:selectItem itemLabel="Vàng" itemValue="Vàng"/>
+                                    <f:selectItem itemLabel="Xanh dương" itemValue="Xanh dương"/>
+                                    <f:selectItem itemLabel="Xanh lá" itemValue="Xanh lá"/>
+                                    <f:selectItem itemLabel="Hồng" itemValue="Hồng"/>
+                                    <f:selectItem itemLabel="Trắng" itemValue="Trắng"/>
+                                    <f:selectItem itemLabel="Đen" itemValue="Đen"/>
+                                    <f:selectItem itemLabel="Cam" itemValue="Cam"/>
+                                    <f:selectItem itemLabel="Tím" itemValue="Tím"/>
+                                    <f:selectItem itemLabel="Xám" itemValue="Xám"/>
+                                    <f:selectItem itemLabel="Nâu" itemValue="Nâu"/>
+                                </p:selectManyCheckbox>
+                            </td>
+                        </tr>
+                    </table>
+                    <p:divider/>
+                    <p:commandButton value="Lưu" update=":hinh-anh" style="margin-left: 40%; margin-right: 10px"
+                                     action="quan-ly-san-pham?faces-redirect=true" icon="pi pi-save" ajax="false"
+                                     actionListener="#{sanPhamBean.saveSanPham}"/>
+                    <p:commandButton value="Quay lại" onclick="PF('dlg-hinh-anh').hide()" styleClass="ui-button-danger"
+                                     icon="pi pi-arrow-left"/>
                 </h:form>
             </p:dialog>
         </div>

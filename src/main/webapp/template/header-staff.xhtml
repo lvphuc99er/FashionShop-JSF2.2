@@ -40,14 +40,18 @@
                     <p:menuitem value="SẢN PHẨM" outcome="quan-ly-san-pham" style="background-color: aqua"/>
                     <p:menuitem value="NHÀ CUNG CẤP" outcome="quan-ly-nha-cung-cap" style="background-color: aqua"/>
                 </p:submenu>
+
                 <p:menuitem value="NHẬP KHO" rendered="#{login.nhanVien.viTri == 'Nhân viên quản lý kho'}"
                             outcome="quan-ly-nhap-kho" style="background-color: deepskyblue"/>
+
                 <p:menuitem value="ĐƠN HÀNG" rendered="#{login.nhanVien.viTri == 'Nhân viên bán hàng'}"
                             outcome="quan-ly-don-hang" style="background-color: deepskyblue"
                             actionListener="#{homeBean.setMaDonHang(1)}"/>
+
                 <f:facet name="options">
                     <p:commandButton id="basic" icon="pi pi-bell" styleClass="rounded-button ui-button-secondary"
-                                     value="#{cartBean.getDonHangsByTrangThai('Chờ xác nhận').size()}"/>
+                                     value="#{cartBean.getDonHangsByTrangThai('Chờ xác nhận').size()}"
+                                     rendered="#{login.nhanVien.viTri == 'Nhân viên bán hàng'}"/>
                     <p:overlayPanel for="basic" style="width:600px">
                         <p:dataTable var="dh" value="#{cartBean.getDonHangsByTrangThai('Chờ xác nhận')}"
                                      scrollable="true" scrollHeight="300">
@@ -69,15 +73,19 @@
                                          styleClass="ui-button-flat"
                                          style="color: darkblue" actionListener="#{homeBean.setMaDonHang(2)}"/>
                     </p:overlayPanel>
+
                     <p:inputText placeholder="Tìm kiếm..." value="#{homeBean.tuKhoa}"/>
                     <p:commandButton icon="pi pi-search" style="width: 40px;" actionListener="#{homeBean.setTu}"
                                      action="trang-ket-qua-tim-kiem?faces-redirect=true"/>
+
                     <p:outputLabel value="Nhân viên kho: #{login.nhanVien.tenNhanVien}"
                                    rendered="#{login.nhanVien.viTri == 'Nhân viên quản lý kho'}"
                                    style="margin-left: 5px; margin-right: 5px"/>
+
                     <p:outputLabel value="Nhân viên bán hàng: #{login.nhanVien.tenNhanVien}"
                                    rendered="#{login.nhanVien.viTri == 'Nhân viên bán hàng'}"
                                    style="margin-left: 5px; margin-right: 5px"/>
+
                     <p:commandButton style="width: 110px;font-size: 15px;" value="Đăng xuất"
                                      oncomplete="PF('dlg1').show()"/>
                 </f:facet>

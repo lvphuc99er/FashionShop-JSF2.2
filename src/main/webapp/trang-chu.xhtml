@@ -3,13 +3,15 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
     <ui:define name="body">
         <f:metadata>
             <f:param value="#{login.khachHang.maKhachHang}"/>
         </f:metadata>
         <h:form>
-            <p:dataView var="sp" value="#{sanPhamBean.sanPhams}" layout="grid" rows="6"
+
+            <p:dataView var="sp" value="#{sanPhamBean.sanPhams}" layout="grid" rows="12"
                         gridIcon="pi pi-th-large" paginator="true">
                 <p:dataViewGridItem>
                     <p:panel header="#{sp.tenSanPham}" style="text-align:center">
@@ -17,7 +19,8 @@
                             <f:facet name="header">
                                 <p:graphicImage style="width: 250px; height: 350px"
                                                 value="images/#{sanPhamBean.getHinhAnhBySanPham(sp.maSanPham).get(0).tenHinhAnh}"/><br/>
-                                <p:outputLabel style="font-size: 30px" value="#{sp.donGia}"/>
+                                <p:outputLabel style="font-size: 30px"
+                                               value="#{of:formatNumber(sp.donGia,'###,###,###')} ₫"/>
                             </f:facet>
                             <p:commandButton value="Xem chi tiết" action="#{sanPhamBean.nextPageDetail(sp.maSanPham)}"
                                              process="@this" style="width: 180px"/>

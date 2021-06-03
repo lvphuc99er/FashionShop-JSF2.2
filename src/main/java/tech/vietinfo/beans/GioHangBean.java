@@ -2,6 +2,7 @@ package tech.vietinfo.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import tech.vietinfo.models.*;
 import tech.vietinfo.services.DonHangService;
 import tech.vietinfo.services.GioHangService;
@@ -9,6 +10,7 @@ import tech.vietinfo.services.KhachHangService;
 import tech.vietinfo.services.SanPhamService;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -90,7 +92,7 @@ public class GioHangBean implements Serializable {
         return ct.getSoLuong();
     }
 
-    public String getThongTin(KhachHang kh){
+    public String getThongTin(KhachHang kh) {
         donHang.setTenNguoiNhan(kh.getTenKhachHang());
         donHang.setSdtNguoiNhan(kh.getSoDienThoai());
         donHang.setDiaChiNguoiNhan(kh.getDiaChi());
@@ -178,7 +180,7 @@ public class GioHangBean implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         donHang.setKhachHang(kh);
-        if(dieuHuong != 8){
+        if (dieuHuong != 8) {
             donHang.setTenNguoiNhan(kh.getTenKhachHang());
             donHang.setSdtNguoiNhan(kh.getSoDienThoai());
             donHang.setDiaChiNguoiNhan(kh.getDiaChi());
@@ -296,40 +298,40 @@ public class GioHangBean implements Serializable {
     public List<DonHang> getDonHangsTheoTrangThai(int ma) {
         selectedDonHangList = new ArrayList<>();
         donHangList = donHangService.getDonHangs();
-        if(ma == 1){
+        if (ma == 1) {
             return donHangList;
         }
-        if(ma == 2){
+        if (ma == 2) {
             for (DonHang dh : donHangList) {
-                if (dh.getTrangThai().equals("Chờ xác nhận")){
+                if (dh.getTrangThai().equals("Chờ xác nhận")) {
                     selectedDonHangList.add(dh);
                 }
             }
         }
-        if(ma == 3){
+        if (ma == 3) {
             for (DonHang dh : donHangList) {
-                if (dh.getTrangThai().equals("Chờ lấy hàng")){
+                if (dh.getTrangThai().equals("Chờ lấy hàng")) {
                     selectedDonHangList.add(dh);
                 }
             }
         }
-        if(ma == 4){
+        if (ma == 4) {
             for (DonHang dh : donHangList) {
-                if (dh.getTrangThai().equals("Đang giao hàng")){
+                if (dh.getTrangThai().equals("Đang giao hàng")) {
                     selectedDonHangList.add(dh);
                 }
             }
         }
-        if(ma == 5){
+        if (ma == 5) {
             for (DonHang dh : donHangList) {
-                if (dh.getTrangThai().equals("Đã nhận hàng")){
+                if (dh.getTrangThai().equals("Đã nhận hàng")) {
                     selectedDonHangList.add(dh);
                 }
             }
         }
-        if(ma == 6){
+        if (ma == 6) {
             for (DonHang dh : donHangList) {
-                if (dh.getTrangThai().equals("Đã hủy")){
+                if (dh.getTrangThai().equals("Đã hủy")) {
                     selectedDonHangList.add(dh);
                 }
             }
@@ -337,7 +339,7 @@ public class GioHangBean implements Serializable {
         return selectedDonHangList;
     }
 
-    public List<DonHang> getDonHangsByKhachHang(int makh) {
+    public List<DonHang> getDonHangsByKhachHang(int makh, int maDonHang) {
         selectedDonHangList = new ArrayList<>();
         donHangList = donHangService.getDonHangs();
         for (DonHang dh : donHangList) {
@@ -345,7 +347,46 @@ public class GioHangBean implements Serializable {
                 selectedDonHangList.add(dh);
             }
         }
-        return selectedDonHangList;
+        donHangList = new ArrayList<>();
+        if (maDonHang == 1) {
+            donHangList.addAll(selectedDonHangList);
+        }
+        if (maDonHang == 2) {
+            for (DonHang dh : selectedDonHangList) {
+                if (dh.getTrangThai().equals("Chờ xác nhận")) {
+                    donHangList.add(dh);
+                }
+            }
+        }
+        if (maDonHang == 3) {
+            for (DonHang dh : selectedDonHangList) {
+                if (dh.getTrangThai().equals("Chờ lấy hàng")) {
+                    donHangList.add(dh);
+                }
+            }
+        }
+        if (maDonHang == 4) {
+            for (DonHang dh : selectedDonHangList) {
+                if (dh.getTrangThai().equals("Đang giao hàng")) {
+                    donHangList.add(dh);
+                }
+            }
+        }
+        if (maDonHang == 5) {
+            for (DonHang dh : selectedDonHangList) {
+                if (dh.getTrangThai().equals("Đã nhận hàng")) {
+                    donHangList.add(dh);
+                }
+            }
+        }
+        if (maDonHang == 6) {
+            for (DonHang dh : selectedDonHangList) {
+                if (dh.getTrangThai().equals("Đã hủy")) {
+                    donHangList.add(dh);
+                }
+            }
+        }
+        return donHangList;
     }
 
     public List<ChiTietDonHang> getChiTietDonHangs(int madh) {
@@ -353,7 +394,7 @@ public class GioHangBean implements Serializable {
         return chiTietDonHangList;
     }
 
-    public String deleteDonHang(DonHang dh){
+    public String deleteDonHang(DonHang dh) {
         chiTietDonHangList = donHangService.getChiTietDonHangsByDonHang(dh.getMaDonHang());
         for (ChiTietDonHang ctdh : chiTietDonHangList) {
             donHangService.deleteChiTietDonHang(ctdh);
@@ -364,10 +405,18 @@ public class GioHangBean implements Serializable {
 
     public String huyDonHang(DonHang dh) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
         LocalDateTime time = LocalDateTime.parse(dh.getNgayDatHang(), formatter);
-        LocalDateTime time30 = time.plusMinutes(30);
-        dh.setTrangThai("Đã hủy");
-        donHangService.updateDonHang(dh);
+        if (time.plusMinutes(1).isAfter(now)) {
+            dh.setTrangThai("Đã hủy");
+            donHangService.updateDonHang(dh);
+            return "don-hang-ca-nhan?faces-redirect=true";
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Thông báo", "Đã quá 30 " +
+                    "phút, không thể hủy. Vui lòng theo dõi và nhận đơn hàng.");
+            PrimeFaces.current().dialog().showMessageDynamic(message);
+            PrimeFaces.current().executeScript("PF('dlghuy').hide();");
+        }
         return "";
     }
 
@@ -390,9 +439,13 @@ public class GioHangBean implements Serializable {
     }
 
     public int demSoLuongTrongGioHang(int makh) {
+        int dem = 0;
         gioHang = gioHangService.getGioHangs(makh).get(0);
         chiTietGioHangList = gioHang.getChiTietGioHangList();
-        return chiTietGioHangList.size();
+        for(ChiTietGioHang ct : chiTietGioHangList){
+            dem = dem + ct.getSoLuong();
+        }
+        return dem;
     }
 
     public List<DonHang> getDonHangsByTrangThai(String tt) {

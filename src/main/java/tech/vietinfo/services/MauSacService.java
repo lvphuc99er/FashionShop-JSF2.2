@@ -1,5 +1,6 @@
 package tech.vietinfo.services;
 
+import tech.vietinfo.models.KichCo;
 import tech.vietinfo.models.MauSac;
 import tech.vietinfo.models.SanPham;
 
@@ -24,6 +25,10 @@ public class MauSacService implements Serializable {
         String hql = "select sp from MauSac sp where sp.sanPham.maSanPham = " + masp;
         Query query = entityManager.createQuery(hql);
         return query.getResultList();
+    }
+
+    public MauSac find(int id) {
+        return entityManager.find(MauSac.class, id);
     }
 
     public void deleteMauSac(MauSac mauSac) {

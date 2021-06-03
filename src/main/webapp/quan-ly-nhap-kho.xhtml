@@ -2,7 +2,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:of="http://omnifaces.org/functions">
     <ui:define name="body">
         <f:metadata>
             <f:event type="preRenderView" listener="#{login.grantPermission}"/>
@@ -31,7 +31,7 @@
                 <p:outputLabel value="#{pn.nhaCungCap.tenNhaCungCap}"/>
             </p:column>
             <p:column style="width: 15%;text-align: center" headerText="Tổng tiền (VNĐ)">
-                <p:outputLabel value="#{pn.thanhTien}"/>
+                <p:outputLabel value="#{of:formatNumber(pn.thanhTien,'###,###,###')} ₫"/>
             </p:column>
             <p:column style="width: 10%">
                 <p:commandButton styleClass="ui-button-success" oncomplete="PF('chi-tiet-phieu').show()"
@@ -92,13 +92,13 @@
                             <p:outputLabel value="#{ctsp.tenSanPham}"/>
                         </p:column>
                         <p:column style="width: 15%" headerText="Đơn giá">
-                            <p:outputLabel value="#{ctsp.donGia}"/>
+                            <p:outputLabel value="#{of:formatNumber(ctsp.donGia,'###,###,###')}₫"/>
                         </p:column>
                         <p:column style="width: 20%; text-align: center" headerText="Số lượng nhập">
                             <p:outputLabel value="#{ctsp.soLuongNhap}"/>
                         </p:column>
                         <p:column style="width: 20%" headerText="Thành tiền">
-                            <p:outputLabel value="#{ctsp.thanhTien}"/>
+                            <p:outputLabel value="#{of:formatNumber(ctsp.thanhTien,'###,###,###')}₫"/>
                         </p:column>
                     </p:dataTable>
                 </div>
@@ -106,7 +106,7 @@
                 <div class="p-field">
                     <p:outputLabel value="Tổng tiền nhập: "/>
                     <p:inputText readonly="true" style="font-size: 20px; width: 150px"
-                                 value="#{quanLyNhapKhoBean.phieuNhap.thanhTien}"/>
+                                 value="#{of:formatNumber(quanLyNhapKhoBean.phieuNhap.thanhTien,'###,###,###')}₫"/>
                 </div>
             </p:outputPanel>
             <f:facet name="footer">

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "GioHang")
+@Table(name = "giohang")
 @Data
 @Getter
 @Setter

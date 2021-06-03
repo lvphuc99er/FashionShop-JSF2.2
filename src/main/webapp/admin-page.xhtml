@@ -32,6 +32,10 @@
                             <p:submenu label="QUẢN LÝ NHẬP KHO">
                                 <p:menuitem value="Kho" action="#{homeBean.setDieuHuong(6)}" update="@form"/>
                             </p:submenu>
+                            <p:submenu label="CHƯƠNG TRÌNH KHUYẾN MÃI">
+                                <p:menuitem value="Chương trình khuyến mãi" action="#{homeBean.setDieuHuong(10)}"
+                                            update="@form"/>
+                            </p:submenu>
                             <p:submenu label="THỐNG KÊ">
                                 <p:menuitem value="Thống kê" action="#{homeBean.setDieuHuong(7)}" update="@form"/>
                             </p:submenu>
@@ -217,33 +221,61 @@
                                 <p:column><p:inputText style="margin-left: 50%; width: 300px"
                                                        placeholder="Nhập tên khách hàng/mã đơn hàng..."/></p:column>
                             </p:row>
-                            <p:dataTable var="dh" value="#{quanLyDonHangBean.donHangs}" scrollable="true"
-                                         autoUpdate="true" scrollHeight="355">
-                                <p:column style="width: 5%; text-align: center" headerText="Mã">
-                                    <p:outputLabel value="#{dh.maDonHang}"/>
-                                </p:column>
-                                <p:column style="width: 20%" headerText="Tên khách hàng">
-                                    <p:outputLabel value="#{dh.tenNguoiNhan}"/>
-                                </p:column>
-                                <p:column style="width: 15%" headerText="Số điện thoại">
-                                    <p:outputLabel value="#{dh.sdtNguoiNhan}"/>
-                                </p:column>
-                                <p:column style="width: 15%" headerText="Ngày đặt">
-                                    <p:outputLabel value="#{dh.ngayDatHang}"/>
-                                </p:column>
-                                <p:column style="width: 15%; text-align: center" headerText="Trạng thái">
-                                    <p:outputLabel value="#{dh.trangThai}"/>
-                                </p:column>
-                                <p:column style="width: 10%; text-align: center">
-                                    <p:commandButton icon="pi pi-search" styleClass="ui-button-success"
-                                                     style="margin-right: 5px" update="manage-order-content"
-                                                     oncomplete="PF('detail-don-hang').show()">
-                                        <f:setPropertyActionListener value="#{dh}" target="#{cartBean.donHang}"/>
-                                    </p:commandButton>
-                                    <p:commandButton icon="pi pi-times" oncomplete="PF('dlg-xoa-don-hang').show()"
-                                                     style="width: 40px" styleClass="ui-button-danger"/>
-                                </p:column>
-                            </p:dataTable>
+                            <section>
+                                <nav class="don-hang">
+                                    <p:fieldset title="Trạng thái">
+                                        <p:commandButton styleClass="ui-button-flat" value="Tất cả" update="@form"
+                                                         action="#{homeBean.setMaDonHang(1)}"/><br/>
+
+                                        <p:commandButton styleClass="ui-button-flat" value="Chờ xác nhận" update="@form"
+                                                         action="#{homeBean.setMaDonHang(2)}"/><br/>
+
+                                        <p:commandButton styleClass="ui-button-flat" value="Chờ lấy hàng" update="@form"
+                                                         action="#{homeBean.setMaDonHang(3)}"/><br/>
+
+                                        <p:commandButton styleClass="ui-button-flat" value="Đang giao hàng"
+                                                         update="@form"
+                                                         action="#{homeBean.setMaDonHang(4)}"/><br/>
+
+                                        <p:commandButton styleClass="ui-button-flat" value="Đã nhận hàng" update="@form"
+                                                         action="#{homeBean.setMaDonHang(5)}"/><br/>
+
+                                        <p:commandButton styleClass="ui-button-flat" value="Đã hủy" update="@form"
+                                                         action="#{homeBean.setMaDonHang(6)}"/>
+                                    </p:fieldset>
+                                </nav>
+                                <article class="don-hang">
+                                    <p:dataTable var="dh" value="#{quanLyDonHangBean.donHangs}" scrollable="true"
+                                                 autoUpdate="true" scrollHeight="355">
+                                        <p:column style="width: 5%; text-align: center" headerText="Mã đơn">
+                                            <p:outputLabel value="#{dh.maDonHang}"/>
+                                        </p:column>
+                                        <p:column style="width: 20%" headerText="Tên khách hàng">
+                                            <p:outputLabel value="#{dh.tenNguoiNhan}"/>
+                                        </p:column>
+                                        <p:column style="width: 15%" headerText="Số điện thoại">
+                                            <p:outputLabel value="#{dh.sdtNguoiNhan}"/>
+                                        </p:column>
+                                        <p:column style="width: 15%" headerText="Ngày đặt">
+                                            <p:outputLabel value="#{dh.ngayDatHang}"/>
+                                        </p:column>
+                                        <p:column style="width: 15%; text-align: center" headerText="Trạng thái">
+                                            <p:outputLabel value="#{dh.trangThai}"/>
+                                        </p:column>
+                                        <p:column style="width: 10%; text-align: center">
+                                            <p:commandButton icon="pi pi-search" styleClass="ui-button-success"
+                                                             style="margin-right: 5px" update="manage-order-content"
+                                                             oncomplete="PF('detail-don-hang').show()">
+                                                <f:setPropertyActionListener value="#{dh}"
+                                                                             target="#{cartBean.donHang}"/>
+                                            </p:commandButton>
+                                            <p:commandButton icon="pi pi-times"
+                                                             oncomplete="PF('dlg-xoa-don-hang').show()"
+                                                             style="width: 40px" styleClass="ui-button-danger"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </article>
+                            </section>
                         </p:panelGrid>
 
                         <!--Quản lý kho-->
@@ -286,39 +318,16 @@
                             </p:dataTable>
                         </p:panelGrid>
 
+                        <!--Chương trình khuyến mãi-->
+                        <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 10}">
+                            <p:row>
+                                <p:column><p:outputLabel value="Chương trình khuyến mãi"/></p:column>
+                            </p:row>
+                        </p:panelGrid>
+
                         <!--Thống kê-->
                         <p:panelGrid columns="1" rendered="#{homeBean.dieuHuong == 7}">
-                            <p:row>
-                                <p:column><p:outputLabel value="QUẢN LÝ KHÁCH HÀNG "/></p:column>
-                                <p:column><p:inputText style="margin-left: 58%; width: 300px"
-                                                       placeholder="Nhập tên/số điện thoại..."/></p:column>
-                            </p:row>
-                            <p:dataTable var="kh" value="#{nguoiDungBean.khachHangs}" scrollable="true"
-                                         autoUpdate="true" scrollHeight="355">
-                                <p:column style="width: 4%; text-align: center" headerText="Mã">
-                                    <p:outputLabel value="#{kh.maKhachHang}"/>
-                                </p:column>
-                                <p:column style="width: 20%" headerText="Tên khách hàng">
-                                    <p:outputLabel value="#{kh.tenKhachHang}"/>
-                                </p:column>
-                                <p:column style="width: 42%" headerText="Địa chỉ">
-                                    <p:outputLabel value="#{kh.diaChi}"/>
-                                </p:column>
-                                <p:column style="width: 15%" headerText="Số điện thoại">
-                                    <p:outputLabel value="#{kh.soDienThoai}"/>
-                                </p:column>
-                                <p:column style="width: 12%; text-align: center" headerText="Trạng thái">
-                                    <p:outputLabel value="#{kh.trangThai}"/>
-                                </p:column>
-                                <p:column style="width: 7%; text-align: center" headerText="">
-                                    <p:commandButton icon="pi pi-search" style="margin-left: 5px"
-                                                     update="manage-customer-content"
-                                                     oncomplete="PF('customer-detail').show()"
-                                                     styleClass="ui-button-success">
-                                        <f:setPropertyActionListener value="#{kh}" target="#{nguoiDungBean.khachHang}"/>
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
+
                         </p:panelGrid>
 
                     </p:splitterPanel>
@@ -656,10 +665,9 @@
                             <td>
                                 <p:inputText readonly="true" value="#{sanPhamBean.sanPham.soLuongCoSan}"
                                              style="width: 255px"/>
-                                <p:commandButton icon="pi pi-search" onclick="PF('dlg-so-luong').show()"
-                                                 rendered="#{sanPhamBean.sanPham.maSanPham != 0}" update=":so-luong"
-                                                 style="width: 40px; margin-left: 5px">
-                                </p:commandButton>
+<!--                                <p:commandButton icon="pi pi-search" onclick="PF('dlg-so-luong').show()"-->
+<!--                                                 rendered="#{sanPhamBean.sanPham.maSanPham != 0}" update=":so-luong"-->
+<!--                                                 style="width: 40px; margin-left: 5px"/>-->
                             </td>
                         </tr>
                         <tr>
@@ -821,7 +829,7 @@
                         <td>
                             <i>(Tối đa 5 hình ảnh, chỉ chấp nhận định dạng jpg | jpeg | png)</i><br/><br/>
                             <p:fileUpload value="#{sanPhamBean.resume}" mode="simple" skinSimple="true" multiple="true"
-                                          sizeLimit="10000000" fileLimit="5" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
+                                          sizeLimit="10000000" fileLimit="6" allowTypes="/(\.|\/)(jpe?g|png)$/"/>
                         </td>
                         <td>
                             <p:selectManyCheckbox value="#{sanPhamBean.mauSacListString}" columns="3" layout="grid"

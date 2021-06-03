@@ -4,19 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
 import tech.vietinfo.entities.Item;
-import tech.vietinfo.models.ChiTietPhieuNhap;
-import tech.vietinfo.models.NhaCungCap;
-import tech.vietinfo.models.PhieuNhap;
-import tech.vietinfo.models.SanPham;
-import tech.vietinfo.services.NhaCungCapService;
-import tech.vietinfo.services.QuanLyNhapKhoService;
-import tech.vietinfo.services.SanPhamService;
+import tech.vietinfo.models.*;
+import tech.vietinfo.services.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,18 +35,36 @@ public class QuanLyNhapKhoBean implements Serializable {
     @Inject
     private NhaCungCapService nhaCungCapService;
 
+    @Inject
+    private MauSacService mauSacService;
+
+    @Inject
+    private KichCoService kichCoService;
+
     private List<Item> itemList = new ArrayList<>();
     private List<PhieuNhap> phieuNhapList = new ArrayList<>();
+    private List<MauSac> mauSacList = new ArrayList<>();
+    private List<KichCo> kichCoList = new ArrayList<>();
     private List<ChiTietPhieuNhap> chiTietPhieuNhapList = new ArrayList<>();
 
+    private ChiTietPhieuNhap chiTietPhieuNhap;
     private NhaCungCap selectedNhaCungCap;
     private SanPham selectedSanPham;
+    private KichCo kichCo;
+    private MauSac mauSac;
     private PhieuNhap phieuNhap;
     private Item item;
-    private ChiTietPhieuNhap chiTietPhieuNhap;
     private int sl;
-    private int maSP;
     private int maNCC;
+
+    @Min(value = 1, message = "Chọn sản phẩm")
+    private int maSP;
+
+    @Min(value = 1, message = "Chọn kích cỡ")
+    private int maKC;
+
+    @Min(value = 1, message = "Chọn màu sắc")
+    private int maM;
 
     @PostConstruct
     public void init() {
@@ -68,7 +83,7 @@ public class QuanLyNhapKhoBean implements Serializable {
     }
 
     public String addPhieuNhap() {
-        if(checkSoLuongNhap()){
+        if (checkSoLuongNhap()) {
             selectedNhaCungCap = nhaCungCapService.find(maNCC);
             phieuNhap.setNhaCungCap(selectedNhaCungCap);
             phieuNhap.setThanhTien(total());
@@ -93,13 +108,13 @@ public class QuanLyNhapKhoBean implements Serializable {
                 quanLyNhapKhoService.addChiTietPhieuNhap(ct);
             }
             return "quan-ly-nhap-kho?faces-redirect=true";
-        }else{
+        } else {
             return "";
         }
     }
 
-    public boolean checkSoLuongNhap(){
-        if(itemList.size()==0){
+    public boolean checkSoLuongNhap() {
+        if (itemList.size() == 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Thông báo", "Chưa có " +
                     "sản phẩm nào để nhập");
             PrimeFaces.current().dialog().showMessageDynamic(message);
@@ -110,7 +125,12 @@ public class QuanLyNhapKhoBean implements Serializable {
 
     public List<Item> getItems() {
         selectedSanPham = sanPhamService.find(maSP);
+        kichCo = new KichCo();
+        mauSac = new MauSac();
+        kichCo = kichCoService.find(maKC);
+        mauSac = mauSacService.find(maM);
         int i = exists(selectedSanPham);
+
         if (i == -1) {
             item = new Item(selectedSanPham, sl);
             itemList.add(item);
@@ -130,7 +150,7 @@ public class QuanLyNhapKhoBean implements Serializable {
     //    xóa phiếu nhập - chi tiết phiếu nhập, cập nhật số lượng sau khi xóa phiếu nhập
     public String deletePhieuNhap() {
         chiTietPhieuNhapList = quanLyNhapKhoService.getChiTietPhieuNhaps(phieuNhap.getMaPhieuNhap());
-        for (ChiTietPhieuNhap ct: chiTietPhieuNhapList) {
+        for (ChiTietPhieuNhap ct : chiTietPhieuNhapList) {
             selectedSanPham = sanPhamService.find(ct.getMaSanPham());
             int sl = selectedSanPham.getSoLuongCoSan();
             selectedSanPham.setSoLuongCoSan(sl - ct.getSoLuongNhap());
